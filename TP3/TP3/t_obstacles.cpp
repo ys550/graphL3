@@ -47,22 +47,22 @@ int lire_obstacles(char * nom_fich, t_liste_obs * obstacles) {
 		fclose(ptr_fichier);
 		return EXIT_FAILURE;
 	}
-	#if (TEST_OBSTACLE)
-		printf("NOM FICHIER: %s\n", nom_fich);
-	#endif
+#if (TEST_OBSTACLE)
+	printf("NOM FICHIER: %s\n", nom_fich);
+#endif
 
 	/*On lit le nombre d'obstacle et place le curseur apres le nombre*/
 	fscanf(ptr_fichier, "%i", &obstacles->nb_obstacle);
 
-	#if (TEST_OBSTACLE)
-		printf("NB Obstacle: %d\n", obstacles->nb_obstacle);
-	#endif
+#if (TEST_OBSTACLE)
+	printf("NB Obstacle: %d\n", obstacles->nb_obstacle);
+#endif
 
 	/*utiliser le nb d'obstacle pour l’allocation dynamique de la liste
 	d’obstacles*/
 	obstacles->tab_obstacles = (t_obstacle *)malloc(obstacles->nb_obstacle *
 		sizeof(t_obstacle));
-	
+
 	//en cas d’échec on ferme le fichier et on retourne 0
 	if (obstacles->tab_obstacles == NULL) {
 		printf("Echec d'allocation de memoire pour le tableau d'obstacles.\n");
@@ -118,18 +118,18 @@ int lire_obstacles(char * nom_fich, t_liste_obs * obstacles) {
 	//Lit le nombre de points a la fin du fichier
 	fscanf(ptr_fichier, "%i", &nb_points);
 
-	#if (TEST_OBSTACLE)
-		for (i = 0; i < obstacles->nb_obstacle; i++) {
-			printf("tab %d type forme: %d\n", i, obstacles->tab_obstacles[i].type_forme);
-			printf("nb param forme: %d\n", obstacles->tab_obstacles[i].nb_param_forme);
-			for (j = 0; j < obstacles->tab_obstacles[i].nb_param_forme; j++) {
-				printf("Obstacle %d Param %d: %d\n", i, j, obstacles->tab_obstacles[i].tab_param[j]);
-			}
-			printf("******************************\n");
+#if (TEST_OBSTACLE)
+	for (i = 0; i < obstacles->nb_obstacle; i++) {
+		printf("tab %d type forme: %d\n", i, obstacles->tab_obstacles[i].type_forme);
+		printf("nb param forme: %d\n", obstacles->tab_obstacles[i].nb_param_forme);
+		for (j = 0; j < obstacles->tab_obstacles[i].nb_param_forme; j++) {
+			printf("Obstacle %d Param %d: %d\n", i, j, obstacles->tab_obstacles[i].tab_param[j]);
 		}
-		printf("nb_points: %d\n", nb_points);
-		printf("\n***************FIN FICHIER***************\n");
-	#endif
+		printf("******************************\n");
+	}
+	printf("nb_points: %d\n", nb_points);
+	printf("\n***************FIN FICHIER***************\n");
+#endif
 
 	fclose(ptr_fichier);
 
@@ -158,11 +158,11 @@ void dessiner_obstacles(const t_liste_obs * obstacles) {
 			dessiner_cercle(tab_param[0], tab_param[1], tab_param[2]);
 			break;
 		case ELLIPSE:
-			dessiner_ellipse(tab_param[0], tab_param[1], tab_param[2], 
+			dessiner_ellipse(tab_param[0], tab_param[1], tab_param[2],
 				tab_param[3]);
 			break;
 		case LIGNE:
-			dessiner_ligne(tab_param[0], tab_param[1], tab_param[2], 
+			dessiner_ligne(tab_param[0], tab_param[1], tab_param[2],
 				tab_param[3]);
 			break;
 		case RECTANGLE:
@@ -188,69 +188,69 @@ void detruire_obstacles(t_liste_obs * obstacles) {
 static int get_type_formes(char code) {
 	/*Les codes possibles sont: 'P', 'C', 'E', 'L', 'R' et 'T'*/
 	switch (code) {
-		case 'P':
-			return PT;
-		case 'C':
-			return CERCLE;
-		case 'E':
-			return ELLIPSE;
-		case 'L':
-			return LIGNE;
-		case 'R':
-			return RECTANGLE;
-		case 'T':
-			return TRIANGLE;
+	case 'P':
+		return PT;
+	case 'C':
+		return CERCLE;
+	case 'E':
+		return ELLIPSE;
+	case 'L':
+		return LIGNE;
+	case 'R':
+		return RECTANGLE;
+	case 'T':
+		return TRIANGLE;
 	}
 }
 
 static int get_nb_param_forme(int forme) {
 	switch (forme) {
-		case PT:
-			return NB_PARAM_PT;
-		case CERCLE:
-			return NB_PARAM_CERCLE;
-		case ELLIPSE:
-			return NB_PARAM_ELLIPSE;
-		case LIGNE:
-			return NB_PARAM_LIGNE;
-		case RECTANGLE:
-			return NB_PARAM_RECTANGLE;
-		case TRIANGLE:
-			return NB_PARAM_TRIANGLE;
+	case PT:
+		return NB_PARAM_PT;
+	case CERCLE:
+		return NB_PARAM_CERCLE;
+	case ELLIPSE:
+		return NB_PARAM_ELLIPSE;
+	case LIGNE:
+		return NB_PARAM_LIGNE;
+	case RECTANGLE:
+		return NB_PARAM_RECTANGLE;
+	case TRIANGLE:
+		return NB_PARAM_TRIANGLE;
 	}
 }
 static void get_param_ligne(int type_forme, int * tab_param, char * param_fichier) {
 	switch (type_forme) {
-		case PT:
-		case CERCLE:
-			sscanf(param_fichier, " %d %d %d",
-				&tab_param[0],
-				&tab_param[1],
-				&tab_param[2]);
-			break;
-		case ELLIPSE:
-		case LIGNE:
-		case RECTANGLE:
-			sscanf(param_fichier, " %d %d %d %d",
-				&tab_param[0],
-				&tab_param[1],
-				&tab_param[2],
-				&tab_param[3]);
-			break;
-		case TRIANGLE:
-			sscanf(param_fichier, " %d %d %d %d %d %d",
-				&tab_param[0],
-				&tab_param[1],
-				&tab_param[2],
-				&tab_param[3],
-				&tab_param[4],
-				&tab_param[5]);
-			break;
+	case PT:
+	case CERCLE:
+		sscanf(param_fichier, " %d %d %d",
+			&tab_param[0],
+			&tab_param[1],
+			&tab_param[2]);
+		break;
+	case ELLIPSE:
+	case LIGNE:
+	case RECTANGLE:
+		sscanf(param_fichier, " %d %d %d %d",
+			&tab_param[0],
+			&tab_param[1],
+			&tab_param[2],
+			&tab_param[3]);
+		break;
+	case TRIANGLE:
+		sscanf(param_fichier, " %d %d %d %d %d %d",
+			&tab_param[0],
+			&tab_param[1],
+			&tab_param[2],
+			&tab_param[3],
+			&tab_param[4],
+			&tab_param[5]);
+		break;
 	}
 }
 
-char * int_a_char(int entier) {
-	char * buffer = "";
-	sprintf(buffer, "%d", entier);
-	return buffer;
+char * int2char(int entier) {
+	char entier_char[10];
+	sprintf_s(entier_char, sizeof(entier_char), "%d", entier);
+	return entier_char;
 }
