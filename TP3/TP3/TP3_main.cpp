@@ -149,6 +149,7 @@ void choisir_option_menu(t_liste_obs * liste) {
 			detruire_obstacles(liste);
 			break;
 		case 'q':
+		case 'Q':
 			break;
 		default:
 			nb_points_trajet = lire_obstacles(FICHIER_TRAJET_4, liste);
@@ -162,6 +163,6 @@ void choisir_option_menu(t_liste_obs * liste) {
 			break;
 		}
 
-	} while (option != 'q');
+	} while (option != 'q' && option != 'Q');
 
 }
