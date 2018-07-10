@@ -249,8 +249,6 @@ static void get_param_ligne(int type_forme, int * tab_param, char * param_fichie
 	}
 }
 
-char * int2char(int entier) {
-	char entier_char[10];
-	sprintf_s(entier_char, sizeof(entier_char), "%d", entier);
-	return entier_char;
+void int2char(char * nb_chaine, int entier) {
+	sprintf(nb_chaine, "%d", entier);
 }

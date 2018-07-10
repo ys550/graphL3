@@ -19,15 +19,15 @@ void choisir_option_menu(t_liste_obs * liste);
 
 int main(void) {
 	t_liste_obs liste;
-	int entier_a_convertir = 100;
-	char * entier_en_char;
+	
+	#if(0)
+		int entier_a_convertir = 1020;
+		char entier_en_char[20];
 
-
-#if(1)
-	entier_en_char = int2char(entier_a_convertir);
-	puts(entier_en_char);
-	system("pause");
-#endif
+		int2char(entier_en_char, entier_a_convertir);
+		puts(entier_en_char);
+		system("pause");
+	#endif
 
 	//mettre TEST_OBSTACLE a 1
 #if(0)
@@ -75,7 +75,7 @@ int main(void) {
 #endif
 
 	//mettre TEST_OBSTACLE a 0
-#if(0)
+#if(1)
 	choisir_option_menu(&liste);
 #endif
 
@@ -96,7 +96,7 @@ static void afficher_menu() {
 
 void choisir_option_menu(t_liste_obs * liste) {
 	unsigned char option;
-	char * texte;
+	char texte[20];
 	int nb_points_trajet;
 
 	do {
@@ -110,40 +110,40 @@ void choisir_option_menu(t_liste_obs * liste) {
 		switch (option) {
 		case '1':
 			nb_points_trajet = lire_obstacles(FICHIER_TRAJET_1, liste);
-			//texte = int2char(nb_points_trajet);
+			int2char(texte, nb_points_trajet);
 			initialiser_graphique();
 			dessiner_obstacles(liste);
-			//afficher_texte(texte);
+			afficher_texte(texte);
 			pause_ecran();
 			fermer_graphique();
 			detruire_obstacles(liste);
 			break;
 		case '2':
 			nb_points_trajet = lire_obstacles(FICHIER_TRAJET_2, liste);
-			//texte = int2char(nb_points_trajet);
+			int2char(texte, nb_points_trajet);
 			initialiser_graphique();
 			dessiner_obstacles(liste);
-			//afficher_texte(texte);
+			afficher_texte(texte);
 			pause_ecran();
 			fermer_graphique();
 			detruire_obstacles(liste);
 			break;
 		case '3':
 			nb_points_trajet = lire_obstacles(FICHIER_TRAJET_3, liste);
-			//texte = int2char(nb_points_trajet);
+			int2char(texte, nb_points_trajet);
 			initialiser_graphique();
 			dessiner_obstacles(liste);
-			//afficher_texte(texte);
+			afficher_texte(texte);
 			pause_ecran();
 			fermer_graphique();
 			detruire_obstacles(liste);
 			break;
 		case '5':
 			nb_points_trajet = lire_obstacles(FICHIER_TRAJET_INDY, liste);
-			//texte = int2char(nb_points_trajet);
+			int2char(texte, nb_points_trajet);
 			initialiser_graphique();
 			dessiner_obstacles(liste);
-			//afficher_texte(texte);
+			afficher_texte(texte);
 			pause_ecran();
 			fermer_graphique();
 			detruire_obstacles(liste);
@@ -152,10 +152,10 @@ void choisir_option_menu(t_liste_obs * liste) {
 			break;
 		default:
 			nb_points_trajet = lire_obstacles(FICHIER_TRAJET_4, liste);
-			//texte = int2char(nb_points_trajet);
+			int2char(texte, nb_points_trajet);
 			initialiser_graphique();
 			dessiner_obstacles(liste);
-			//afficher_texte(texte);
+			afficher_texte(texte);
 			pause_ecran();
 			fermer_graphique();
 			detruire_obstacles(liste);
