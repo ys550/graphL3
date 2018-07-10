@@ -16,6 +16,7 @@
 
 static void afficher_menu();
 void choisir_option_menu(t_liste_obs * liste);
+static void sequence_affichage_forme(t_liste_obs * liste, int nb_points, char * point_chaine);
 
 int main(void) {
 	t_liste_obs liste;
@@ -110,59 +111,38 @@ void choisir_option_menu(t_liste_obs * liste) {
 		switch (option) {
 		case '1':
 			nb_points_trajet = lire_obstacles(FICHIER_TRAJET_1, liste);
-			int2char(texte, nb_points_trajet);
-			initialiser_graphique();
-			dessiner_obstacles(liste);
-			afficher_texte(texte);
-			pause_ecran();
-			fermer_graphique();
-			detruire_obstacles(liste);
+			sequence_affichage_forme(liste, nb_points_trajet, texte);
 			break;
 		case '2':
 			nb_points_trajet = lire_obstacles(FICHIER_TRAJET_2, liste);
-			int2char(texte, nb_points_trajet);
-			initialiser_graphique();
-			dessiner_obstacles(liste);
-			afficher_texte(texte);
-			pause_ecran();
-			fermer_graphique();
-			detruire_obstacles(liste);
+			sequence_affichage_forme(liste, nb_points_trajet, texte);
 			break;
 		case '3':
 			nb_points_trajet = lire_obstacles(FICHIER_TRAJET_3, liste);
-			int2char(texte, nb_points_trajet);
-			initialiser_graphique();
-			dessiner_obstacles(liste);
-			afficher_texte(texte);
-			pause_ecran();
-			fermer_graphique();
-			detruire_obstacles(liste);
+			sequence_affichage_forme(liste, nb_points_trajet, texte);
 			break;
 		case '5':
 			nb_points_trajet = lire_obstacles(FICHIER_TRAJET_INDY, liste);
-			int2char(texte, nb_points_trajet);
-			initialiser_graphique();
-			dessiner_obstacles(liste);
-			afficher_texte(texte);
-			pause_ecran();
-			fermer_graphique();
-			detruire_obstacles(liste);
+			sequence_affichage_forme(liste, nb_points_trajet, texte);
 			break;
 		case 'q':
 		case 'Q':
 			break;
 		default:
 			nb_points_trajet = lire_obstacles(FICHIER_TRAJET_4, liste);
-			int2char(texte, nb_points_trajet);
-			initialiser_graphique();
-			dessiner_obstacles(liste);
-			afficher_texte(texte);
-			pause_ecran();
-			fermer_graphique();
-			detruire_obstacles(liste);
+			sequence_affichage_forme(liste, nb_points_trajet, texte);
 			break;
 		}
 
 	} while (option != 'q' && option != 'Q');
 
+}
+static void sequence_affichage_forme(t_liste_obs * liste, int nb_points, char * point_chaine) {
+	int2char(point_chaine, nb_points);
+	initialiser_graphique();
+	dessiner_obstacles(liste);
+	afficher_texte(point_chaine);
+	pause_ecran();
+	fermer_graphique();
+	detruire_obstacles(liste);
 }
