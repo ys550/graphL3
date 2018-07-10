@@ -16,7 +16,7 @@
 
 static void afficher_menu();
 void choisir_option_menu(t_liste_obs * liste);
-static void sequence_affichage_forme(t_liste_obs * liste, int nb_points, char * point_chaine);
+static void sequence_affichage_forme(t_liste_obs * liste, char * nom_fich);
 
 int main(void) {
 	t_liste_obs liste;
@@ -97,8 +97,7 @@ static void afficher_menu() {
 
 void choisir_option_menu(t_liste_obs * liste) {
 	unsigned char option;
-	char texte[20];
-	int nb_points_trajet;
+	
 
 	do {
 		afficher_menu();
@@ -110,38 +109,38 @@ void choisir_option_menu(t_liste_obs * liste) {
 
 		switch (option) {
 		case '1':
-			nb_points_trajet = lire_obstacles(FICHIER_TRAJET_1, liste);
-			sequence_affichage_forme(liste, nb_points_trajet, texte);
+			sequence_affichage_forme(liste, FICHIER_TRAJET_1);
 			break;
 		case '2':
-			nb_points_trajet = lire_obstacles(FICHIER_TRAJET_2, liste);
-			sequence_affichage_forme(liste, nb_points_trajet, texte);
+			sequence_affichage_forme(liste, FICHIER_TRAJET_2);
 			break;
 		case '3':
-			nb_points_trajet = lire_obstacles(FICHIER_TRAJET_3, liste);
-			sequence_affichage_forme(liste, nb_points_trajet, texte);
+			sequence_affichage_forme(liste, FICHIER_TRAJET_3);
 			break;
 		case '5':
-			nb_points_trajet = lire_obstacles(FICHIER_TRAJET_INDY, liste);
-			sequence_affichage_forme(liste, nb_points_trajet, texte);
+			sequence_affichage_forme(liste, FICHIER_TRAJET_INDY);
 			break;
 		case 'q':
 		case 'Q':
 			break;
 		default:
-			nb_points_trajet = lire_obstacles(FICHIER_TRAJET_4, liste);
-			sequence_affichage_forme(liste, nb_points_trajet, texte);
+			sequence_affichage_forme(liste, FICHIER_TRAJET_4);
 			break;
 		}
 
 	} while (option != 'q' && option != 'Q');
 
 }
-static void sequence_affichage_forme(t_liste_obs * liste, int nb_points, char * point_chaine) {
-	int2char(point_chaine, nb_points);
+static void sequence_affichage_forme(t_liste_obs * liste, char * nom_fich) {
+
+	int nb_points;
+	char nb_point_char[20];
+
+	nb_points = lire_obstacles(nom_fich, liste);
+	int2char(nb_point_char, nb_points);
 	initialiser_graphique();
 	dessiner_obstacles(liste);
-	afficher_texte(point_chaine);
+	afficher_texte(nb_point_char);
 	pause_ecran();
 	fermer_graphique();
 	detruire_obstacles(liste);
