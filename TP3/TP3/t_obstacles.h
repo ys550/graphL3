@@ -218,6 +218,5 @@ EXEMPLES D'APPEL :
 */
 static void get_param_ligne(int type_forme, int * tab_param, char * param_fichier);
 
-void int2char(char * nb_chaine, int entier);
 
 /*******************************************************************************/

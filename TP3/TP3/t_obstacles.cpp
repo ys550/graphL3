@@ -110,7 +110,6 @@ int lire_obstacles(char * nom_fich, t_liste_obs * obstacles) {
 
 		get_param_ligne(obstacles->tab_obstacles[i].type_forme,
 			obstacles->tab_obstacles[i].tab_param, ligne_unique_param);
-
 		i++;
 		no_ligne++;
 	}
@@ -146,6 +145,8 @@ void dessiner_obstacles(const t_liste_obs * obstacles) {
 
 		type_forme = obstacles->tab_obstacles[i].type_forme;
 
+		/*copie du tableau de param pour evite d'ecrire la syntaxe complete 
+		pour chaque parametre des fonctions dessin*/
 		for (j = 0; j < obstacles->tab_obstacles[i].nb_param_forme; j++) {
 			tab_param[j] = obstacles->tab_obstacles[i].tab_param[j];
 		}
@@ -219,36 +220,33 @@ static int get_nb_param_forme(int forme) {
 		return NB_PARAM_TRIANGLE;
 	}
 }
+
 static void get_param_ligne(int type_forme, int * tab_param, char * param_fichier) {
 	switch (type_forme) {
-	case PT:
-	case CERCLE:
-		sscanf(param_fichier, " %d %d %d",
-			&tab_param[0],
-			&tab_param[1],
-			&tab_param[2]);
-		break;
-	case ELLIPSE:
-	case LIGNE:
-	case RECTANGLE:
-		sscanf(param_fichier, " %d %d %d %d",
-			&tab_param[0],
-			&tab_param[1],
-			&tab_param[2],
-			&tab_param[3]);
-		break;
-	case TRIANGLE:
-		sscanf(param_fichier, " %d %d %d %d %d %d",
-			&tab_param[0],
-			&tab_param[1],
-			&tab_param[2],
-			&tab_param[3],
-			&tab_param[4],
-			&tab_param[5]);
-		break;
+		case PT:
+		case CERCLE:
+			sscanf(param_fichier, " %d %d %d",
+				&tab_param[0],
+				&tab_param[1],
+				&tab_param[2]);
+			break;
+		case ELLIPSE:
+		case LIGNE:
+		case RECTANGLE:
+			sscanf(param_fichier, " %d %d %d %d",
+				&tab_param[0],
+				&tab_param[1],
+				&tab_param[2],
+				&tab_param[3]);
+			break;
+		case TRIANGLE:
+			sscanf(param_fichier, " %d %d %d %d %d %d",
+				&tab_param[0],
+				&tab_param[1],
+				&tab_param[2],
+				&tab_param[3],
+				&tab_param[4],
+				&tab_param[5]);
+			break;
 	}
-}
-
-void int2char(char * nb_chaine, int entier) {
-	sprintf(nb_chaine, "%d", entier);
 }
