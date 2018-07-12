@@ -1,6 +1,6 @@
 /*
 
-Module : t_obstacles.c
+Module : t_obstacles.cpp
 Par    : Youssef Soliman, Hugo Belin
 Date   : 2018-07-08
 */

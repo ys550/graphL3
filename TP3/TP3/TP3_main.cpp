@@ -1,3 +1,10 @@
+/*
+
+Module : TP3_main.cpp
+Par    : Youssef Soliman, Hugo Belin
+Date   : 2018-07-08
+*/
+
 #define _CRT_SECURE_NO_WARNINGS
 
 #include <stdlib.h>
@@ -21,55 +28,8 @@ static void sequence_affichage_forme(t_liste_obs * liste, char * nom_fich);
 int main(void) {
 	t_liste_obs liste;
 	
-	//mettre TEST_OBSTACLE a 1
-	#if(0)
-		lire_obstacles(FICHIER_TRAJET_1, &liste);
-		initialiser_graphique();
-		dessiner_obstacles(&liste);
-		pause_ecran();
-	#endif
-
-	#if(0)
-		lire_obstacles(FICHIER_TRAJET_2, &liste);
-		initialiser_graphique();
-		dessiner_obstacles(&liste);
-		pause_ecran();
-	#endif
-
-	#if(0)
-		lire_obstacles(FICHIER_TRAJET_3, &liste);
-		initialiser_graphique();
-		dessiner_obstacles(&liste);
-		pause_ecran();
-	#endif
-
-	#if(0)
-		lire_obstacles(FICHIER_TRAJET_4, &liste);
-		initialiser_graphique();
-		dessiner_obstacles(&liste);
-		pause_ecran();
-	#endif
-
-	#if(0)
-		lire_obstacles(FICHIER_TRAJET_INDY, &liste);
-		initialiser_graphique();
-		dessiner_obstacles(&liste);
-		pause_ecran();
-	#endif
-
-	//Test detruire obstacle
-	#if(0)
-		lire_obstacles(FICHIER_TRAJET_INDY, &liste);
-		initialiser_graphique();
-		detruire_obstacles(&liste);
-		dessiner_obstacles(&liste);
-		pause_ecran();
-	#endif
-
-	//mettre TEST_OBSTACLE a 0
-	#if(1)
-		choisir_option_menu(&liste);
-	#endif
+	choisir_option_menu(&liste);
+	detruire_obstacles(&liste);
 
 	return EXIT_SUCCESS;
 }
@@ -130,12 +90,12 @@ static void sequence_affichage_forme(t_liste_obs * liste, char * nom_fich) {
 	nb_points = lire_obstacles(nom_fich, liste);
 
 	//conversion nb_point (int) a nb_points(char)
-	sprintf(nb_point_char, "%d", nb_points);
+	sprintf(nb_point_char, "%d fgd", nb_points);
 
 	initialiser_graphique();
 	dessiner_obstacles(liste);
 	afficher_texte(nb_point_char);
 	pause_ecran();
 	fermer_graphique();
-	detruire_obstacles(liste);
+	
 }
