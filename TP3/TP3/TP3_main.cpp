@@ -85,12 +85,13 @@ void choisir_option_menu(t_liste_obs * liste) {
 static void sequence_affichage_forme(t_liste_obs * liste, char * nom_fich) {
 
 	int nb_points;
-	char nb_point_char[20];
+	char nb_point_char[100];
 
 	nb_points = lire_obstacles(nom_fich, liste);
 
 	//conversion nb_point (int) a nb_points(char)
-	sprintf(nb_point_char, "%d fgd", nb_points);
+	sprintf(nb_point_char, 
+		"taille normalisee = %d pts.\t Appuyer une touche...", nb_points);
 
 	initialiser_graphique();
 	dessiner_obstacles(liste);
