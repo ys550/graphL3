@@ -34,9 +34,6 @@ Date   : 2018-07-08
 //pour place le curseur au debut du premier parametre d'une ligne d'obstacle
 #define CUR_DEBUT_OBSTACLE 3
 
-/*pour afficher les resultat des variables de la struct lors des tests de la 
-fonction lire_obstacle*/
-#define TEST_OBSTACLE 0
 
 /*=========================================================*/
 /*                      STRUCTURES                         */

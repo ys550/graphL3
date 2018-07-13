@@ -8,9 +8,6 @@ Date   : 2018-07-08
 //Permet de désactiver certains warnings du compilateur 
 #define _CRT_SECURE_NO_WARNINGS 
 
-
-
-
 // Librairies usuelles à inclure 
 #include<stdio.h>
 #include<stdlib.h>
@@ -18,7 +15,6 @@ Date   : 2018-07-08
 #include"winBGIm.h"
 #include "mode_graphique.h"
 #include "t_obstacles.h"
-
 
 
 /*********************************************************/
@@ -33,7 +29,7 @@ int lire_obstacles(char * nom_fich, t_liste_obs * obstacles) {
 	//le nombre de points contenus dans le trajet normalisé
 	int nb_points = 0;
 	//pour le contenue d'une seule ligne dans le fichier
-	char ligne_unique_param[LONGUEUR_LIGNE];
+	char tab_ligne_unique_param[LONGUEUR_LIGNE];
 
 	//Pointeur vers le fichier a lire.
 	FILE * ptr_fichier;
@@ -47,16 +43,11 @@ int lire_obstacles(char * nom_fich, t_liste_obs * obstacles) {
 		fclose(ptr_fichier);
 		return EXIT_FAILURE;
 	}
-#if (TEST_OBSTACLE)
-	printf("NOM FICHIER: %s\n", nom_fich);
-#endif
+
 
 	/*On lit le nombre d'obstacle et place le curseur apres le nombre*/
 	fscanf(ptr_fichier, "%i", &obstacles->nb_obstacle);
 
-#if (TEST_OBSTACLE)
-	printf("NB Obstacle: %d\n", obstacles->nb_obstacle);
-#endif
 
 	/*utiliser le nb d'obstacle pour l’allocation dynamique de la liste
 	d’obstacles*/
@@ -74,7 +65,7 @@ int lire_obstacles(char * nom_fich, t_liste_obs * obstacles) {
 	nombre de parametre*/
 	while (!feof(ptr_fichier)) {
 
-		fgets(ligne_unique_param, LONGUEUR_LIGNE, ptr_fichier);
+		fgets(tab_ligne_unique_param, LONGUEUR_LIGNE, ptr_fichier);
 
 		if (no_ligne < obstacles->nb_obstacle + LIGNE_OBS_FIN) {
 			obstacles->tab_obstacles[i].type_forme =
@@ -87,7 +78,9 @@ int lire_obstacles(char * nom_fich, t_liste_obs * obstacles) {
 		i++;
 	}
 
-	//le numero de ligne contenant les donnees du premier obstacle
+	/*le numero de ligne contenant les donnees du premier obstacle:
+	On revient au premier obstacle pour lire les parametres de chaque 
+	obstacles*/
 	no_ligne = LIGNE_DEBUT_OBSTACLE;
 	i = 0;
 	/*On remet le curseur de lecture du fichier ptr_fichier au debut du des
@@ -98,6 +91,7 @@ int lire_obstacles(char * nom_fich, t_liste_obs * obstacles) {
 	fscanf(ptr_fichier, "%i", &obstacles->nb_obstacle);
 	//On avance le curseur de 3 de la position courante du curseur
 	fseek(ptr_fichier, CUR_DEBUT_OBSTACLE, SEEK_CUR);
+	
 	/*Cette boucle vas chercher chacun des parametres pour chaque obstacles*/
 	while (no_ligne < obstacles->nb_obstacle + LIGNE_OBS_FIN) {
 
@@ -105,11 +99,13 @@ int lire_obstacles(char * nom_fich, t_liste_obs * obstacles) {
 		fseek(ptr_fichier, POS_FIN_CODE, SEEK_CUR);
 
 		/*Prendre seulement les parametres des obstacles sans le code au debut
-		de la ligne*/
-		fgets(ligne_unique_param, LONGUEUR_LIGNE, ptr_fichier);
+		de la ligne et les insere dans le tableau tab_ligne_unique_param*/
+		fgets(tab_ligne_unique_param, LONGUEUR_LIGNE, ptr_fichier);
 
+		/*separe et insere les donnes individuel de parametre du tableau 
+		tab_ligne_unique_param dans le tableau tab_param*/
 		get_param_ligne(obstacles->tab_obstacles[i].type_forme,
-			obstacles->tab_obstacles[i].tab_param, ligne_unique_param);
+			obstacles->tab_obstacles[i].tab_param, tab_ligne_unique_param);
 		i++;
 		no_ligne++;
 	}
@@ -117,26 +113,12 @@ int lire_obstacles(char * nom_fich, t_liste_obs * obstacles) {
 	//Lit le nombre de points a la fin du fichier
 	fscanf(ptr_fichier, "%i", &nb_points);
 
-#if (TEST_OBSTACLE)
-	for (i = 0; i < obstacles->nb_obstacle; i++) {
-		printf("tab %d type forme: %d\n", i, obstacles->tab_obstacles[i].type_forme);
-		printf("nb param forme: %d\n", obstacles->tab_obstacles[i].nb_param_forme);
-		for (j = 0; j < obstacles->tab_obstacles[i].nb_param_forme; j++) {
-			printf("Obstacle %d Param %d: %d\n", i, j, obstacles->tab_obstacles[i].tab_param[j]);
-		}
-		printf("******************************\n");
-	}
-	printf("nb_points: %d\n", nb_points);
-	printf("\n***************FIN FICHIER***************\n");
-#endif
-
 	fclose(ptr_fichier);
 
 	return nb_points;
 }
 
 void dessiner_obstacles(const t_liste_obs * obstacles) {
-	//TO-DO : init graphique
 	int i, j;
 	int type_forme;
 	int tab_param[MAX_PARAM];
