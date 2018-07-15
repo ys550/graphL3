@@ -111,12 +111,16 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="mode_graphique.h" />
+    <ClInclude Include="SOURISLIB.h" />
+    <ClInclude Include="trajectoire_ecran.h" />
     <ClInclude Include="t_obstacles.h" />
     <ClInclude Include="winBGIm.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="mode_graphique.cpp" />
+    <ClCompile Include="SOURISLIB.cpp" />
     <ClCompile Include="TP3_main.cpp" />
+    <ClCompile Include="trajectoire_ecran.cpp" />
     <ClCompile Include="t_obstacles.cpp" />
     <ClCompile Include="winBGIm.cpp" />
   </ItemGroup>

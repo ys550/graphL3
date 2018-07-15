@@ -24,6 +24,12 @@
     <ClInclude Include="winBGIm.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="SOURISLIB.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="trajectoire_ecran.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="mode_graphique.cpp">
@@ -36,6 +42,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="winBGIm.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SOURISLIB.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="trajectoire_ecran.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
