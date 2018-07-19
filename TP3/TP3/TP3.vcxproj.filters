@@ -30,6 +30,12 @@
     <ClInclude Include="trajectoire_ecran.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="t_point_plan.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="trajectoire_plan.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="mode_graphique.cpp">
@@ -48,6 +54,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="trajectoire_ecran.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="t_point_plan.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="trajectoire_plan.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

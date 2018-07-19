@@ -12,6 +12,7 @@ Date   : 2018-07-15
 #include<stdio.h>
 #include<stdlib.h>
 #include "trajectoire_ecran.h"
+#include "mode_graphique.h"
 #include "SOURISLIB.h"
 
 t_trajectoire_ecran init_trajectoire_ecran(void) {
@@ -117,6 +118,9 @@ int lire_trajectoire_ecran(t_trajectoire_ecran * traj) {
 	int x, y;
 	//le temps du delai pour capturer les evenements-souris
 	int delai_ms = 1;
+	int couleur;
+	//0 non valide, 1 valide
+	int trajet_est_valide = 0;
 
 	//Attendre que le bouton-souris soit pesé
 	attendBoutonPese();
@@ -128,14 +132,29 @@ int lire_trajectoire_ecran(t_trajectoire_ecran * traj) {
 			//Obtenir la position de la souris
 			obtientSouris(&x, &y);
 			//Obtenir la couleur du pixel à cette position
+			couleur = obtenir_pixel(x, y);
 
+			//Si on ne détecte pas un OBSTACLE(bleu) ou une LIMITE(blanc)
+			if (couleur != OBSTACLE && couleur != LIMITE) {
+				//Afficher ce pixel en blanc
+				afficher_pixel(x, y, couleur);
+				//Ajouter cette position à la file des points
+
+				trajet_est_valide = 1;
+			}
+			//Sinon
+			else {
+				 //On est sorti du parcours, le trajet est refusé
+
+				trajet_est_valide = 0;
+			}
 
 		}
 		//délai(1 msec.) pour permettre de détecter les évènements - souris
 		delay_graph(delai_ms);
 
 		//Tant que le trajet est valide ET le bouton-souris n’est pas relevé
-	} while (!boutonReleve());
+	} while (!boutonReleve() && trajet_est_valide);
 
 	return 0;
 }
@@ -202,7 +221,8 @@ t_trajectoire_ecran consulter_groupe(const t_groupe_traj_ecran * groupe, int pos
 }
 
 int ajouter_traj_groupe(t_groupe_traj_ecran * groupe, t_trajectoire_ecran * traj) {
-
+	
+	//si le groupe n’est pas déjà plein
 	if (groupe->nb_trajectoire < groupe->taille_tableau) {
 		groupe->tableau_traj[groupe->nb_trajectoire] = *traj;
 		groupe->nb_trajectoire++;
