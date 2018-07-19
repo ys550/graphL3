@@ -52,11 +52,10 @@ t_point_ecran get_point_iter(t_trajectoire_ecran * traj) {
 		point = traj->ptr_iter->point;
 		//avancer le pointeur au prochain noeud
 		traj->ptr_iter = traj->ptr_iter->suivant;
-		//obtenir le point écran du pointeur itérateur
-		return point;
 	}
 
-	//si le pointeur-itérateur est NULL, retour d'un point pixels non-valides
+	/*retourne le point écran du pointeur itérateur
+	si le pointeur-itérateur est NULL, retour d'un point pixels non-valides*/
 	return point;
 }
 
@@ -188,8 +187,12 @@ void dessiner_trajectoire_ecran(t_trajectoire_ecran * traj, int couleur) {
 	t_point_ecran pt;
 
 	set_iter_debut(traj);
-	//retourne t_point_ecran (pos_x,pos_y)
-	pt = get_point_iter(traj);
+
+	while (traj->ptr_iter != NULL) {
+		//retourne t_point_ecran (pos_x,pos_y)
+		pt = get_point_iter(traj);
+	}
+	
 
 
 
