@@ -169,14 +169,14 @@ void dessiner_trajectoire_ecran(t_trajectoire_ecran * traj, int couleur) {
 
 int liberer_trajectoire_ecran(t_trajectoire_ecran * traj) {
 
-	t_lien suivant_tempo;
+	t_lien tempo;
 
 	set_iter_debut(traj);
 
 	while (traj->ptr_iter != NULL) {
-		suivant_tempo = traj->ptr_iter->suivant;
-		free(traj->ptr_iter);
-		traj->ptr_iter = suivant_tempo;
+		tempo = traj->ptr_iter;
+		traj->ptr_iter = traj->ptr_iter->suivant;
+		free(tempo);
 	}
 
 	traj->tete = NULL;
