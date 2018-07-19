@@ -247,7 +247,7 @@ SORTIE: le nombre de trajectoires supprimées
 
 SPECS: tous les noeuds des trajectoires sont supprimés 
 */
-int vider_traj_groupe(t_trajectoire_ecran * traj);
+int vider_traj_groupe(t_groupe_traj_ecran * groupe);
 
 #endif   //!__TRAJECTOIRE_ECRAN__
 /**********************************************************/

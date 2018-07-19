@@ -115,12 +115,12 @@ int defiler_point_ecran(t_trajectoire_ecran * traj, t_point_ecran * pt) {
 
 int lire_trajectoire_ecran(t_trajectoire_ecran * traj) {
 	//pour la position de la souris
-	int x, y;
+	t_point_ecran pt;
 	//le temps du delai pour capturer les evenements-souris
 	int delai_ms = 1;
 	int couleur;
 	//0 non valide, 1 valide
-	int trajet_est_valide = 0;
+	int trajet_est_valide = 1;
 
 	//Attendre que le bouton-souris soit pesé
 	attendBoutonPese();
@@ -130,33 +130,37 @@ int lire_trajectoire_ecran(t_trajectoire_ecran * traj) {
 		//Si la souris a bougée
 		if (sourisBouge()) {
 			//Obtenir la position de la souris
-			obtientSouris(&x, &y);
+			obtientSouris(&pt.pos_x, &pt.pos_y);
 			//Obtenir la couleur du pixel à cette position
-			couleur = obtenir_pixel(x, y);
+			couleur = obtenir_pixel(pt.pos_x, pt.pos_y);
 
 			//Si on ne détecte pas un OBSTACLE(bleu) ou une LIMITE(blanc)
 			if (couleur != OBSTACLE && couleur != LIMITE) {
 				//Afficher ce pixel en blanc
-				afficher_pixel(x, y, couleur);
+				afficher_pixel(pt.pos_x, pt.pos_y, MOYENNE);
 				//Ajouter cette position à la file des points
-
+				enfiler_point_ecran(traj, pt);
 				trajet_est_valide = 1;
 			}
 			//Sinon
 			else {
 				 //On est sorti du parcours, le trajet est refusé
-
+				afficher_texte("Trajet REFUSE! Appuyez une touche..");
 				trajet_est_valide = 0;
 			}
 
 		}
 		//délai(1 msec.) pour permettre de détecter les évènements - souris
-		delay_graph(delai_ms);
+		delai_ecran(delai_ms);
 
 		//Tant que le trajet est valide ET le bouton-souris n’est pas relevé
-	} while (!boutonReleve() && trajet_est_valide);
+	} while (trajet_est_valide && !boutonReleve());
 
-	return 0;
+	if (trajet_est_valide)
+		//Retour du nombre de points saisis
+		return traj->nb_points;
+	else
+		return 0;
 }
 
 void dessiner_trajectoire_ecran(t_trajectoire_ecran * traj, int couleur) {
@@ -232,7 +236,7 @@ int ajouter_traj_groupe(t_groupe_traj_ecran * groupe, t_trajectoire_ecran * traj
 	return 0;
 }
 
-int vider_traj_groupe(t_trajectoire_ecran * traj) {
+int vider_traj_groupe(t_groupe_traj_ecran * groupe) {
 	
 	return 0;
 }
