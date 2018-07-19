@@ -20,6 +20,7 @@ t_trajectoire_ecran init_trajectoire_ecran(void) {
 
 	file.tete = NULL;
 	file.queue = NULL;
+	file.ptr_iter = NULL;
 	file.nb_points = 0;
 
 	return file;
@@ -39,21 +40,24 @@ void set_iter_debut(t_trajectoire_ecran * traj) {
 
 /*Appleler la fonction set_iter_debut avant l'appel de cette fonction*/
 t_point_ecran get_point_iter(t_trajectoire_ecran * traj) {
-	t_point_ecran point_invalide;
+	t_point_ecran point;
 
-	point_invalide.pos_x = -1;
-	point_invalide.pos_y = -1;
+	//les points pixels non-valides
+	point.pos_x = -1;
+	point.pos_y = -1;
 
 	//Si on est pas a la fin de la liste
-	if (traj->ptr_iter->suivant != NULL) {
+	if (traj->ptr_iter != NULL) {
+		//obtenir le point du noeud actuel
+		point = traj->ptr_iter->point;
 		//avancer le pointeur au prochain noeud
 		traj->ptr_iter = traj->ptr_iter->suivant;
-		//obtenir le point écran du pointeur - itérateur
-		return traj->ptr_iter->point;
+		//obtenir le point écran du pointeur itérateur
+		return point;
 	}
 
 	//si le pointeur-itérateur est NULL, retour d'un point pixels non-valides
-	return point_invalide;
+	return point;
 }
 
 int enfiler_point_ecran(t_trajectoire_ecran * traj, const t_point_ecran pt) {
@@ -162,8 +166,33 @@ int lire_trajectoire_ecran(t_trajectoire_ecran * traj) {
 	else
 		return 0;
 }
+/*
+dessiner une  trajectoire dans l'écran graphique
+utiliser mode_graphique.h pour le réaliser
 
+PARAMETRES : l'adresse de la trajectoire, la couleur d'affichage désirée
+
+SORTIE: Rien
+*/
 void dessiner_trajectoire_ecran(t_trajectoire_ecran * traj, int couleur) {
+	/*fonction pour afficher tous les points d’une trajectoire.  Elle reçoit la 
+	couleur d’affichage désirée en deuxième paramètre.  C’est ici que vous 
+	utilisez les fonctions « set_iter_debut() » et « get_point_iter() ». 
+	On place l’itérateur au début de la file et pour tous les points de la file,
+	on récupère le point de la position-courante pour ensuite l’afficher.  
+	Notez que l’on ne doit PAS éliminer les nœuds ici, on faire juste les consulter.
+	NOTE : si la couleur reçue en paramètre est MOYENNE (blanc), vous devez utiliser la
+	fonction « dessiner_pt » (pour afficher le trajet-moyen), autrement on utilise 
+	« afficher_pixel() ».
+	*/
+	t_point_ecran pt;
+
+	set_iter_debut(traj);
+	//retourne t_point_ecran (pos_x,pos_y)
+	pt = get_point_iter(traj);
+
+
+
 
 }
 
@@ -189,9 +218,11 @@ t_groupe_traj_ecran init_groupe(int taille) {
 
 	t_groupe_traj_ecran groupe_traj;
 
+	//ne permet pas d'avoir une taille plus grande que la constante defini
 	if (taille <= NB_TRAJECTOIRES) {
 		groupe_traj.tableau_traj = (t_trajectoire_ecran *)malloc(taille *
 			sizeof(t_trajectoire_ecran));
+
 		groupe_traj.taille_tableau = taille;
 		groupe_traj.nb_trajectoire = 0;
 	}
@@ -211,7 +242,7 @@ t_trajectoire_ecran consulter_groupe(const t_groupe_traj_ecran * groupe, int pos
 
 	t_trajectoire_ecran traj_vide;
 
-	if (position >= 0) {
+	if (position >= 0 && position < groupe->taille_tableau) {
 		return groupe->tableau_traj[position];
 	}
 	else {
