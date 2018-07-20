@@ -165,38 +165,26 @@ int lire_trajectoire_ecran(t_trajectoire_ecran * traj) {
 	else
 		return 0;
 }
-/*
-dessiner une  trajectoire dans l'écran graphique
-utiliser mode_graphique.h pour le réaliser
 
-PARAMETRES : l'adresse de la trajectoire, la couleur d'affichage désirée
-
-SORTIE: Rien
-*/
 void dessiner_trajectoire_ecran(t_trajectoire_ecran * traj, int couleur) {
-	/*fonction pour afficher tous les points d’une trajectoire.  Elle reçoit la 
-	couleur d’affichage désirée en deuxième paramètre.  C’est ici que vous 
-	utilisez les fonctions « set_iter_debut() » et « get_point_iter() ». 
-	On place l’itérateur au début de la file et pour tous les points de la file,
-	on récupère le point de la position-courante pour ensuite l’afficher.  
-	Notez que l’on ne doit PAS éliminer les nœuds ici, on faire juste les consulter.
-	NOTE : si la couleur reçue en paramètre est MOYENNE (blanc), vous devez utiliser la
-	fonction « dessiner_pt » (pour afficher le trajet-moyen), autrement on utilise 
-	« afficher_pixel() ».
-	*/
 	t_point_ecran pt;
 
 	set_iter_debut(traj);
 
+	/*Tant qu'on est pas arrive au dernier noeud dans la file on traverse la 
+	file*/
 	while (traj->ptr_iter != NULL) {
-		//retourne t_point_ecran (pos_x,pos_y)
+		//retourne t_point_ecran (pos_x,pos_y) d'un noeud de la file
+		//et passe au noeud suivant
 		pt = get_point_iter(traj);
+
+		if (couleur == MOYENNE) {
+			dessiner_pt(pt.pos_x, pt.pos_y, MOYENNE);
+		}
+		else {
+			afficher_pixel(pt.pos_x, pt.pos_y, couleur);
+		}
 	}
-	
-
-
-
-
 }
 
 int liberer_trajectoire_ecran(t_trajectoire_ecran * traj) {
