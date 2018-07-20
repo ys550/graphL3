@@ -202,6 +202,8 @@ void dessiner_trajectoire_ecran(t_trajectoire_ecran * traj, int couleur) {
 int liberer_trajectoire_ecran(t_trajectoire_ecran * traj) {
 
 	t_lien tempo;
+	//le nombre de noeuds supprimés
+	int nb_noeuds_supprime = 0;
 
 	set_iter_debut(traj);
 
@@ -209,12 +211,13 @@ int liberer_trajectoire_ecran(t_trajectoire_ecran * traj) {
 		tempo = traj->ptr_iter;
 		traj->ptr_iter = traj->ptr_iter->suivant;
 		free(tempo);
+		nb_noeuds_supprime++;
 	}
 
 	traj->tete = NULL;
 	traj->queue = NULL;
 
-	return 0;
+	return nb_noeuds_supprime;
 }
 
 t_groupe_traj_ecran init_groupe(int taille) {
@@ -271,6 +274,21 @@ int ajouter_traj_groupe(t_groupe_traj_ecran * groupe, t_trajectoire_ecran * traj
 }
 
 int vider_traj_groupe(t_groupe_traj_ecran * groupe) {
-	
-	return 0;
+	int i;
+	//le nombre de trajectoires supprimées
+	int nb_traj_supprimee = 0;
+
+	for (i = groupe->taille_tableau - 1; i >= 0; i--) {
+		/*Si la fonction liberer_trajectoire_ecran retourne 0 noeuds supprime,
+		il n'y avait donc pas de trajectoire dans l'indexe i du tableau_traj*/
+		if (liberer_trajectoire_ecran(&groupe->tableau_traj[i])) {
+			nb_traj_supprimee++;
+		}
+	}
+	free(groupe->tableau_traj);
+	groupe->nb_trajectoire = 0;
+	groupe->taille_tableau = 0;
+	groupe->tableau_traj = NULL;
+
+	return nb_traj_supprimee;
 }
