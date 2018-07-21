@@ -13,6 +13,7 @@ Date   : 2018-07-08
 #include"winBGIm.h"
 #include "mode_graphique.h"
 #include "t_obstacles.h"
+#include "trajectoire_ecran.h"
 
 #define FICHIER_TRAJET_1 "trajet1.txt"
 #define FICHIER_TRAJET_2 "trajet2.txt"
@@ -24,12 +25,19 @@ Date   : 2018-07-08
 static void afficher_menu();
 void choisir_option_menu(t_liste_obs * liste);
 static void sequence_affichage_forme(t_liste_obs * liste, char * nom_fich);
+static void affichage_traj(t_liste_obs * liste, char * nom_fich);
 
 int main(void) {
 	t_liste_obs liste;
 	
+
+	liste.tab_obstacles = NULL;
+
+	
 	choisir_option_menu(&liste);
 	detruire_obstacles(&liste);
+
+
 
 	return EXIT_SUCCESS;
 }
@@ -60,22 +68,22 @@ void choisir_option_menu(t_liste_obs * liste) {
 
 		switch (option) {
 		case '1':
-			sequence_affichage_forme(liste, FICHIER_TRAJET_1);
+			affichage_traj(liste, FICHIER_TRAJET_1);
 			break;
 		case '2':
-			sequence_affichage_forme(liste, FICHIER_TRAJET_2);
+			affichage_traj(liste, FICHIER_TRAJET_2);
 			break;
 		case '3':
-			sequence_affichage_forme(liste, FICHIER_TRAJET_3);
+			affichage_traj(liste, FICHIER_TRAJET_3);
 			break;
 		case '5':
-			sequence_affichage_forme(liste, FICHIER_TRAJET_INDY);
+			affichage_traj(liste, FICHIER_TRAJET_INDY);
 			break;
 		case 'q':
 		case 'Q':
 			break;
 		default:
-			sequence_affichage_forme(liste, FICHIER_TRAJET_4);
+			affichage_traj(liste, FICHIER_TRAJET_4);
 			break;
 		}
 
@@ -99,4 +107,70 @@ static void sequence_affichage_forme(t_liste_obs * liste, char * nom_fich) {
 	pause_ecran();
 	fermer_graphique();
 	
+}
+static void affichage_traj(t_liste_obs * liste, char * nom_fich) {
+	int i;
+	int nb_points;
+	int nb_points_saisis;
+	char nb_points_saisis_char[200];
+	char nb_point_char[100];
+	t_trajectoire_ecran traj;
+	t_groupe_traj_ecran groupe_traj;
+
+	
+	//on initialise un groupe de trajectoires
+	groupe_traj = init_groupe(NB_TRAJECTOIRES);
+
+	nb_points = lire_obstacles(nom_fich, liste);
+
+	initialiser_graphique();
+
+	//Avec une boucle
+	do {
+		//vous effacez l’écran
+		effacer_ecran();
+		//dessinez les obstacles du parcours choisi
+		dessiner_obstacles(liste);
+		//initialisez une variable-trajectoire
+		traj = init_trajectoire_ecran();
+
+		//faites la saisie d’une trajectoire dans le parcours
+		//retourne 0 lorsque la trajectoire est non-valide
+		nb_points_saisis = lire_trajectoire_ecran(&traj);
+
+		/*Affichez le nombre de points saisis et faites une pause-écran entre
+		chaque saisie de trajet. On répète cette boucle jusqu’à ce que 
+		NB_TRAJECTOIRES trajets valides auront été saisies.*/
+		
+		sprintf(nb_points_saisis_char,"Fin de saisie de %d pts.\t Appuyez une touche..", nb_points_saisis);
+		afficher_texte(nb_points_saisis_char);
+		pause_ecran();
+
+		//si la trajectoire est non-valide
+		if (nb_points_saisis == 0) {
+			//vider cette trajectoire-écran
+			liberer_trajectoire_ecran(&traj);
+		}
+		//si non
+		else {
+			//ajouter la trajectoire valide au groupe de trajectoire
+			ajouter_traj_groupe(&groupe_traj, &traj);
+
+		}
+
+		//recommencer la saisie tant que la trajectoire est non-valide
+	} while (groupe_traj.nb_trajectoire < NB_TRAJECTOIRES);
+	
+	effacer_ecran();
+	dessiner_obstacles(liste);
+
+	for (i = 0; i < groupe_traj.taille_tableau; i++) {
+		traj = consulter_groupe(&groupe_traj, i);
+		dessiner_trajectoire_ecran(&traj, VALIDE);
+	}
+
+	afficher_texte("Voici les trajets saisi. Appuyer une touche..");
+	pause_ecran();
+	fermer_graphique();
+
 }

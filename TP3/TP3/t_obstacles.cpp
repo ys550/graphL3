@@ -163,9 +163,11 @@ void dessiner_obstacles(const t_liste_obs * obstacles) {
 }
 
 void detruire_obstacles(t_liste_obs * obstacles) {
-	free(obstacles->tab_obstacles);
-	obstacles->nb_obstacle = 0;
-	obstacles->tab_obstacles = NULL;
+	if (obstacles->tab_obstacles != NULL) {
+		obstacles->nb_obstacle = 0;
+		free(obstacles->tab_obstacles);
+		obstacles->tab_obstacles = NULL;
+	}
 }
 
 static int get_type_formes(char code) {
