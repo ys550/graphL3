@@ -32,11 +32,9 @@ int main(void) {
 	
 
 	liste.tab_obstacles = NULL;
-
 	
 	choisir_option_menu(&liste);
 	detruire_obstacles(&liste);
-
 
 
 	return EXIT_SUCCESS;
@@ -112,8 +110,8 @@ static void affichage_traj(t_liste_obs * liste, char * nom_fich) {
 	int i;
 	int nb_points;
 	int nb_points_saisis;
-	char nb_points_saisis_char[200];
-	char nb_point_char[100];
+	char nb_points_saisis_char[100];
+	char msg_dessiner[200];
 	t_trajectoire_ecran traj;
 	t_groupe_traj_ecran groupe_traj;
 
@@ -122,11 +120,13 @@ static void affichage_traj(t_liste_obs * liste, char * nom_fich) {
 	groupe_traj = init_groupe(NB_TRAJECTOIRES);
 
 	nb_points = lire_obstacles(nom_fich, liste);
+	
 
 	initialiser_graphique();
 
 	//Avec une boucle
 	do {
+		
 		//vous effacez l’écran
 		effacer_ecran();
 		//dessinez les obstacles du parcours choisi
@@ -134,17 +134,13 @@ static void affichage_traj(t_liste_obs * liste, char * nom_fich) {
 		//initialisez une variable-trajectoire
 		traj = init_trajectoire_ecran();
 
+		sprintf(msg_dessiner, "taille normalisee = %d pts. dessinez le trajet %d...",
+			nb_points, groupe_traj.nb_trajectoire + 1);
+		afficher_texte(msg_dessiner);
+
 		//faites la saisie d’une trajectoire dans le parcours
 		//retourne 0 lorsque la trajectoire est non-valide
 		nb_points_saisis = lire_trajectoire_ecran(&traj);
-
-		/*Affichez le nombre de points saisis et faites une pause-écran entre
-		chaque saisie de trajet. On répète cette boucle jusqu’à ce que 
-		NB_TRAJECTOIRES trajets valides auront été saisies.*/
-		
-		sprintf(nb_points_saisis_char,"Fin de saisie de %d pts.\t Appuyez une touche..", nb_points_saisis);
-		afficher_texte(nb_points_saisis_char);
-		pause_ecran();
 
 		//si la trajectoire est non-valide
 		if (nb_points_saisis == 0) {
@@ -155,6 +151,9 @@ static void affichage_traj(t_liste_obs * liste, char * nom_fich) {
 		else {
 			//ajouter la trajectoire valide au groupe de trajectoire
 			ajouter_traj_groupe(&groupe_traj, &traj);
+			sprintf(nb_points_saisis_char, "Fin de saisie de %d pts.\t Appuyez une touche..", nb_points_saisis);
+			afficher_texte(nb_points_saisis_char);
+			pause_ecran();
 
 		}
 

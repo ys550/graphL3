@@ -149,6 +149,7 @@ int lire_trajectoire_ecran(t_trajectoire_ecran * traj) {
 			else {
 				 //On est sorti du parcours, le trajet est refusé
 				afficher_texte("Trajet REFUSE! Appuyez une touche..");
+				pause_ecran();
 				trajet_est_valide = 0;
 			}
 
