@@ -14,6 +14,7 @@ Date   : 2018-07-08
 #include "mode_graphique.h"
 #include "t_obstacles.h"
 #include "trajectoire_ecran.h"
+#include "t_point_plan.h"
 
 #define FICHIER_TRAJET_1 "trajet1.txt"
 #define FICHIER_TRAJET_2 "trajet2.txt"
@@ -21,6 +22,7 @@ Date   : 2018-07-08
 #define FICHIER_TRAJET_4 "trajet4.txt"
 #define FICHIER_TRAJET_INDY "trajet_INDY.txt"
 
+#define TAILLE  4
 
 static void afficher_menu();
 void choisir_option_menu(t_liste_obs * liste);
@@ -28,14 +30,38 @@ static void sequence_affichage_forme(t_liste_obs * liste, char * nom_fich);
 static void affichage_traj(t_liste_obs * liste, char * nom_fich);
 
 int main(void) {
-	t_liste_obs liste;
+
+	#if(1)
+		int i, x, y;
+		t_point_plan corr;
+		t_point_plan tabA[TAILLE];
+		t_point_plan tabB[TAILLE];
+
+		tabA[0].x = 60; tabA[0].y = 3;
+		tabA[1].x = 60; tabA[1].y = 3.2;
+		tabA[2].x = 62; tabA[2].y = 3.4;
+		tabA[3].x = 63; tabA[3].y = 3.6;
+
+		tabB[0].x = 36; tabB[0].y = 2.1;
+		tabB[1].x = 39; tabB[1].y = 2.25;
+		tabB[2].x = 42; tabB[2].y = 2.6;
+		tabB[3].x = 45; tabB[3].y = 2.55;
+
+		corr = correlation_pts(tabA, tabB, TAILLE);
+		printf("point x: %lf point y: %lf\n", corr.x, corr.y);
+		system("pause");
+
+	#endif
+
+	#if(0)
+		t_liste_obs liste;
 	
 
-	liste.tab_obstacles = NULL;
+		liste.tab_obstacles = NULL;
 	
-	choisir_option_menu(&liste);
-	detruire_obstacles(&liste);
-
+		choisir_option_menu(&liste);
+		detruire_obstacles(&liste);
+	#endif
 
 	return EXIT_SUCCESS;
 }
