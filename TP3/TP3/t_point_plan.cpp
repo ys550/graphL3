@@ -17,10 +17,43 @@ t_point_plan ** creer_matrice_pts(int taille) {
 
 t_point_plan correlation_pts(t_point_plan * tabA, t_point_plan * tabB,
 	int taille) {
-	return t_point_plan();
+	
+	t_point_plan correlation;
+	t_point_plan esperanceAB;
+	t_point_plan esperanceA;
+	t_point_plan esperanceB;
+	t_point_plan ecartA;
+	t_point_plan ecartB;
+	t_point_plan * tab_produitAB;
+
+	//A*B
+	tab_produitAB = produit(tabA, tabB, taille);
+	//E(AB)
+	esperanceAB = esperance(tab_produitAB, taille);
+	//E(A)
+	esperanceA = esperance(tabA, taille);
+	//E(B)
+	esperanceB = esperance(tabB, taille);
+	//o(A)
+	ecartA = ecart_type(tabA, taille);
+	//o(B)
+	ecartB = ecart_type(tabB, taille);
+
+	//valeur absolue de la correlation des x
+	correlation.x = fabs(((esperanceAB.x - (esperanceA.x * esperanceB.x)) /
+		(ecartA.x * ecartB.x)));
+
+	//valeur absolue de la correlation des y
+	correlation.y = fabs(((esperanceAB.y - (esperanceA.y * esperanceB.y)) /
+		(ecartA.y * ecartB.y)));
+
+	return correlation;
 }
 
 int trouver_col_min(t_point_plan ** mat_corr, int taille) {
+	
+
+
 	return 0;
 }
 
@@ -28,7 +61,7 @@ void detruire_matrice_pts(t_point_plan ** mat, int taille) {
 
 }
 
-static t_point_plan calcul_esperance(t_point_plan * tab, int taille) {
+static t_point_plan esperance(t_point_plan * tab, int taille) {
 	int i;
 	t_point_plan somme;
 	t_point_plan esperance;
@@ -48,11 +81,7 @@ static t_point_plan calcul_esperance(t_point_plan * tab, int taille) {
 	return esperance;
 }
 
-static t_point_plan * calcul_ecart_type(t_point_plan * tab, int taille) {
-	return nullptr;
-}
-
-static t_point_plan * calcul_produit(t_point_plan * tabA, t_point_plan * tabB,
+static t_point_plan * produit(t_point_plan * tabA, t_point_plan * tabB,
 	int taille) {
 
 	int i;
@@ -72,3 +101,32 @@ static t_point_plan * calcul_produit(t_point_plan * tabA, t_point_plan * tabB,
 	}
 
 }
+
+static t_point_plan ecart_type(t_point_plan * tab, int taille) {
+	t_point_plan ecart_type;
+	t_point_plan esperance_temp;
+
+	//E(A^2) 
+	t_point_plan * tab_valeurs_carre;
+	//E(A)^2
+	t_point_plan esperance_carre;
+
+	//multipli le meme tableau par lui meme pour obtenir les valeurs au carre
+	tab_valeurs_carre = produit(tab, tab, taille);
+
+	//E(A)^2
+	esperance_temp = esperance(tab, taille);
+	esperance_carre.x = pow(esperance_temp.x, 2);
+	esperance_carre.y = pow(esperance_temp.y, 2);
+
+	//E(A^2) 
+	esperance_temp = esperance(tab_valeurs_carre, taille);
+
+	//l'ecart type est la racine carre de E(A^2) - E(A^2)
+	ecart_type.x = sqrt((esperance_temp.x - esperance_carre.x));
+	ecart_type.y = sqrt((esperance_temp.y - esperance_carre.y));
+
+	return ecart_type;
+}
+
+
