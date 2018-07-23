@@ -10,8 +10,16 @@ t_point_plan ** creer_matrice_pts(int taille) {
 
 	matrice_pts = (t_point_plan **)malloc(taille * sizeof(t_point_plan *));
 
-	for (i = 0; i < taille; i++)
+	//Verification allocation dynamique
+	if (!(matrice_pts))
+		return NULL;
+
+	for (i = 0; i < taille; i++) {
 		matrice_pts[i] = (t_point_plan *)malloc(taille * sizeof(t_point_plan));
+		//Verification allocation dynamique
+		if (!(matrice_pts[i]))
+			return NULL;
+	}
 
 	return matrice_pts;
 }
