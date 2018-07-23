@@ -59,8 +59,8 @@ int trouver_col_min(t_point_plan ** mat_corr, int taille) {
 
 	for (i = 0; i < taille; i++) {
 		for (j = 0; j < taille; j++) {
-			somme_col.x += mat_corr[j][i].x;
-			somme_col.y += mat_corr[j][i].y;
+			somme_col.x += mat_corr[i][j].x;
+			somme_col.y += mat_corr[i][j].y;
 		}
 
 		if ((somme_col.x + somme_col.y) < corr_tot) {
