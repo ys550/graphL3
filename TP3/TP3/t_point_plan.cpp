@@ -3,6 +3,7 @@
 #include <math.h>
 #include "t_point_plan.h"
 
+
 t_point_plan ** creer_matrice_pts(int taille) {
 	int i;
 	t_point_plan ** matrice_pts;
@@ -51,14 +52,40 @@ t_point_plan correlation_pts(t_point_plan * tabA, t_point_plan * tabB,
 }
 
 int trouver_col_min(t_point_plan ** mat_corr, int taille) {
-	
+	int i, j;
+	int col_min = 0;
+	double corr_tot = (double)(taille * 2);
+	t_point_plan somme_col;
 
+	for (i = 0; i < taille; i++) {
+		for (j = 0; j < taille; j++) {
+			somme_col.x += mat_corr[j][i].x;
+			somme_col.y += mat_corr[j][i].y;
+		}
 
-	return 0;
+		if ((somme_col.x + somme_col.y) < corr_tot) {
+			corr_tot = somme_col.x + somme_col.y;
+			col_min = i;
+		}
+
+		somme_col.x = 0;
+		somme_col.y = 0;
+	}
+
+	return col_min;
 }
 
 void detruire_matrice_pts(t_point_plan ** mat, int taille) {
+	int i;
+	t_point_plan * ptr_mat;
 
+	for (i = 0; i < taille; i++) {
+		ptr_mat = mat[i];
+		free(ptr_mat);
+	}
+		
+	free(mat);
+	mat = NULL;
 }
 
 static t_point_plan esperance(t_point_plan * tab, int taille) {
