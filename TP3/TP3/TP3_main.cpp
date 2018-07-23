@@ -48,7 +48,9 @@ int main(void) {
 		tabB[3].x = 45; tabB[3].y = 2.55;
 
 		corr = correlation_pts(tabA, tabB, TAILLE);
+		//Resultat attendu: point x: 0.946729 point y: 0.915249
 		printf("point x: %lf point y: %lf\n", corr.x, corr.y);
+
 		system("pause");
 
 	#endif
