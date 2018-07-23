@@ -7,30 +7,51 @@ Date   : 2018-07-08
 
 #define _CRT_SECURE_NO_WARNINGS
 
+// Librairies usuelles à inclure 
 #include <stdlib.h>
 #include <stdio.h>
 #include <conio.h>     //pour: kbhit() et _getch()
+
+// Librairies pour les fonctions definis dans le projet
 #include"winBGIm.h"
 #include "mode_graphique.h"
 #include "t_obstacles.h"
 #include "trajectoire_ecran.h"
 #include "t_point_plan.h"
 
+/*=========================================================*/
+/*                  LES CONSTANTES                         */
+/*=========================================================*/
+
+//Les noms et trajets des fichiers
 #define FICHIER_TRAJET_1 "trajet1.txt"
 #define FICHIER_TRAJET_2 "trajet2.txt"
 #define FICHIER_TRAJET_3 "trajet3.txt"
 #define FICHIER_TRAJET_4 "trajet4.txt"
 #define FICHIER_TRAJET_INDY "trajet_INDY.txt"
 
+//Pour l'afichage des mandats: 1: active 0: desactive
+#define MANDAT1 1
+#define MANDAT2 0
+
+//Pour le test de correlation
 #define TAILLE  4
+
+/********************************************************************/
+/*				DECLARATIONS DES FONCTIONS PRIVÉES					*/
+/********************************************************************/
 
 static void afficher_menu();
 static void choisir_option_menu(t_liste_obs * liste);
 static void sequence_affichage_forme(t_liste_obs * liste, char * nom_fich);
 static void affichage_traj(t_liste_obs * liste, char * nom_fich);
 
+/*=========================================================*/
+/*=========================================================*/
+//Programme principal: fonction qui retourne un entier (int)
 int main(void) {
 
+	//TEST CORRELATION
 	#if(0)
 		int i, x, y;
 		t_point_plan corr;
@@ -55,9 +76,9 @@ int main(void) {
 
 	#endif
 
+	//TEST MANDATS
 	#if(1)
 		t_liste_obs liste;
-	
 
 		liste.tab_obstacles = NULL;
 	
@@ -98,28 +119,60 @@ static void choisir_option_menu(t_liste_obs * liste) {
 
 		switch (option) {
 		case '1':
-			affichage_traj(liste, FICHIER_TRAJET_1);
+			#if(MANDAT1)
+				sequence_affichage_forme(liste, FICHIER_TRAJET_1);
+			#endif
+
+			#if(MANDAT2)
+				affichage_traj(liste, FICHIER_TRAJET_1);
+			#endif
 			break;
 		case '2':
-			affichage_traj(liste, FICHIER_TRAJET_2);
+			#if(MANDAT1)
+				sequence_affichage_forme(liste, FICHIER_TRAJET_2);
+			#endif
+
+			#if(MANDAT2)
+				affichage_traj(liste, FICHIER_TRAJET_2);
+			#endif
 			break;
 		case '3':
-			affichage_traj(liste, FICHIER_TRAJET_3);
+			#if(MANDAT1)
+				sequence_affichage_forme(liste, FICHIER_TRAJET_3);
+			#endif
+
+			#if(MANDAT2)
+				affichage_traj(liste, FICHIER_TRAJET_3);
+			#endif
 			break;
 		case '5':
-			affichage_traj(liste, FICHIER_TRAJET_INDY);
+			#if(MANDAT1)
+				sequence_affichage_forme(liste, FICHIER_TRAJET_INDY);
+			#endif
+
+			#if(MANDAT2)
+				affichage_traj(liste, FICHIER_TRAJET_INDY);
+			#endif
 			break;
 		case 'q':
 		case 'Q':
 			break;
 		default:
-			affichage_traj(liste, FICHIER_TRAJET_4);
+			#if(MANDAT1)
+			sequence_affichage_forme(liste, FICHIER_TRAJET_4);
+			#endif
+
+			#if(MANDAT2)
+				affichage_traj(liste, FICHIER_TRAJET_4);
+			#endif
 			break;
 		}
 
 	} while (option != 'q' && option != 'Q');
 
 }
+
+/******************************MANDAT 1************************************/
 static void sequence_affichage_forme(t_liste_obs * liste, char * nom_fich) {
 
 	int nb_points;
@@ -138,6 +191,8 @@ static void sequence_affichage_forme(t_liste_obs * liste, char * nom_fich) {
 	fermer_graphique();
 	
 }
+
+/*************************MANDAT 2********************************/
 static void affichage_traj(t_liste_obs * liste, char * nom_fich) {
 	int i;
 	int nb_points;
