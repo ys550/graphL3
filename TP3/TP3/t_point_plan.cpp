@@ -157,12 +157,12 @@ static t_point_plan ecart_type(t_point_plan * tab, int taille) {
 	t_point_plan ecart_type;
 	t_point_plan esperance_temp;
 
-	//E(A^2) 
+	// A^2
 	t_point_plan * tab_valeurs_carre;
 	//E(A)^2
 	t_point_plan esperance_carre;
 
-	//multipli le meme tableau par lui meme pour obtenir les valeurs au carre
+	//multipli le meme tableau par lui meme pour obtenir les valeurs au carre(A^2)
 	tab_valeurs_carre = produit(tab, tab, taille);
 
 	//E(A)^2
