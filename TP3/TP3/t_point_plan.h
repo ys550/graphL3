@@ -1,3 +1,13 @@
+/*
+
+Module : t_point_plan.h
+Par    : Youssef Soliman, Hugo Belin
+Date   : 2018-07-22
+*/
+
+/*=========================================================*/
+/*                       STRUCTURE                         */
+/*=========================================================*/
 
 typedef struct {
 	// la position-pixel du point
@@ -5,6 +15,9 @@ typedef struct {
 	double y;   // coordonnée verticale
 } t_point_plan;
 
+/********************************************************************/
+/*						DECLARATIONS DE FONCTIONS					*/
+/********************************************************************/
 
 /*
 CREER_MATRICE_PTS

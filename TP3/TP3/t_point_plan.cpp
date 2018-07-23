@@ -1,8 +1,18 @@
+/*
+
+Module : t_point_plan.c
+Par    : Youssef Soliman, Hugo Belin
+Date   : 2018-07-22
+*/
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <math.h>
 #include "t_point_plan.h"
 
+/*********************************************************/
+/*                DEFINITIONS DES FONCTIONS              */
+/*********************************************************/
 
 t_point_plan ** creer_matrice_pts(int taille) {
 	int i;
@@ -98,6 +108,10 @@ void detruire_matrice_pts(t_point_plan ** mat, int taille) {
 	free(mat);
 	mat = NULL;
 }
+
+/*********************************************************/
+/*          DEFINITIONS DES FONCTIONS PRIVÉES            */
+/*********************************************************/
 
 static t_point_plan esperance(t_point_plan * tab, int taille) {
 	int i;

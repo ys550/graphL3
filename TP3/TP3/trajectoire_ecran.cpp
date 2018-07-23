@@ -15,6 +15,10 @@ Date   : 2018-07-15
 #include "mode_graphique.h"
 #include "SOURISLIB.h"
 
+/*********************************************************/
+/*                DEFINITIONS DES FONCTIONS              */
+/*********************************************************/
+
 t_trajectoire_ecran init_trajectoire_ecran(void) {
 	t_trajectoire_ecran file;
 

@@ -170,6 +170,10 @@ void detruire_obstacles(t_liste_obs * obstacles) {
 	}
 }
 
+/*********************************************************/
+/*          DEFINITIONS DES FONCTIONS PRIVÉES            */
+/*********************************************************/
+
 static int get_type_formes(char code) {
 	/*Les codes possibles sont: 'P', 'C', 'E', 'L', 'R' et 'T'*/
 	switch (code) {

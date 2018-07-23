@@ -156,6 +156,10 @@ EXEMPLES D'APPEL :
 */
 void detruire_obstacles(t_liste_obs * obstacles);
 
+/*****************************************************/
+/*****************************************************/
+// TROIS FONCTIONS INFORMATRICES
+
 /*
 GET_TYPE_FORMES
 Codée par

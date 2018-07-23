@@ -25,13 +25,13 @@ Date   : 2018-07-08
 #define TAILLE  4
 
 static void afficher_menu();
-void choisir_option_menu(t_liste_obs * liste);
+static void choisir_option_menu(t_liste_obs * liste);
 static void sequence_affichage_forme(t_liste_obs * liste, char * nom_fich);
 static void affichage_traj(t_liste_obs * liste, char * nom_fich);
 
 int main(void) {
 
-	#if(1)
+	#if(0)
 		int i, x, y;
 		t_point_plan corr;
 		t_point_plan tabA[TAILLE];
@@ -55,7 +55,7 @@ int main(void) {
 
 	#endif
 
-	#if(0)
+	#if(1)
 		t_liste_obs liste;
 	
 
@@ -67,6 +67,10 @@ int main(void) {
 
 	return EXIT_SUCCESS;
 }
+
+/*********************************************************/
+/*          DEFINITIONS DES FONCTIONS PRIVÉES            */
+/*********************************************************/
 
 static void afficher_menu() {
 	system("cls");
@@ -80,7 +84,7 @@ static void afficher_menu() {
 	printf(">");
 }
 
-void choisir_option_menu(t_liste_obs * liste) {
+static void choisir_option_menu(t_liste_obs * liste) {
 	unsigned char option;
 	
 
