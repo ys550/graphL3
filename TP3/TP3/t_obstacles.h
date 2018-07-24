@@ -5,49 +5,6 @@ Par    : Youssef Soliman, Hugo Belin
 Date   : 2018-07-08
 */
 
-/* 
-
-Ce module à pour but de dessiner dans le mode graphique les 
-obstacles ( forme géométrique ).
-
-Les informations des formes géométriques sont contenues dans des 
-fichers textes qui seront lus et utilisées dans dans les fonctions
-de ce module.
-
-Les fonctions utilisées ( lectures des données, création du mode graphique,
-création du parcours avec la création des formes géométrique) :
-
-- int lire_obstacles(char *nom_fich, t_liste_obs *obstacles);
-  ( Cette fonction reçoit le nom du fichier à lire et va récupérer 
-    toutes les informations de l'obstacle )
-
-- void dessiner_obstacles(const t_liste_obs * obstacles);
-  ( Cette fonction reçois la liste d'obstacle et va dessiner chaque forme 
-    géométrique de cette liste )
-
-- void detruire_obstacles(t_liste_obs * obstacles);
-  ( Cette fonction détruit la liste d'obstacle qui à été lu du ficher et 
-    à déja été dessiner par la fonction dessiner_obstacle )
-
-- Les fonctions privées de ce module ont pour but d'obtenir toutes les 
-  données néssaire pour la lecture complète des données du fichier.
-  ( déterminer le type de forme, le nombre de paramètre) 
-
-
-
-*/
-
-
-
-
-
-
-
-
-
-
-
-
 /*=========================================================*/
 /*                  LES CONSTANTES                         */
 /*=========================================================*/
@@ -84,7 +41,10 @@ création du parcours avec la création des formes géométrique) :
 
 typedef struct {
 
-	// forme int pour répresenter le type de forme géométrique 
+	/*Un code numérique représentant le type de forme (entier).  Il existe 6
+	types de formes pouvant être dessinés par ce module, leurs codes sont
+	énumérés (avec « enum ») dans le fichier-interface du module
+	«mode_graphique».*/
 	int type_forme;
 
 	//Le nombre d’arguments nécessaires pour dessiner cette forme (entier)
@@ -111,54 +71,88 @@ typedef struct {
 /*						DECLARATIONS DES FONCTIONS					*/
 /********************************************************************/
 
+/**********COMMENTAIRE COPIER/COLLER DE L'ENONCE A SUPPRIMER*******************
+Cette procédure reçoit une liste d’obstacles déjà initialisée et va dessiner
+chaque forme contenue dans la liste.  Le « code » de la forme vous permet de
+choisir la bonne procédure à appeler pour chaque forme.  Les paramètres sont
+toujours fournis à partir du tableau d’arguments de chaque « t_obstacle » en
+ordre de gauche à droite (de [0] à [nb_param- 1] dans le tableau).  Notez que
+la couleur bleue (pour représenter de l’eau) a déjà été attribuée à toutes les
+formes sauf la forme PT. La procédure qui dessine cette forme reçoit donc la
+valeur de la couleur en 3ième paramètre.
+******************************************************************************/
 /*
 LIRE_OBSTACLES
-Codée par Youssef Soliman, Hugo Belin
+Codée par
 
-Cette fonction reçoit le nom du fichier à lire et va récupérer 
-toutes les informations de l'obstacle.
+Cette fonction
 
 PARAMÈTRES :
--nom_fich :  (type : char *) 
--obstacles : (type : t_liste_obs *) 
+-nom_fich :  (type : char *)
+-obstacles : (type : t_liste_obs *)
 
 HYPOTHESES: Aucune.
 
-VALEUR DE RETOUR:  (type : int) echec 0 , au sinon 1
+VALEUR DE RETOUR:  (type : int).
 
+EXEMPLES D'APPEL :
+-
+-
 */
 int lire_obstacles(char *nom_fich, t_liste_obs *obstacles);
 
 
+
+/**********COMMENTAIRE COPIER/COLLER DE L'ENONCE A SUPPRIMER*******************
+Cette procédure reçoit une liste d’obstacles déjà initialisée et va dessiner
+chaque forme contenue dans la liste.  Le « code » de la forme vous permet de
+choisir la bonne procédure à appeler pour chaque forme.  Les paramètres sont
+toujours fournis à partir du tableau d’arguments de chaque « t_obstacle » en
+ordre de gauche à droite (de [0] à [nb_param- 1] dans le tableau).  Notez que
+la couleur bleue (pour représenter de l’eau) a déjà été attribuée à toutes les
+formes sauf la forme PT. La procédure qui dessine cette forme reçoit donc la
+valeur de la couleur en 3ième paramètre.
+******************************************************************************/
 /*
 DESSINER_OBSTACLES
-Codée par Youssef Soliman, Hugo Belin 
+Codée par
 
-Cette fonction reçois la liste d'obstacle et va dessiner chaque forme 
-géométrique de cette liste.
+Cette fonction
 
 PARAMÈTRES :
--obstacles : (type : const t_liste_obs *) liste d'obtacle 
+-obstacles : (type : const t_liste_obs *)
 
 HYPOTHESES: Aucune.
 
 VALEUR DE RETOUR:  Aucune (void).
+
+EXEMPLES D'APPEL :
+-
+-
 */
 void dessiner_obstacles(const t_liste_obs * obstacles);
 
+
+/**********COMMENTAIRE COPIER/COLLER DE L'ENONCE A SUPPRIMER*******************
+Procédure pour libérer l’allocation dynamique du tableau d’obstacles de la
+liste reçue et remettre son nombre d’obstacles à zéro.
+******************************************************************************/
 /*
 DETRUIRE_OBSTACLES
-Codée par Youssef Soliman, Hugo Belin
+Codée par
 
-Cette fonction détruit la liste d'obstacle qui à été lu du ficher et 
-à déja été dessiner par la fonction dessiner_obstacle 
+Cette fonction
 
 PARAMÈTRES :
--obstacles : (type : t_liste_obs *) liste d'obstacle 
+-obstacles : (type : t_liste_obs *)
 
 HYPOTHESES: Aucune.
 
 VALEUR DE RETOUR:  Aucune (void).
+
+EXEMPLES D'APPEL :
+-
+-
 */
 void detruire_obstacles(t_liste_obs * obstacles);
 
@@ -168,52 +162,60 @@ void detruire_obstacles(t_liste_obs * obstacles);
 
 /*
 GET_TYPE_FORMES
-Codée par Youssef Soliman, Hugo Belin
+Codée par
 
-Cette fonction donne l'équvalent enum de la forme géométrique 
-lu dans le fichier qui est une lettre (char)
+Cette fonction
 
 PARAMÈTRES :
--code : (type : char) lettre representant la forme géométrique
+-code : (type : char)
 
 HYPOTHESES: Aucune.
 
 VALEUR DE RETOUR: le type constant (enum) de la forme(type: int).
 
+EXEMPLES D'APPEL :
+-
+-
 */
 static int get_type_formes(char code);
 
 /*
 GET_NB_PARAM_FORME
-Codée par Youssef Soliman, Hugo Belin
+Codée par
 
-Cette fonction donne le nombre de paramètre que chaque forme géométrique 
-doit avoir pour être dessinée.
+Cette fonction
 
 PARAMÈTRES :
--forme : (type : int) l'enum de la forme géométrique 
+-forme : (type : int)
 
 HYPOTHESES: Aucune.
 
-VALEUR DE RETOUR: (type: int) le nombre de paramètre de la forme géométrique
+VALEUR DE RETOUR: le type en entier de la forme(type: int).
+
+EXEMPLES D'APPEL :
+-
+-
 */
 static int get_nb_param_forme(int forme);
 
 /*
 GET_PARAM_LIGNE
-Codée par Youssef Soliman, Hugo Belin
+Codée par
 
-Cette fonction va chercher dans le fichier tous les paramètre nécéssaire pour 
-dessiner la forme désirée
+Cette fonction
 
 PARAMÈTRES :
--type_forme : (type : int) enum de la forme 
--tab_param : (type : int) le nombre de paramètre de la forme 
--param_fichier : (type : char *) le nom du fichier
+-type_forme : (type : int)
+-tab_param : (type : int)
+-param_fichier : (type : char *)
 
 HYPOTHESES: Aucune.
 
 VALEUR DE RETOUR: Aucune.
+
+EXEMPLES D'APPEL :
+-
+-
 */
 static void get_param_ligne(int type_forme, int * tab_param, char * param_fichier);
 
