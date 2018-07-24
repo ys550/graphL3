@@ -45,6 +45,9 @@ void retirer_traj_refuse(t_liste_traj * listes_traj, int pos) {
 	if (pos == 0) {
 		//la nouvelle ref de la tete est le noeud suivant
 		listes_traj->tete = temp->suivant;
+		//on supprime le tableau dans le noeud tete
+		free(temp->tab_coordonnees);
+		temp->tab_coordonnees = NULL;
 		//on supprime l'ancienne tete
 		free(temp);
 		return;
@@ -69,6 +72,9 @@ void retirer_traj_refuse(t_liste_traj * listes_traj, int pos) {
 			/*on assigne la ref suivant du noeud precedant(queue temporaire) le
 			noeud supprime au noeud suivant le noeud supprime*/
 			listes_traj->queue = temp->suivant;
+			//on supprime le tableau dans le noeud choisi
+			free(temp->tab_coordonnees);
+			temp->tab_coordonnees = NULL;
 			//On supprime le noeud choisi
 			free(temp);
 			return;
