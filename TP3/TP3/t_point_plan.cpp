@@ -71,14 +71,15 @@ t_point_plan correlation_pts(t_point_plan * tabA, t_point_plan * tabB,
 
 int trouver_col_min(t_point_plan ** mat_corr, int taille) {
 	int i, j;
-	int col_min = 0;
+	int indice_col_min = 0;
 	double corr_tot = (double)(taille * 2);
 	t_point_plan somme_col;
 
-	somme_col.x = 0;
-	somme_col.y = 0;
-
 	for (i = 0; i < taille; i++) {
+
+		somme_col.x = 0;
+		somme_col.y = 0;
+
 		for (j = 0; j < taille; j++) {
 			somme_col.x += mat_corr[j][i].x;
 			somme_col.y += mat_corr[j][i].y;
@@ -86,14 +87,12 @@ int trouver_col_min(t_point_plan ** mat_corr, int taille) {
 
 		if ((somme_col.x + somme_col.y) < corr_tot) {
 			corr_tot = somme_col.x + somme_col.y;
-			col_min = i;
+			indice_col_min = i;
 		}
 
-		somme_col.x = 0;
-		somme_col.y = 0;
 	}
 
-	return col_min;
+	return indice_col_min;
 }
 
 void detruire_matrice_pts(t_point_plan ** mat, int taille) {
@@ -158,12 +157,12 @@ static t_point_plan ecart_type(t_point_plan * tab, int taille) {
 	t_point_plan ecart_type;
 	t_point_plan esperance_temp;
 
-	//E(A^2) 
+	// A^2
 	t_point_plan * tab_valeurs_carre;
 	//E(A)^2
 	t_point_plan esperance_carre;
 
-	//multipli le meme tableau par lui meme pour obtenir les valeurs au carre
+	//multipli le meme tableau par lui meme pour obtenir les valeurs au carre(A^2)
 	tab_valeurs_carre = produit(tab, tab, taille);
 
 	//E(A)^2

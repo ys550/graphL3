@@ -49,7 +49,7 @@ Les fonction de ce module sont :
 
 
 /*=========================================================*/
-/*                       STRUCTURES                         */
+/*                       STRUCTURES                        */
 /*=========================================================*/
 
 typedef struct noeud_liste * t_ptr_trajet;
@@ -62,10 +62,9 @@ typedef struct noeud_liste {
 
 typedef struct {
 	int nb_listes;
-	int taille_liste;
+	int taille_normale;
 	t_ptr_trajet tete;
 	t_ptr_trajet queue;
-	t_ptr_trajet ptr_iter;
 } t_liste_traj;
 
 /********************************************************************/

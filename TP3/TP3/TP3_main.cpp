@@ -30,9 +30,9 @@ Date   : 2018-07-08
 #define FICHIER_TRAJET_4 "trajet4.txt"
 #define FICHIER_TRAJET_INDY "trajet_INDY.txt"
 
-//Pour l'afichage des mandats: 1: active 0: desactive
-#define MANDAT1 1
-#define MANDAT2 0
+//Pour l'execution des mandats: 1: active 0: desactive
+#define MANDAT1 0
+#define MANDAT2 1
 
 //Pour le test de correlation
 #define TAILLE  4
