@@ -11,6 +11,112 @@ Date   : 2018-07-23
 #include "trajectoire_plan.h"
 
 
+
+/*********************************************************/
+/*           DEFINITIONS DES FONCTIONS PRIVÉES           */
+/*********************************************************/
+
+/*-	créer un nouveau nœud dans lequel vous allouez dynamiquement un tableau de
+« taille_norm » points de type « t_point_plan » avec son pointeur-suivant
+initialisé a NULL (sous-fonction privée). */
+static t_ptr_trajet creer_nouveau_noeud(int taille_norm) {
+	t_ptr_trajet nouveau_noeud;
+
+	//créer le nouveau noeud
+	nouveau_noeud = (t_ptr_trajet)malloc(sizeof(struct noeud_liste));
+
+	//valider l'allocation dynamique
+	if (nouveau_noeud == NULL) { return NULL; }
+
+	nouveau_noeud->taille_tab_coor = taille_norm;
+
+	nouveau_noeud->tab_coordonnees = (t_point_plan *)malloc(taille_norm *
+		sizeof(t_point_plan));
+
+	nouveau_noeud->suivant = NULL;
+
+	return nouveau_noeud;
+}
+
+/*-	transférez les points de la file [no_file] dans le tableau dynamique du
+nouveau nœud (*).*/
+static void transferer_points(t_ptr_trajet traj_plan,
+	t_trajectoire_ecran * traj_ecran) {
+
+	//l'intervalle d'echantillonnage
+	double inter = (double)traj_ecran->nb_points / traj_plan->taille_tab_coor;
+	double posT = 0;
+	int pos = 0;
+	int pos_p2 = 0;
+	t_point_ecran p1;
+	t_point_ecran p2;
+	t_point_plan pt;
+
+	//t_point_ecran = int pos_x pos_y
+	//t_point_plan = double x y
+	//tab_coor t_point_plan double
+
+	set_iter_debut(traj_ecran);
+
+	//NOTE : le premier point[0] du trajet est automatiquement copié dans le 
+	//premier « t_point_plan » de la liste
+
+	/*Tant qu'on est pas arrive au dernier noeud dans la file on traverse la
+	file*/
+	p2 = get_point_iter(traj_ecran);
+	traj_plan->tab_coordonnees[0].x = p2.pos_x;
+	traj_plan->tab_coordonnees[0].y = p2.pos_y;
+
+	pos = 1;
+	while (pos < traj_plan->taille_tab_coor) {
+		//retourne t_point_ecran (pos_x,pos_y) d'un noeud de la file
+		//et passe au noeud suivant
+
+		posT += inter;
+
+		while (pos_p2 < (int)ceil(posT)) {
+			p1 = p2;
+			p2 = get_point_iter(traj_ecran);
+			pos_p2++;
+		}
+
+		//pT  = p1 + (partie fractionnaire de T) * (p2 – p1)
+		pt.x = p1.pos_x + (posT - (int)posT) * (p2.pos_x - p1.pos_x);
+		pt.y = p1.pos_y + (posT - (int)posT) * (p2.pos_y - p1.pos_y);
+
+		//tab double
+		traj_plan->tab_coordonnees[pos] = pt;
+		pos++;
+	}
+
+}
+
+
+/*ajoutez ce nouveau nœud à la fin de la liste de trajectoires-plan
+(sous-fonction privée)*/
+static void enfiler_liste_traj(t_liste_traj * listes_traj, t_ptr_trajet nouveau_noeud) {
+
+	t_ptr_trajet ptr_iter;
+
+	//CAS SPÉCIAL: si la liste reçue est vide
+	if (listes_traj->tete == NULL) {
+		//ce premier noeud est la tete ET la fin de liste
+		listes_traj->tete = listes_traj->queue = nouveau_noeud;
+	}
+	//sinon, on va ajouter à la fin
+	else {
+		ptr_iter = listes_traj->queue;
+		//placer le nouveau noeud a la fin
+		ptr_iter->suivant = nouveau_noeud;
+		//déplacer la queue de liste
+		listes_traj->queue = nouveau_noeud;
+	}
+	//on incremente le nombre d'elements dans la file chainee
+	listes_traj->nb_listes++;
+
+}
+
+
 /*********************************************************/
 /*                DEFINITIONS DES FONCTIONS              */
 /*********************************************************/
@@ -36,7 +142,7 @@ t_liste_traj init_trajectoire_plan(const t_groupe_traj_ecran * groupe, int taill
 
 		nouveau_noeud  = creer_nouveau_noeud(taille_norm);
 		traj = consulter_groupe(groupe, i);
-		transferer_points(nouveau_noeud, &traj, taille_norm);
+		transferer_points(nouveau_noeud, &traj);
 		enfiler_liste_traj(&liste_traj, nouveau_noeud);
 
 	}
@@ -49,9 +155,8 @@ t_ptr_trajet obtenir_traj_plan(const t_liste_traj * listes_traj, int pos) {
 	int i = 0;
 	t_ptr_trajet ptr_iter = listes_traj->tete;
 
-	if (pos >= listes_traj->nb_listes)
-		return NULL;
-	else {
+
+	if (pos < listes_traj->nb_listes) {
 		while (ptr_iter != NULL) {
 
 			if (i == pos)
@@ -61,11 +166,16 @@ t_ptr_trajet obtenir_traj_plan(const t_liste_traj * listes_traj, int pos) {
 			ptr_iter = ptr_iter->suivant;
 		}
 	}
+	return NULL;
 	
 }
 
 int trouver_traj_refuse(const t_liste_traj * listes_traj) {
-
+	/*for (A = 0 a 5)
+			for (B = A + 1 a 5)
+			
+			Mat A B
+				B A*/
 	return 0;
 }
 
@@ -136,110 +246,9 @@ void retirer_traj_refuse(t_liste_traj * listes_traj, int pos) {
 }
 
 void ajouter_traj_moyen(t_liste_traj * listes_traj) {
-	t_ptr_trajet nouveau_noeud;
-
-	/*t_ptr_trajet  obtenir_traj_plan(const t_liste_traj * listes_traj, int pos);
-Fonction informatrice qui localise et retourne un pointeur sur le nœud pos du groupe de listes (début = 0).
-*/
-
-
-
 }
 
 void tranfert_plan_a_ecran(const t_ptr_trajet traj_plan, t_trajectoire_ecran * traj_ecran) {
 
 }
 
-/*********************************************************/
-/*           DEFINITIONS DES FONCTIONS PRIVÉES           */
-/*********************************************************/
-
-/*-	créer un nouveau nœud dans lequel vous allouez dynamiquement un tableau de 
-« taille_norm » points de type « t_point_plan » avec son pointeur-suivant
-initialisé a NULL (sous-fonction privée). */
-static t_ptr_trajet creer_nouveau_noeud(int taille_norm) {
-	t_ptr_trajet nouveau_noeud;
-
-	//créer le nouveau noeud
-	nouveau_noeud = (t_ptr_trajet)malloc(sizeof(struct noeud_liste));
-
-	//valider l'allocation dynamique
-	if (nouveau_noeud == NULL) { return NULL; }
-
-	nouveau_noeud->taille_tab_coor = taille_norm;
-
-	nouveau_noeud->tab_coordonnees = (t_point_plan *)malloc(taille_norm *
-		sizeof(t_point_plan));
-
-	nouveau_noeud->suivant = NULL;
-
-	return nouveau_noeud;
-}
-
-/*-	transférez les points de la file [no_file] dans le tableau dynamique du 
-nouveau nœud (*).*/
-static void transferer_points(t_ptr_trajet traj_plan, 
-	t_trajectoire_ecran * traj_ecran, int taille_norm) {
-
-	//l'intervalle d'echantillonnage
-	double inter = 0; 
-	//le point p1 à la position « floor(T) » (l’entier inférieur à T)
-	int p1;
-	//le point p2 à la position « ceil(T) » (l’entier supérieur à T)
-	int p2;
-	//Le point pT
-	int pt;
-	//pour les points dans la file t_trajectoire_ecran
-	t_point_ecran pt_file;
-
-	set_iter_debut(traj_ecran);
-
-	//NOTE : le premier point[0] du trajet est automatiquement copié dans le 
-	//premier « t_point_plan » de la liste
-
-	
-	/*Tant qu'on est pas arrive au dernier noeud dans la file on traverse la
-	file*/
-	while (traj_ecran->ptr_iter != NULL) {
-		//retourne t_point_ecran (pos_x,pos_y) d'un noeud de la file
-		//et passe au noeud suivant
-		pt_file = get_point_iter(traj_ecran);
-		p1 = floor(inter);
-		p2 = ceil(inter);
-		//pT  = p1 + (partie fractionnaire de T) * (p2 – p1)
-		pt = p1 + inter * (p2 - p1);
-
-		/*traj_plan->tab_coordonnees[p1].x = traj_plan->tab_coordonnees[p2].x;
-		traj_plan->tab_coordonnees[p1].y = traj_plan->tab_coordonnees[p2].y;
-
-		traj_plan->tab_coordonnees[p1].x = pt_file.pos_x;
-		traj_plan->tab_coordonnees[p1].y = pt_file.pos_y;*/
-		inter += (double)traj_ecran->nb_points / taille_norm;
-		
-	}
-	
-}
-
-/*ajoutez ce nouveau nœud à la fin de la liste de trajectoires-plan 
-(sous-fonction privée)*/
-static void enfiler_liste_traj(t_liste_traj * listes_traj, t_ptr_trajet nouveau_noeud) {
-
-	t_ptr_trajet ptr_iter;
-
-	//CAS SPÉCIAL: si la liste reçue est vide
-	if (listes_traj->tete == NULL) {
-		//ce premier noeud est la tete ET la fin de liste
-		listes_traj->tete = listes_traj->queue = nouveau_noeud;
-	}
-	//sinon, on va ajouter à la fin
-	else {
-		ptr_iter = listes_traj->queue;
-		//placer le nouveau noeud a la fin
-		ptr_iter->suivant = nouveau_noeud;
-		//déplacer la queue de liste
-		listes_traj->queue = nouveau_noeud;
-	}
-	//on incremente le nombre d'elements dans la file chainee
-	listes_traj->nb_listes++;
-
-}

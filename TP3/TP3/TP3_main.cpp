@@ -51,9 +51,15 @@ static void affichage_traj(t_liste_obs * liste, char * nom_fich);
 //Programme principal: fonction qui retourne un entier (int)
 int main(void) {
 
+	/*double x = 3.5;
+	double y;
+	printf("valeur x: %lf\n", x);
+	y = ARRONDIR(x);
+	printf("valeur x arrondis: %lf\n", x);
+	system("pause");*/
+
 	//TEST CORRELATION
 	#if(0)
-		int i, x, y;
 		t_point_plan corr;
 		t_point_plan tabA[TAILLE];
 		t_point_plan tabB[TAILLE];
@@ -63,10 +69,15 @@ int main(void) {
 		tabA[2].x = 62; tabA[2].y = 3.4;
 		tabA[3].x = 63; tabA[3].y = 3.6;
 
-		tabB[0].x = 36; tabB[0].y = 2.1;
+		tabB[0].x = 60; tabB[0].y = 3;
+		tabB[1].x = 60; tabB[1].y = 3.2;
+		tabB[2].x = 62; tabB[2].y = 3.4;
+		tabB[3].x = 63; tabB[3].y = 3.6;
+
+		/*tabB[0].x = 36; tabB[0].y = 2.1;
 		tabB[1].x = 39; tabB[1].y = 2.25;
 		tabB[2].x = 42; tabB[2].y = 2.6;
-		tabB[3].x = 45; tabB[3].y = 2.55;
+		tabB[3].x = 45; tabB[3].y = 2.55;*/
 
 		corr = correlation_pts(tabA, tabB, TAILLE);
 		//Resultat attendu: point x: 0.946729 point y: 0.915249
@@ -77,7 +88,7 @@ int main(void) {
 	#endif
 
 	//TEST MANDATS
-	#if(1)
+	#if(0)
 		t_liste_obs liste;
 
 		liste.tab_obstacles = NULL;

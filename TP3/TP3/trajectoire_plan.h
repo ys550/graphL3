@@ -52,6 +52,7 @@ Date   : 2018-07-23
 typedef struct noeud_liste * t_ptr_trajet;
 
 typedef struct noeud_liste {
+	//taille du tableau de coordonnees de taille_normale
 	int taille_tab_coor;
 	t_point_plan * tab_coordonnees;
 	t_ptr_trajet suivant;
@@ -63,6 +64,17 @@ typedef struct {
 	t_ptr_trajet tete;
 	t_ptr_trajet queue;
 } t_liste_traj;
+
+/*********************************************************/
+/*           DECLARATIONS DES FONCTIONS PRIVÉES          */
+/*********************************************************/
+
+static t_ptr_trajet creer_nouveau_noeud(int taille_norm);
+
+static void transferer_points(t_ptr_trajet traj_plan,
+	t_trajectoire_ecran * traj_ecran);
+
+static void enfiler_liste_traj(t_liste_traj * listes_traj, t_ptr_trajet nouveau_noeud);
 
 /********************************************************************/
 /*						DECLARATIONS DE FONCTIONS					*/
@@ -171,13 +183,3 @@ VALEUR DE RETOUR:  Rien.
 void tranfert_plan_a_ecran(const t_ptr_trajet traj_plan,
 	t_trajectoire_ecran * traj_ecran);
 
-/*********************************************************/
-/*           DECLARATIONS DES FONCTIONS PRIVÉES          */
-/*********************************************************/
-
-static t_ptr_trajet creer_nouveau_noeud(int taille_norm);
-
-static void transferer_points(t_ptr_trajet traj_plan, 
-	t_trajectoire_ecran * traj_ecran, int taille_norm);
-
-static void enfiler_liste_traj(t_liste_traj * listes_traj, t_ptr_trajet nouveau_noeud);
