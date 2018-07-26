@@ -72,7 +72,8 @@ t_point_plan correlation_pts(t_point_plan * tabA, t_point_plan * tabB,
 int trouver_col_min(t_point_plan ** mat_corr, int taille) {
 	int i, j;
 	int indice_col_min = 0;
-	double corr_tot = (double)(taille * 2);
+	//la correlation totale d'une colone (valeur max d'une colone = taille * 2)
+	double col_corr_tot = (double)(taille * 2);
 	t_point_plan somme_col;
 
 	for (i = 0; i < taille; i++) {
@@ -85,8 +86,8 @@ int trouver_col_min(t_point_plan ** mat_corr, int taille) {
 			somme_col.y += mat_corr[j][i].y;
 		}
 
-		if ((somme_col.x + somme_col.y) < corr_tot) {
-			corr_tot = somme_col.x + somme_col.y;
+		if ((somme_col.x + somme_col.y) < col_corr_tot) {
+			col_corr_tot = somme_col.x + somme_col.y;
 			indice_col_min = i;
 		}
 

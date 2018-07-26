@@ -1,36 +1,29 @@
 /*
 
-Module : t_point_plan.h
-Par    : Youssef Soliman, Hugo Belin
-Date   : 2018-07-22
-*/
-
-
-/*
-Le module t_point_plan contient des fonctions permettant de 
+Le module t_point_plan contient des fonctions permettant de
 produire des calcules mathématiques avec des coordonnées réelles.
 
 Dans ce module nous utilisons la structure t_point_plan qui contient
-deux coordonnées réelle pour les coordonnées en x et en y dans un 
+deux coordonnées réelle pour les coordonnées en x et en y dans un
 plan mathématique.
 
 Ce module contient les fonctions:
 
 - t_point_plan ** creer_matrice_pts(int taille);
-  (Cette fonction crée une matrice dynamique (tableau deux dimension de la 
+(Cette fonction crée une matrice dynamique (tableau deux dimension de la
 taille souhaité)
 
 - t_point_plan correlation_pts(t_point_plan * tabA, t_point_plan * tabB,
-	int taille);
-  ( Cette fonction calucule la corrélation linéaire entre deux listes 
-    de points-plan)
+int taille);
+( Cette fonction calucule la corrélation linéaire entre deux listes
+de points-plan)
 
 - int  trouver_col_min(t_point_plan ** mat_corr, int taille);
- ( Cette fonction reçois une matrice de corrélation et va trouver la plus
+( Cette fonction reçois une matrice de corrélation et va trouver la plus
 petite somme des colonnes de ce tableau.)
 
 - void detruire_matrice_pts(t_point_plan ** mat, int taille);
-  ( Cette fonction détruit la mémoire allouée à la matrice) 
+( Cette fonction détruit la mémoire allouée à la matrice)
 
 Les autres fonction sont privé a ce module (ce sont des fonctions mathématique
 pour simplifier et ne pas répéter le code).
@@ -38,8 +31,10 @@ Ce sont des fonctions pour caluler la moyenne, l'écart type ou multiplier des ta
 t_point_plan.
 
 
+Module : t_point_plan.h
+Par    : Youssef Soliman, Hugo Belin
+Date   : 2018-07-22
 */
-
 
 
 /*=========================================================*/
@@ -129,6 +124,10 @@ VALEUR DE RETOUR:  rien.
 */
 void detruire_matrice_pts(t_point_plan ** mat, int taille);
 
+/********************************************************************/
+/*				DECLARATIONS DE FONCTIONS PRIVÉES					*/
+/********************************************************************/
+
 /*
 ESPERANCE
 Codée par Youssef Soliman, Hugo Belin
@@ -156,7 +155,7 @@ Cette fonction calcul le produit des données de deux tableaux
 t_point_plan (multiplication des colonnes) 
 
 PARAMÈTRES :
--tabA : (type : t_point_plan)  premier tableau 
+-tabA : (type : t_point_plan *)  premier tableau 
 -tabB : (type : t_point_plan *) deuxieme tableau 
 -taille :  (type : int) la taille des deux tableaux 
 

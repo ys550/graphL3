@@ -1,16 +1,9 @@
 /*
 
-Module : t_obstacles.h
-Par    : Youssef Soliman, Hugo Belin
-Date   : 2018-07-08
-*/
-
-/* 
-
-Ce module à pour but de dessiner dans le mode graphique les 
+Ce module à pour but de dessiner dans le mode graphique les
 obstacles ( forme géométrique ).
 
-Les informations des formes géométriques sont contenues dans des 
+Les informations des formes géométriques sont contenues dans des
 fichers textes qui seront lus et utilisées dans dans les fonctions
 de ce module.
 
@@ -18,34 +11,26 @@ Les fonctions utilisées ( lectures des données, création du mode graphique,
 création du parcours avec la création des formes géométrique) :
 
 - int lire_obstacles(char *nom_fich, t_liste_obs *obstacles);
-  ( Cette fonction reçoit le nom du fichier à lire et va récupérer 
-    toutes les informations de l'obstacle )
+( Cette fonction reçoit le nom du fichier à lire et va récupérer
+toutes les informations de l'obstacle )
 
 - void dessiner_obstacles(const t_liste_obs * obstacles);
-  ( Cette fonction reçois la liste d'obstacle et va dessiner chaque forme 
-    géométrique de cette liste )
+( Cette fonction reçois la liste d'obstacle et va dessiner chaque forme
+géométrique de cette liste )
 
 - void detruire_obstacles(t_liste_obs * obstacles);
-  ( Cette fonction détruit la liste d'obstacle qui à été lu du ficher et 
-    à déja été dessiner par la fonction dessiner_obstacle )
+( Cette fonction détruit la liste d'obstacle qui à été lu du ficher et
+à déja été dessiner par la fonction dessiner_obstacle )
 
-- Les fonctions privées de ce module ont pour but d'obtenir toutes les 
-  données néssaire pour la lecture complète des données du fichier.
-  ( déterminer le type de forme, le nombre de paramètre) 
+- Les fonctions privées de ce module ont pour but d'obtenir toutes les
+données néssaire pour la lecture complète des données du fichier.
+( déterminer le type de forme, le nombre de paramètre)
 
 
-
+Module : t_obstacles.h
+Par    : Youssef Soliman, Hugo Belin
+Date   : 2018-07-08
 */
-
-
-
-
-
-
-
-
-
-
 
 
 /*=========================================================*/
