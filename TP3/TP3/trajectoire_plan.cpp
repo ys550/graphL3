@@ -169,7 +169,7 @@ static t_ptr_trajet creer_nouveau_noeud(int taille_norm) {
 	nouveau_noeud->taille_tab_coor = taille_norm;
 
 	nouveau_noeud->tab_coordonnees = (t_point_plan *)malloc(taille_norm *
-		sizeof(taille_norm));
+		sizeof(t_point_plan));
 
 	nouveau_noeud->suivant = NULL;
 
