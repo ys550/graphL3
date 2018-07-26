@@ -52,25 +52,17 @@ static void transferer_points(t_ptr_trajet traj_plan,
 	t_point_ecran p2;
 	t_point_plan pt;
 
-	//t_point_ecran = int pos_x pos_y
-	//t_point_plan = double x y
-	//tab_coor t_point_plan double
 
 	set_iter_debut(traj_ecran);
 
 	//NOTE : le premier point[0] du trajet est automatiquement copié dans le 
 	//premier « t_point_plan » de la liste
-
-	/*Tant qu'on est pas arrive au dernier noeud dans la file on traverse la
-	file*/
 	p2 = get_point_iter(traj_ecran);
 	traj_plan->tab_coordonnees[0].x = p2.pos_x;
 	traj_plan->tab_coordonnees[0].y = p2.pos_y;
 
 	pos = 1;
 	while (pos < traj_plan->taille_tab_coor) {
-		//retourne t_point_ecran (pos_x,pos_y) d'un noeud de la file
-		//et passe au noeud suivant
 
 		posT += inter;
 
@@ -84,7 +76,6 @@ static void transferer_points(t_ptr_trajet traj_plan,
 		pt.x = p1.pos_x + (posT - (int)posT) * (p2.pos_x - p1.pos_x);
 		pt.y = p1.pos_y + (posT - (int)posT) * (p2.pos_y - p1.pos_y);
 
-		//tab double
 		traj_plan->tab_coordonnees[pos] = pt;
 		pos++;
 	}
