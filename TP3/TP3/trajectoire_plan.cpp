@@ -162,6 +162,11 @@ t_ptr_trajet obtenir_traj_plan(const t_liste_traj * listes_traj, int pos) {
 }
 
 int trouver_traj_refuse(const t_liste_traj * listes_traj) {
+
+	t_point_plan ** matrice = creer_matrice_pts(listes_traj->nb_listes);
+
+
+
 	/*for (A = 0 a 5)
 			for (B = A + 1 a 5)
 			
@@ -237,9 +242,29 @@ void retirer_traj_refuse(t_liste_traj * listes_traj, int pos) {
 }
 
 void ajouter_traj_moyen(t_liste_traj * listes_traj) {
+
+	listes_traj->nb_listes++;
 }
 
-void tranfert_plan_a_ecran(const t_ptr_trajet traj_plan, t_trajectoire_ecran * traj_ecran) {
+void tranfert_plan_a_ecran(const t_ptr_trajet traj_plan, t_trajectoire_ecran * 
+	traj_ecran) {
+
+	int i = 0;
+
+	set_iter_debut(traj_ecran);
+
+	while (i < traj_plan->taille_tab_coor) {
+
+		traj_ecran->ptr_iter->point.pos_x =
+			ARRONDIR(traj_plan->tab_coordonnees[i].x);
+
+		traj_ecran->ptr_iter->point.pos_y =
+			ARRONDIR(traj_plan->tab_coordonnees[i].y);
+
+		traj_ecran->ptr_iter = traj_ecran->ptr_iter->suivant;
+		i++;
+
+	}
 
 }
 
