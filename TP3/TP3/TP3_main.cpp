@@ -51,15 +51,15 @@ static void affichage_traj(t_liste_obs * liste, char * nom_fich);
 //Programme principal: fonction qui retourne un entier (int)
 int main(void) {
 
-	double x = 3.6;
+	/*double x = 3.6;
 	int y;
 	printf("valeur x: %lf\n", x);
 	y = ARRONDIR(x);
 	printf("valeur x arrondis: %d\n", y);
-	system("pause");
+	system("pause");*/
 
 	//TEST CORRELATION
-	#if(0)
+	#if(1)
 		t_point_plan corr;
 		t_point_plan tabA[TAILLE];
 		t_point_plan tabB[TAILLE];

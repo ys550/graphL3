@@ -162,37 +162,55 @@ t_ptr_trajet obtenir_traj_plan(const t_liste_traj * listes_traj, int pos) {
 }
 
 int trouver_traj_refuse(const t_liste_traj * listes_traj) {
+	//iterateur pour les couples de noeud A et B
 	int a, b;
 	int indice_col_min;
+
 	t_ptr_trajet noeud_a;
 	t_ptr_trajet noeud_b;
+
 	t_point_plan pt_init;
+	//créer une matrice de points-plan selon le nombre de listes dans le groupe
 	t_point_plan ** matrice = creer_matrice_pts(listes_traj->nb_listes);
 
 	pt_init.x = 1.0;
 	pt_init.y = 1.0;
 
+	//pour chaque couple de positions de nœuds (A, B)
 	for (a = 0; a < listes_traj->nb_listes; a++) {
 
+		//les cases [A, A] de la matrice doivent être initialisées à [1.0, 1.0]
 		matrice[a][a] = pt_init;
 
+		//obtenir le noeud a
 		noeud_a = obtenir_traj_plan(listes_traj, a);
 
 		for (b = a + 1; b < listes_traj->nb_listes; b++) {
 
+			//obtenir le noeud b
 			noeud_b = obtenir_traj_plan(listes_traj, b);
 
+			/*calcul de la corrélation entre les deux listes de points contenus
+			dans les nœuds A et B le resultat est inserer dans la case [A, B] de la 
+			matrice*/
 			matrice[a][b] = correlation_pts(noeud_a->tab_coordonnees, 
 				noeud_b->tab_coordonnees, listes_traj->taille_normale);
 
+			/*Inutile de calculer la corrélation pour (B, A), simplement copier
+			la même valeur dans la case [B, A]*/
 			matrice[b][a] = matrice[a][b];
 
 		}
 	}
 
+	/*trouver l’indice de la colonne qui a la plus petite somme de toutes ses 
+	corrélations*/
 	indice_col_min = trouver_col_min(matrice, listes_traj->nb_listes);
+
+	//détruire la matrice de corrélations
 	detruire_matrice_pts(matrice, listes_traj->nb_listes);
 	
+	//retourner l’indice de la colonne minimale
 	return indice_col_min;
 }
 

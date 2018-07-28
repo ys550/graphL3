@@ -74,7 +74,8 @@ static t_ptr_trajet creer_nouveau_noeud(int taille_norm);
 static void transferer_points(t_ptr_trajet traj_plan,
 	t_trajectoire_ecran * traj_ecran);
 
-static void enfiler_liste_traj(t_liste_traj * listes_traj, t_ptr_trajet nouveau_noeud);
+static void enfiler_liste_traj(t_liste_traj * listes_traj, 
+	t_ptr_trajet nouveau_noeud);
 
 /********************************************************************/
 /*						DECLARATIONS DE FONCTIONS					*/

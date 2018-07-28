@@ -10,9 +10,82 @@ Date   : 2018-07-22
 #include <math.h>
 #include "t_point_plan.h"
 
+
+/*********************************************************/
+/*          DEFINITIONS DES FONCTIONS PRIVÉES            */
+/*********************************************************/
+
+static t_point_plan * produit(t_point_plan * tabA, t_point_plan * tabB,
+	int taille) {
+
+	int i;
+	t_point_plan * tab_produit;
+
+	tab_produit = (t_point_plan *)malloc(taille * sizeof(t_point_plan));
+
+	if (tabA != NULL && tabB != NULL && tab_produit != NULL) {
+		for (i = 0; i < taille; i++) {
+			tab_produit[i].x = tabA[i].x * tabB[i].x;
+			tab_produit[i].y = tabA[i].y * tabB[i].y;
+		}
+		return tab_produit;
+	}
+	else {
+		return NULL;
+	}
+
+}
+
+static t_point_plan ecart_type(t_point_plan * tab, int taille) {
+	t_point_plan ecart_type;
+	t_point_plan esperance_temp;
+
+	// A^2
+	t_point_plan * tab_valeurs_carre;
+	//E(A)^2
+	t_point_plan esperance_carre;
+
+	//multipli le meme tableau par lui meme pour obtenir les valeurs au carre(A^2)
+	tab_valeurs_carre = produit(tab, tab, taille);
+
+	//E(A)^2
+	esperance_temp = esperance(tab, taille);
+	esperance_carre.x = pow(esperance_temp.x, 2);
+	esperance_carre.y = pow(esperance_temp.y, 2);
+
+	//E(A^2) 
+	esperance_temp = esperance(tab_valeurs_carre, taille);
+
+	//l'ecart type est la racine carre de E(A^2) - E(A^2)
+	ecart_type.x = sqrt((esperance_temp.x - esperance_carre.x));
+	ecart_type.y = sqrt((esperance_temp.y - esperance_carre.y));
+
+	return ecart_type;
+}
+
 /*********************************************************/
 /*                DEFINITIONS DES FONCTIONS              */
 /*********************************************************/
+
+t_point_plan esperance(t_point_plan * tab, int taille) {
+	int i;
+	t_point_plan somme;
+	t_point_plan esperance;
+
+	somme.x = 0;
+	somme.y = 0;
+
+	if (tab != NULL) {
+		for (i = 0; i < taille; i++) {
+			somme.x += tab[i].x;
+			somme.y += tab[i].y;
+		}
+		esperance.x = somme.x / taille;
+		esperance.y = somme.y / taille;
+	}
+
+	return esperance;
+}
 
 t_point_plan ** creer_matrice_pts(int taille) {
 	int i;
@@ -108,77 +181,3 @@ void detruire_matrice_pts(t_point_plan ** mat, int taille) {
 	free(mat);
 	mat = NULL;
 }
-
-/*********************************************************/
-/*          DEFINITIONS DES FONCTIONS PRIVÉES            */
-/*********************************************************/
-
-static t_point_plan esperance(t_point_plan * tab, int taille) {
-	int i;
-	t_point_plan somme;
-	t_point_plan esperance;
-
-	somme.x = 0;
-	somme.y = 0;
-
-	if (tab != NULL) {
-		for (i = 0; i < taille; i++) {
-			somme.x += tab[i].x;
-			somme.y += tab[i].y;
-		}
-		esperance.x = somme.x / taille;
-		esperance.y = somme.y / taille;
-	}
-
-	return esperance;
-}
-
-static t_point_plan * produit(t_point_plan * tabA, t_point_plan * tabB,
-	int taille) {
-
-	int i;
-	t_point_plan * tab_produit;
-
-	tab_produit = (t_point_plan *)malloc(taille * sizeof(t_point_plan));
-
-	if (tabA != NULL && tabB != NULL && tab_produit != NULL) {
-		for (i = 0; i < taille; i++) {
-			tab_produit[i].x = tabA[i].x * tabB[i].x;
-			tab_produit[i].y = tabA[i].y * tabB[i].y;
-		}
-		return tab_produit;
-	}
-	else {
-		return NULL;
-	}
-
-}
-
-static t_point_plan ecart_type(t_point_plan * tab, int taille) {
-	t_point_plan ecart_type;
-	t_point_plan esperance_temp;
-
-	// A^2
-	t_point_plan * tab_valeurs_carre;
-	//E(A)^2
-	t_point_plan esperance_carre;
-
-	//multipli le meme tableau par lui meme pour obtenir les valeurs au carre(A^2)
-	tab_valeurs_carre = produit(tab, tab, taille);
-
-	//E(A)^2
-	esperance_temp = esperance(tab, taille);
-	esperance_carre.x = pow(esperance_temp.x, 2);
-	esperance_carre.y = pow(esperance_temp.y, 2);
-
-	//E(A^2) 
-	esperance_temp = esperance(tab_valeurs_carre, taille);
-
-	//l'ecart type est la racine carre de E(A^2) - E(A^2)
-	ecart_type.x = sqrt((esperance_temp.x - esperance_carre.x));
-	ecart_type.y = sqrt((esperance_temp.y - esperance_carre.y));
-
-	return ecart_type;
-}
-
-

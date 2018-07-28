@@ -52,9 +52,72 @@ typedef struct {
 	double y;   // coordonnée verticale
 } t_point_plan;
 
+
+/********************************************************************/
+/*				DECLARATIONS DE FONCTIONS PRIVÉES					*/
+/********************************************************************/
+
+/*
+PRODUIT
+Codée par  Youssef Soliman, Hugo Belin
+
+Cette fonction calcul le produit des données de deux tableaux
+t_point_plan (multiplication des colonnes)
+
+PARAMÈTRES :
+-tabA : (type : t_point_plan *)  premier tableau
+-tabB : (type : t_point_plan *) deuxieme tableau
+-taille :  (type : int) la taille des deux tableaux
+
+HYPOTHESES: Aucune.
+
+VALEUR DE RETOUR:  (type : t_point_plan *) un tableau issu de la multiplication
+des deux tableaux donnés en paramètre ( pour les coordonnées
+en x et y)
+*/
+static t_point_plan * produit(t_point_plan * tabA, t_point_plan * tabB,
+	int taille);
+
+/*
+ECRAT_TYPE
+Codée par Youssef Soliman, Hugo Belin
+
+Cette fonction calcul l'écart type des données du tableau
+PARAMÈTRES :
+-tab : (type : t_point_plan *) le tableau a déterminer l'écart type
+-taille :  (type : int) la taille du tableau
+
+HYPOTHESES: Aucune.
+
+VALEUR DE RETOUR:  (type : t_point_plan) l'écart type du tabeau (calculé pour les
+coordonnées en x et en y)
+
+*/
+static t_point_plan ecart_type(t_point_plan * tab, int taille);
+
+
 /********************************************************************/
 /*						DECLARATIONS DE FONCTIONS					*/
 /********************************************************************/
+
+/*
+ESPERANCE
+Codée par Youssef Soliman, Hugo Belin
+
+Cette fonction calcul l'espérance (la moyenne) d'une matrice
+t_point_plan (le fait pour les coordonnées en x et y)
+
+PARAMÈTRES :
+-tab : (type : t_point_plan *) le tableau a moyenner
+-taille :  (type : int) la taille du tableau
+
+HYPOTHESES: Aucune.
+
+VALEUR DE RETOUR:  (type : t_point_plan) l'espérance du tableau donné
+(pour les coordonnées en x et y)
+
+*/
+t_point_plan esperance(t_point_plan * tab, int taille);
 
 /*
 CREER_MATRICE_PTS
@@ -128,64 +191,3 @@ HYPOTHESES: Aucune.
 VALEUR DE RETOUR:  rien.
 */
 void detruire_matrice_pts(t_point_plan ** mat, int taille);
-
-/********************************************************************/
-/*				DECLARATIONS DE FONCTIONS PRIVÉES					*/
-/********************************************************************/
-
-/*
-ESPERANCE
-Codée par Youssef Soliman, Hugo Belin
-
-Cette fonction calcul l'espérance (la moyenne) d'une matrice 
-t_point_plan (le fait pour les coordonnées en x et y)
-
-PARAMÈTRES :
--tab : (type : t_point_plan *) le tableau a moyenner 
--taille :  (type : int) la taille du tableau 
-
-HYPOTHESES: Aucune.
-
-VALEUR DE RETOUR:  (type : t_point_plan) l'espérance du tableau donné
-				   (pour les coordonnées en x et y)
-
-*/
-static t_point_plan esperance(t_point_plan * tab, int taille);
-
-/*
-PRODUIT
-Codée par  Youssef Soliman, Hugo Belin
-
-Cette fonction calcul le produit des données de deux tableaux 
-t_point_plan (multiplication des colonnes) 
-
-PARAMÈTRES :
--tabA : (type : t_point_plan *)  premier tableau 
--tabB : (type : t_point_plan *) deuxieme tableau 
--taille :  (type : int) la taille des deux tableaux 
-
-HYPOTHESES: Aucune.
-
-VALEUR DE RETOUR:  (type : t_point_plan *) un tableau issu de la multiplication 
-				   des deux tableaux donnés en paramètre ( pour les coordonnées
-				   en x et y)
-*/
-static t_point_plan * produit(t_point_plan * tabA, t_point_plan * tabB,
-	int taille);
-
-/*
-ECRAT_TYPE
-Codée par Youssef Soliman, Hugo Belin
-
-Cette fonction calcul l'écart type des données du tableau 
-PARAMÈTRES :
--tab : (type : t_point_plan *) le tableau a déterminer l'écart type 
--taille :  (type : int) la taille du tableau 
-
-HYPOTHESES: Aucune.
-
-VALEUR DE RETOUR:  (type : t_point_plan) l'écart type du tabeau (calculé pour les 
-			        coordonnées en x et en y) 
-
-*/
-static t_point_plan ecart_type(t_point_plan * tab, int taille);
