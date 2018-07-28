@@ -162,17 +162,38 @@ t_ptr_trajet obtenir_traj_plan(const t_liste_traj * listes_traj, int pos) {
 }
 
 int trouver_traj_refuse(const t_liste_traj * listes_traj) {
-
+	int a, b;
+	int indice_col_min;
+	t_ptr_trajet noeud_a;
+	t_ptr_trajet noeud_b;
+	t_point_plan pt_init;
 	t_point_plan ** matrice = creer_matrice_pts(listes_traj->nb_listes);
 
+	pt_init.x = 1.0;
+	pt_init.y = 1.0;
 
+	for (a = 0; a < listes_traj->nb_listes; a++) {
 
-	/*for (A = 0 a 5)
-			for (B = A + 1 a 5)
-			
-			Mat A B
-				B A*/
-	return 0;
+		matrice[a][a] = pt_init;
+
+		noeud_a = obtenir_traj_plan(listes_traj, a);
+
+		for (b = a + 1; b < listes_traj->nb_listes; b++) {
+
+			noeud_b = obtenir_traj_plan(listes_traj, b);
+
+			matrice[a][b] = correlation_pts(noeud_a->tab_coordonnees, 
+				noeud_b->tab_coordonnees, listes_traj->taille_normale);
+
+			matrice[b][a] = matrice[a][b];
+
+		}
+	}
+
+	indice_col_min = trouver_col_min(matrice, listes_traj->nb_listes);
+	detruire_matrice_pts(matrice, listes_traj->nb_listes);
+	
+	return indice_col_min;
 }
 
 void retirer_traj_refuse(t_liste_traj * listes_traj, int pos) {
