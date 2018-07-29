@@ -286,8 +286,6 @@ void ajouter_traj_moyen(t_liste_traj * listes_traj) {
 
 	//On crée un nouveau nœud
 	nouveau_noeud = creer_nouveau_noeud(listes_traj->taille_normale);
-	//on l'ajoute à la fin du groupe de listes
-	enfiler_liste_traj(listes_traj, nouveau_noeud);
 
 	/*On traverse ensuite les (nb_noeuds – 1) nœuds précédents pour ajouter 
 	chacun de leurs « taille_norm » points à la même position dans le tableau
@@ -314,6 +312,9 @@ void ajouter_traj_moyen(t_liste_traj * listes_traj) {
 		nouveau_noeud->tab_coordonnees[i].x /= (listes_traj->nb_listes - 1);
 		nouveau_noeud->tab_coordonnees[i].y /= (listes_traj->nb_listes - 1);
 	}
+
+	//on l'ajoute à la fin du groupe de listes
+	enfiler_liste_traj(listes_traj, nouveau_noeud);
 }
 
 void tranfert_plan_a_ecran(const t_ptr_trajet traj_plan, t_trajectoire_ecran * 
