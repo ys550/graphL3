@@ -30,7 +30,7 @@ static t_ptr_trajet creer_nouveau_noeud(int taille_norm) {
 
 	nouveau_noeud->taille_tab_coor = taille_norm;
 
-	nouveau_noeud->tab_coordonnees = (t_point_plan *)malloc(taille_norm *
+	nouveau_noeud->tab_coordonnees = (t_point_plan *)calloc(taille_norm,
 		sizeof(t_point_plan));
 
 	nouveau_noeud->suivant = NULL;
@@ -58,10 +58,11 @@ static void transferer_points(t_ptr_trajet traj_plan,
 	//NOTE : le premier point[0] du trajet est automatiquement copié dans le 
 	//premier « t_point_plan » de la liste
 	p2 = get_point_iter(traj_ecran);
-	traj_plan->tab_coordonnees[0].x = p2.pos_x;
-	traj_plan->tab_coordonnees[0].y = p2.pos_y;
+	traj_plan->tab_coordonnees[pos].x = p2.pos_x;
+	traj_plan->tab_coordonnees[pos].y = p2.pos_y;
 
 	pos = 1;
+
 	while (pos < traj_plan->taille_tab_coor) {
 
 		posT += inter;
