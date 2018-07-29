@@ -83,8 +83,6 @@ static void transferer_points(t_ptr_trajet traj_plan,
 }
 
 
-/*ajoutez ce nouveau nœud à la fin de la liste de trajectoires-plan
-(sous-fonction privée)*/
 static void enfiler_liste_traj(t_liste_traj * listes_traj, t_ptr_trajet nouveau_noeud) {
 
 	t_ptr_trajet ptr_iter;
@@ -281,8 +279,41 @@ void retirer_traj_refuse(t_liste_traj * listes_traj, int pos) {
 }
 
 void ajouter_traj_moyen(t_liste_traj * listes_traj) {
+	int i, j;
+	t_ptr_trajet nouveau_noeud;
+	//le noeud courrant lors du parcours des (nb_noeuds – 1) precedant
+	t_ptr_trajet noeud_courant;
 
-	listes_traj->nb_listes++;
+	//On crée un nouveau nœud
+	nouveau_noeud = creer_nouveau_noeud(listes_traj->taille_normale);
+	//on l'ajoute à la fin du groupe de listes
+	enfiler_liste_traj(listes_traj, nouveau_noeud);
+
+	/*On traverse ensuite les (nb_noeuds – 1) nœuds précédents pour ajouter 
+	chacun de leurs « taille_norm » points à la même position dans le tableau
+	de points du nouveau nœud*/
+	for (i = 0; i < listes_traj->nb_listes - 1; i++) {
+
+		noeud_courant = obtenir_traj_plan(listes_traj, i);
+
+		/*Le nouveau nœud contient la somme des (nb_noeuds – 1) listes 
+		précédentes.*/
+		for (j = 0; j < listes_traj->taille_normale; j++) {
+
+			nouveau_noeud->tab_coordonnees[j].x += 
+				noeud_courant->tab_coordonnees[j].x;
+
+			nouveau_noeud->tab_coordonnees[j].y += 
+				noeud_courant->tab_coordonnees[j].y;
+		}
+	}
+
+	/*On divise chaque valeur du nouveau tableau par (nb_noeuds – 1) pour
+	obtenir la moyenne des points.*/
+	for (i = 0; i < listes_traj->taille_normale; i++) {
+		nouveau_noeud->tab_coordonnees[i].x /= (listes_traj->nb_listes - 1);
+		nouveau_noeud->tab_coordonnees[i].y /= (listes_traj->nb_listes - 1);
+	}
 }
 
 void tranfert_plan_a_ecran(const t_ptr_trajet traj_plan, t_trajectoire_ecran * 
