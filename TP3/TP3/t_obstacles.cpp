@@ -11,10 +11,71 @@ Date   : 2018-07-08
 // Librairies usuelles à inclure 
 #include<stdio.h>
 #include<stdlib.h>
-#include<string.h>
-#include"winBGIm.h"
+
 #include "mode_graphique.h"
 #include "t_obstacles.h"
+
+
+/*********************************************************/
+/*         DECLARATIONS DES FONCTIONS PRIVÉES            */
+/*********************************************************/
+
+
+/*****************************************************/
+/*****************************************************/
+// TROIS FONCTIONS INFORMATRICES
+
+/*
+GET_TYPE_FORMES
+Codée par Youssef Soliman, Hugo Belin
+
+Cette fonction donne l'équvalent enum de la forme géométrique
+lu dans le fichier qui est une lettre (char)
+
+PARAMÈTRES :
+-code : (type : char) lettre representant la forme géométrique
+
+HYPOTHESES: Aucune.
+
+VALEUR DE RETOUR: le type constant (enum) de la forme(type: int).
+
+*/
+static int get_type_formes(char code);
+
+/*
+GET_NB_PARAM_FORME
+Codée par Youssef Soliman, Hugo Belin
+
+Cette fonction donne le nombre de paramètre que chaque forme géométrique
+doit avoir pour être dessinée.
+
+PARAMÈTRES :
+-forme : (type : int) l'enum de la forme géométrique
+
+HYPOTHESES: Aucune.
+
+VALEUR DE RETOUR: (type: int) le nombre de paramètre de la forme géométrique
+*/
+static int get_nb_param_forme(int forme);
+
+/*
+GET_PARAM_LIGNE
+Codée par Youssef Soliman, Hugo Belin
+
+Cette fonction va chercher dans le fichier tous les paramètre nécéssaire pour
+dessiner la forme désirée
+
+PARAMÈTRES :
+-type_forme : (type : int) enum de la forme
+-tab_param : (type : int) le nombre de paramètre de la forme
+-param_fichier : (type : char *) le nom du fichier
+
+HYPOTHESES: Aucune.
+
+VALEUR DE RETOUR: Aucune.
+*/
+static void get_param_ligne(int type_forme, int * tab_param, char * param_fichier);
+
 
 
 /*********************************************************/

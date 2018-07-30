@@ -8,9 +8,7 @@ Date   : 2018-07-15
 //Permet de désactiver certains warnings du compilateur 
 #define _CRT_SECURE_NO_WARNINGS 
 
-// Librairies usuelles à inclure 
-#include<stdio.h>
-#include<stdlib.h>
+// Librairies à inclure 
 #include "trajectoire_ecran.h"
 #include "mode_graphique.h"
 #include "SOURISLIB.h"
@@ -166,7 +164,7 @@ int lire_trajectoire_ecran(t_trajectoire_ecran * traj) {
 
 	if (trajet_est_valide)
 		//Retour du nombre de points saisis
-		return traj->nb_points;
+		return taille_trajectoire_ecran(traj);
 	else
 		return 0;
 }
@@ -255,10 +253,14 @@ t_trajectoire_ecran consulter_groupe(const t_groupe_traj_ecran * groupe, int pos
 }
 
 int ajouter_traj_groupe(t_groupe_traj_ecran * groupe, t_trajectoire_ecran * traj) {
+
+	//indexe pour # trajectoire
+	int no_traj = 0;
 	
 	//si le groupe n’est pas déjà plein
-	if (groupe->nb_trajectoire < groupe->taille_tableau) {
-		groupe->tableau_traj[groupe->nb_trajectoire] = *traj;
+	if (get_nombre_traj_groupe(groupe) < get_taille_groupe(groupe)) {
+		no_traj = get_nombre_traj_groupe(groupe);
+		groupe->tableau_traj[no_traj] = *traj;
 		groupe->nb_trajectoire++;
 		return 1;
 	}
