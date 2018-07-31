@@ -95,7 +95,8 @@ static void transferer_points(t_ptr_trajet traj_plan,
 }
 
 
-static void enfiler_liste_traj(t_liste_traj * listes_traj, t_ptr_trajet nouveau_noeud) {
+static void enfiler_liste_traj(t_liste_traj * listes_traj,
+	t_ptr_trajet nouveau_noeud) {
 
 	t_ptr_trajet ptr_iter;
 
@@ -122,10 +123,8 @@ static void enfiler_liste_traj(t_liste_traj * listes_traj, t_ptr_trajet nouveau_
 /*                DEFINITIONS DES FONCTIONS              */
 /*********************************************************/
 
-/*constructeur pour construire une liste de trajectoires-plan à partir 
-d'un groupe de trajectoires-écran.  Elle reçoit un groupe de trajectoires-écran
-et la taille de la normalisation des listes.*/
-t_liste_traj init_trajectoire_plan(const t_groupe_traj_ecran * groupe, int taille_norm) {
+t_liste_traj init_trajectoire_plan(const t_groupe_traj_ecran * groupe,
+	int taille_norm) {
 	int i;
 	int nb_trajet;
 	t_liste_traj liste_traj;
@@ -201,8 +200,8 @@ int trouver_traj_refuse(const t_liste_traj * listes_traj) {
 			noeud_b = obtenir_traj_plan(listes_traj, b);
 
 			/*calcul de la corrélation entre les deux listes de points contenus
-			dans les nœuds A et B le resultat est inserer dans la case [A, B] de la 
-			matrice*/
+			dans les nœuds A et B le resultat est inserer dans la case [A, B] 
+			de la matrice*/
 			matrice[a][b] = correlation_pts(noeud_a->tab_coordonnees, 
 				noeud_b->tab_coordonnees, listes_traj->taille_normale);
 
@@ -332,11 +331,11 @@ void ajouter_traj_moyen(t_liste_traj * listes_traj) {
 void tranfert_plan_a_ecran(const t_ptr_trajet traj_plan, t_trajectoire_ecran * 
 	traj_ecran) {
 
-	int i = 0;
+	int i;
 
 	set_iter_debut(traj_ecran);
 
-	while (i < traj_plan->taille_tab_coor) {
+	for (i = 0;  i < traj_plan->taille_tab_coor; i ++) {
 
 		traj_ecran->ptr_iter->point.pos_x =
 			ARRONDIR(traj_plan->tab_coordonnees[i].x);
@@ -345,7 +344,6 @@ void tranfert_plan_a_ecran(const t_ptr_trajet traj_plan, t_trajectoire_ecran *
 			ARRONDIR(traj_plan->tab_coordonnees[i].y);
 
 		traj_ecran->ptr_iter = traj_ecran->ptr_iter->suivant;
-		i++;
 
 	}
 

@@ -235,7 +235,8 @@ int get_taille_groupe(const t_groupe_traj_ecran * groupe) {
 	return groupe->taille_tableau;
 }
 
-t_trajectoire_ecran consulter_groupe(const t_groupe_traj_ecran * groupe, int position) {
+t_trajectoire_ecran consulter_groupe(const t_groupe_traj_ecran * groupe, 
+	int position) {
 
 	t_trajectoire_ecran traj_vide;
 
@@ -252,7 +253,8 @@ t_trajectoire_ecran consulter_groupe(const t_groupe_traj_ecran * groupe, int pos
 	}
 }
 
-int ajouter_traj_groupe(t_groupe_traj_ecran * groupe, t_trajectoire_ecran * traj) {
+int ajouter_traj_groupe(t_groupe_traj_ecran * groupe,
+	t_trajectoire_ecran * traj) {
 
 	//indexe pour # trajectoire
 	int no_traj = 0;
@@ -280,6 +282,7 @@ int vider_traj_groupe(t_groupe_traj_ecran * groupe) {
 			nb_traj_supprimee++;
 		}
 	}
+
 	free(groupe->tableau_traj);
 	groupe->nb_trajectoire = 0;
 	groupe->taille_tableau = 0;

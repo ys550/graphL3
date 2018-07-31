@@ -195,8 +195,8 @@ static void affichage_traj(t_liste_obs * liste, char * nom_fich) {
 		//initialisez une variable-trajectoire
 		traj = init_trajectoire_ecran();
 
-		sprintf(msg_dessiner, "taille normalisee = %d pts. dessinez le trajet %d...",
-			nb_points, groupe_traj.nb_trajectoire + 1);
+		sprintf(msg_dessiner, "taille normalisee = %d pts. dessinez le trajet "
+			"%d...", nb_points, get_nombre_traj_groupe(&groupe_traj) + 1);
 		afficher_texte(msg_dessiner);
 
 		//faites la saisie d’une trajectoire dans le parcours
@@ -212,14 +212,15 @@ static void affichage_traj(t_liste_obs * liste, char * nom_fich) {
 		else {
 			//ajouter la trajectoire valide au groupe de trajectoire
 			ajouter_traj_groupe(&groupe_traj, &traj);
-			sprintf(nb_points_saisis_char, "Fin de saisie de %d pts.\t Appuyez une touche..", nb_points_saisis);
+			sprintf(nb_points_saisis_char, "Fin de saisie de %d pts.\t Appuyez"
+				" une touche..", nb_points_saisis);
 			afficher_texte(nb_points_saisis_char);
 			pause_ecran();
 
 		}
 
 		//recommencer la saisie tant que la trajectoire est non-valide
-	} while (groupe_traj.nb_trajectoire < NB_TRAJECTOIRES);
+	} while (get_nombre_traj_groupe(&groupe_traj) < NB_TRAJECTOIRES);
 	
 	effacer_ecran();
 	dessiner_obstacles(liste);
