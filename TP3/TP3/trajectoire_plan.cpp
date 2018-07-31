@@ -156,7 +156,7 @@ t_ptr_trajet obtenir_traj_plan(const t_liste_traj * listes_traj, int pos) {
 	t_ptr_trajet ptr_iter = listes_traj->tete;
 
 
-	if (pos < listes_traj->nb_listes) {
+	if (pos < listes_traj->nb_listes && pos >= 0) {
 		while (ptr_iter != NULL) {
 
 			if (i == pos)
@@ -167,7 +167,7 @@ t_ptr_trajet obtenir_traj_plan(const t_liste_traj * listes_traj, int pos) {
 		}
 	}
 	return NULL;
-	
+
 }
 
 int trouver_traj_refuse(const t_liste_traj * listes_traj) {

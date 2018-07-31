@@ -17,6 +17,7 @@ Date   : 2018-07-08
 #include "mode_graphique.h"
 #include "t_obstacles.h"
 #include "trajectoire_ecran.h"
+#include "trajectoire_plan.h"
 
 /*=========================================================*/
 /*                  LES CONSTANTES                         */
@@ -168,13 +169,20 @@ static void sequence_affichage_forme(t_liste_obs * liste, char * nom_fich) {
 
 /*************************MANDAT 2********************************/
 static void affichage_traj(t_liste_obs * liste, char * nom_fich) {
-	int i;
+	int i, j;
+	//la valeur « taille_norm » lue à la dernière ligne du fichier texte
 	int nb_points;
 	int nb_points_saisis;
+	int pos_traj_refuse;
 	char nb_points_saisis_char[100];
 	char msg_dessiner[200];
+	t_ptr_trajet noeud_elimine;
 	t_trajectoire_ecran traj;
+	t_trajectoire_ecran traj_temp;
+	t_trajectoire_ecran traj_restant;
 	t_groupe_traj_ecran groupe_traj;
+	t_liste_traj liste_traj;
+	t_point_ecran pt_vide;
 
 	
 	//on initialise un groupe de trajectoires
@@ -232,6 +240,73 @@ static void affichage_traj(t_liste_obs * liste, char * nom_fich) {
 
 	afficher_texte("Voici les trajets saisi. Appuyer une touche..");
 	pause_ecran();
+
+	//*************MANDAT FINALE******************
+
+	/*on initialise un groupe de trajectoires-plan avec le groupe des
+	trajectoires-écran et la valeur « taille_norm »*/
+	liste_traj = init_trajectoire_plan(&groupe_traj, nb_points);
+	//trouvez la position du trajet à éliminer du groupe
+	pos_traj_refuse = trouver_traj_refuse(&liste_traj);
+	//récupérez une référence à ce nœud
+	noeud_elimine = obtenir_traj_plan(&liste_traj, pos_traj_refuse);
+	//initialisez une trajectoire-écran vide
+	traj_temp = init_trajectoire_ecran();
+
+	pt_vide.pos_x = 0;
+	pt_vide.pos_y = 0;
+
+	for (i = 0; i < nb_points; i++) {
+		enfiler_point_ecran(&traj_temp, pt_vide);
+	}
+
+	//faites-y le transfert des points du trajet éliminé
+	tranfert_plan_a_ecran(noeud_elimine, &traj_temp);
+	//effacer l’écran
+	effacer_ecran();
+	//redessinez le parcours
+	dessiner_obstacles(liste);
+	//afficher le trajet éliminé avec la couleur NON_VALIDE
+	dessiner_trajectoire_ecran(&traj_temp, NON_VALIDE);
+	//videz la trajectoire éliminée
+	liberer_trajectoire_ecran(&traj_temp);
+	//retirer cette trajectoire du groupe de listes 
+	retirer_traj_refuse(&liste_traj, pos_traj_refuse);
+	//ajoutez-y le trajet moyen
+	ajouter_traj_moyen(&liste_traj);
+
+
+
+	for (i = 0; i < liste_traj.nb_listes; i++) {
+
+		//initialisez une trajectoire-écran vide
+		traj_restant = init_trajectoire_ecran();
+
+		for (j = 0; j < nb_points; j++) {
+			enfiler_point_ecran(&traj_restant, pt_vide);
+		}
+
+		//faites-y le transfert des points de la trajectoire-plan #pos
+		tranfert_plan_a_ecran(obtenir_traj_plan(&liste_traj, i), &traj_restant);
+
+		if (i < liste_traj.nb_listes - 1) {
+			//affichez la trajectoire - écran avec la couleur VALIDE
+			dessiner_trajectoire_ecran(&traj_restant, VALIDE);
+		}
+		else if (i == liste_traj.nb_listes - 1) {
+			//sauf la dernière qui aura la couleur MOYENNE
+			dessiner_trajectoire_ecran(&traj_restant, MOYENNE);
+		}
+		liberer_trajectoire_ecran(&traj_restant);
+
+	}
+
+	//free(&traj_temp);
+	afficher_texte("Voici le trajet moyen (ROUGE = trajet rejete), Appuyer une"
+		" touche..");
+	pause_ecran();
+
+
 	fermer_graphique();
 
 }

@@ -180,19 +180,17 @@ int lire_obstacles(char * nom_fich, t_liste_obs * obstacles) {
 }
 
 void dessiner_obstacles(const t_liste_obs * obstacles) {
-	int i, j;
+	int i;
 	int type_forme;
-	int tab_param[MAX_PARAM];
+	int * tab_param;
 
 	for (i = 0; i < obstacles->nb_obstacle; i++) {
 
 		type_forme = obstacles->tab_obstacles[i].type_forme;
 
-		/*copie du tableau de param pour evite d'ecrire la syntaxe complete 
+		/*copie du tableau de param pour evite d'ecrire la syntaxe complete
 		pour chaque parametre des fonctions dessin*/
-		for (j = 0; j < obstacles->tab_obstacles[i].nb_param_forme; j++) {
-			tab_param[j] = obstacles->tab_obstacles[i].tab_param[j];
-		}
+		tab_param = obstacles->tab_obstacles[i].tab_param;
 
 		switch (type_forme) {
 		case PT:
