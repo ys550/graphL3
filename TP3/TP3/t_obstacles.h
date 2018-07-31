@@ -109,7 +109,7 @@ PARAMÈTRES :
 
 HYPOTHESES: Aucune.
 
-VALEUR DE RETOUR:  (type : int) echec 0 , au sinon 1
+VALEUR DE RETOUR:  (type : int) le nombre de points
 
 */
 int lire_obstacles(char *nom_fich, t_liste_obs *obstacles);

@@ -337,14 +337,13 @@ void tranfert_plan_a_ecran(const t_ptr_trajet traj_plan, t_trajectoire_ecran *
 
 	for (i = 0;  i < traj_plan->taille_tab_coor; i ++) {
 
-		traj_ecran->ptr_iter->point.pos_x =
-			ARRONDIR(traj_plan->tab_coordonnees[i].x);
+		if (traj_ecran->ptr_iter != NULL) {			traj_ecran->ptr_iter->point.pos_x =
+				ARRONDIR(traj_plan->tab_coordonnees[i].x);
 
-		traj_ecran->ptr_iter->point.pos_y =
-			ARRONDIR(traj_plan->tab_coordonnees[i].y);
+			traj_ecran->ptr_iter->point.pos_y =
+				ARRONDIR(traj_plan->tab_coordonnees[i].y);
 
-		traj_ecran->ptr_iter = traj_ecran->ptr_iter->suivant;
-
+			traj_ecran->ptr_iter = traj_ecran->ptr_iter->suivant;		}
 	}
 
 }
