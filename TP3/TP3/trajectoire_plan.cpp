@@ -6,6 +6,7 @@ Date   : 2018-07-23
 */
 
 #include <stdlib.h>
+#include <stdio.h>
 #include <math.h>
 #include "trajectoire_plan.h"
 
@@ -174,6 +175,8 @@ int trouver_traj_refuse(const t_liste_traj * listes_traj) {
 	//iterateur pour les couples de noeud A et B
 	int a, b;
 	int indice_col_min;
+	//pour afficher la somme des correlations de chaque colonnes
+	double somme;
 
 	t_ptr_trajet noeud_a;
 	t_ptr_trajet noeud_b;
@@ -184,6 +187,7 @@ int trouver_traj_refuse(const t_liste_traj * listes_traj) {
 
 	pt_init.x = 1.0;
 	pt_init.y = 1.0;
+
 
 	//pour chaque couple de positions de nœuds (A, B)
 	for (a = 0; a < listes_traj->nb_listes; a++) {
@@ -210,11 +214,29 @@ int trouver_traj_refuse(const t_liste_traj * listes_traj) {
 			matrice[b][a] = matrice[a][b];
 
 		}
+
 	}
+
+	
 
 	/*trouver l’indice de la colonne qui a la plus petite somme de toutes ses 
 	corrélations*/
 	indice_col_min = trouver_col_min(matrice, listes_traj->nb_listes);
+
+	printf("\nMATRICE DES CORRELATIONS:\n");
+	for (a = 0; a < listes_traj->nb_listes; a++) {
+
+		somme = 0;
+
+		for (b = 0; b < listes_traj->nb_listes; b++) {
+
+			printf("[%.2lf %.2lf] ", matrice[b][a].x, matrice[b][a].y);
+			somme += matrice[b][a].x + matrice[b][a].y;
+
+		}
+		printf("= %.2lf\n", somme);
+	}
+	printf("indice de la colone refuse: %d", indice_col_min);
 
 	//détruire la matrice de corrélations
 	detruire_matrice_pts(matrice, listes_traj->nb_listes);
@@ -337,13 +359,17 @@ void tranfert_plan_a_ecran(const t_ptr_trajet traj_plan, t_trajectoire_ecran *
 
 	for (i = 0;  i < traj_plan->taille_tab_coor; i ++) {
 
-		if (traj_ecran->ptr_iter != NULL) {			traj_ecran->ptr_iter->point.pos_x =
+		if (traj_ecran->ptr_iter != NULL) {
+
+			traj_ecran->ptr_iter->point.pos_x =
 				ARRONDIR(traj_plan->tab_coordonnees[i].x);
 
 			traj_ecran->ptr_iter->point.pos_y =
 				ARRONDIR(traj_plan->tab_coordonnees[i].y);
 
-			traj_ecran->ptr_iter = traj_ecran->ptr_iter->suivant;		}
+			traj_ecran->ptr_iter = traj_ecran->ptr_iter->suivant;
+		}
+
 	}
 
 }
