@@ -57,7 +57,10 @@ static void test_mandat_1(t_liste_obs * liste, char * nom_fich);
 int main(void) {
 	t_liste_obs liste;
 
+	liste.tab_obstacles = NULL;
+
 	choisir_option_menu(&liste);
+
 	detruire_obstacles(&liste);
 
 	return EXIT_SUCCESS;
@@ -98,33 +101,29 @@ static void choisir_option_menu(t_liste_obs * liste) {
 		switch (option) {
 		case '1':
 			taille_normale = affichage_formes(liste, FICHIER_TRAJET_1);
-			groupe_traj = affichage_traj(liste, taille_normale);
-			affichage_traj_moy_refus(liste, groupe_traj, taille_normale);
 			break;
 		case '2':
 			taille_normale = affichage_formes(liste, FICHIER_TRAJET_2);
-			groupe_traj = affichage_traj(liste, taille_normale);
-			affichage_traj_moy_refus(liste, groupe_traj, taille_normale);
 			break;
 		case '3':
 			taille_normale = affichage_formes(liste, FICHIER_TRAJET_3);
-			groupe_traj = affichage_traj(liste, taille_normale);
-			affichage_traj_moy_refus(liste, groupe_traj, taille_normale);
 			break;
 		case '5':
 			taille_normale = affichage_formes(liste, FICHIER_TRAJET_INDY);
-			groupe_traj = affichage_traj(liste, taille_normale);
-			affichage_traj_moy_refus(liste, groupe_traj, taille_normale);
 			break;
 		case 'q':
 		case 'Q':
 			break;
 		default:
 			taille_normale = affichage_formes(liste, FICHIER_TRAJET_4);
-			groupe_traj = affichage_traj(liste, taille_normale);
-			affichage_traj_moy_refus(liste, groupe_traj, taille_normale);
 			break;
 		}
+
+		if (option != 'q' && option != 'Q') {
+			groupe_traj = affichage_traj(liste, taille_normale);
+			affichage_traj_moy_refus(liste, groupe_traj, taille_normale);
+		}
+
 
 	} while (option != 'q' && option != 'Q');
 
