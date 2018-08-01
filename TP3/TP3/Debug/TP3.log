@@ -1,10 +1,15 @@
-﻿  t_obstacles.cpp
-c:\users\youssef\documents\ets\e18\inf145\git\graphl3\tp3\tp3\t_obstacles.cpp(26): warning C4101: 'j': unreferenced local variable
-  Generating Code...
-c:\users\youssef\documents\ets\e18\inf145\git\graphl3\tp3\tp3\t_obstacles.cpp(187): warning C4715: 'get_type_formes': not all control paths return a value
-c:\users\youssef\documents\ets\e18\inf145\git\graphl3\tp3\tp3\t_obstacles.cpp(204): warning C4715: 'get_nb_param_forme': not all control paths return a value
-  Compiling...
+﻿  winBGIm.cpp
+  t_point_plan.cpp
+  t_obstacles.cpp
+c:\users\youssef\documents\ets\e18\inf145\git\graphl3\tp3\tp3\t_obstacles.cpp(87): warning C4101: 'j': unreferenced local variable
+  trajectoire_plan.cpp
+  trajectoire_ecran.cpp
   TP3_main.cpp
+  SOURISLIB.cpp
+  mode_graphique.cpp
   Generating Code...
+c:\users\youssef\documents\ets\e18\inf145\git\graphl3\tp3\tp3\t_obstacles.cpp(252): warning C4715: 'get_type_formes': not all control paths return a value
+c:\users\youssef\documents\ets\e18\inf145\git\graphl3\tp3\tp3\t_obstacles.cpp(269): warning C4715: 'get_nb_param_forme': not all control paths return a value
+  LINK : C:\Users\Youssef\Documents\ETS\E18\INF145\GIT\graphL3\TP3\Debug\TP3.exe not found or not built by the last incremental link; performing full link
   TP3.vcxproj -> C:\Users\Youssef\Documents\ETS\E18\INF145\GIT\graphL3\TP3\Debug\TP3.exe
   TP3.vcxproj -> C:\Users\Youssef\Documents\ETS\E18\INF145\GIT\graphL3\TP3\Debug\TP3.pdb (Partial PDB)

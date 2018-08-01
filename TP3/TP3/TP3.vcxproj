@@ -113,7 +113,9 @@
     <ClInclude Include="mode_graphique.h" />
     <ClInclude Include="SOURISLIB.h" />
     <ClInclude Include="trajectoire_ecran.h" />
+    <ClInclude Include="trajectoire_plan.h" />
     <ClInclude Include="t_obstacles.h" />
+    <ClInclude Include="t_point_plan.h" />
     <ClInclude Include="winBGIm.h" />
   </ItemGroup>
   <ItemGroup>
@@ -121,7 +123,9 @@
     <ClCompile Include="SOURISLIB.cpp" />
     <ClCompile Include="TP3_main.cpp" />
     <ClCompile Include="trajectoire_ecran.cpp" />
+    <ClCompile Include="trajectoire_plan.cpp" />
     <ClCompile Include="t_obstacles.cpp" />
+    <ClCompile Include="t_point_plan.cpp" />
     <ClCompile Include="winBGIm.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
