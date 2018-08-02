@@ -52,8 +52,6 @@ static void affichage_traj_moy_refus(t_liste_obs * liste,
 static void init_traj_ecran_vide(t_trajectoire_ecran * traj_ecran, 
 	int taille_normale);
 
-static void test_mandat_1(t_liste_obs * liste, char * nom_fich);
-
 /*=========================================================*/
 /*=========================================================*/
 //Programme principal: fonction qui retourne un entier (int)
