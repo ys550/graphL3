@@ -199,6 +199,7 @@ static int get_type_formes(char code) {
 
 static void get_param_ligne(FILE * ptr_fichier, t_obstacle * obstacle) {
 	int i = 0;
+	obstacle->nb_param_forme = 0;
 
 	while (fgetc(ptr_fichier) != '\n') {
 		fscanf(ptr_fichier, "%i", &obstacle->tab_param[i]);
