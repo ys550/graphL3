@@ -23,6 +23,9 @@ static void transferer_points(t_ptr_trajet traj_plan,
 static void enfiler_liste_traj(t_liste_traj * listes_traj,
 	t_ptr_trajet nouveau_noeud);
 
+static void afficher_matrice(const t_liste_traj * listes_traj, t_point_plan **
+	matrice, int indice);
+
 
 /*********************************************************/
 /*           DEFINITIONS DES FONCTIONS PRIVÉES           */
@@ -119,6 +122,30 @@ static void enfiler_liste_traj(t_liste_traj * listes_traj,
 
 }
 
+static void afficher_matrice(const t_liste_traj * listes_traj, t_point_plan **
+	matrice, int indice) {
+	int a, b;
+	//pour afficher la somme des correlations de chaque colonnes
+	double somme;
+
+
+	printf("\nMATRICE DES CORRELATIONS:\n");
+	for (a = 0; a < listes_traj->nb_listes; a++) {
+
+		somme = 0;
+
+		for (b = 0; b < listes_traj->nb_listes; b++) {
+
+			printf("[%.2lf %.2lf] ", matrice[b][a].x, matrice[b][a].y);
+			somme += matrice[b][a].x + matrice[b][a].y;
+
+		}
+		printf("= %.2lf\n", somme);
+	}
+	printf("indice de la colone refuse: %d", indice);
+
+
+}
 
 /*********************************************************/
 /*                DEFINITIONS DES FONCTIONS              */
@@ -175,8 +202,7 @@ int trouver_traj_refuse(const t_liste_traj * listes_traj) {
 	//iterateur pour les couples de noeud A et B
 	int a, b;
 	int indice_col_min;
-	//pour afficher la somme des correlations de chaque colonnes
-	double somme;
+	
 
 	t_ptr_trajet noeud_a;
 	t_ptr_trajet noeud_b;
@@ -218,25 +244,11 @@ int trouver_traj_refuse(const t_liste_traj * listes_traj) {
 	}
 
 	
-
 	/*trouver l’indice de la colonne qui a la plus petite somme de toutes ses 
 	corrélations*/
 	indice_col_min = trouver_col_min(matrice, listes_traj->nb_listes);
 
-	printf("\nMATRICE DES CORRELATIONS:\n");
-	for (a = 0; a < listes_traj->nb_listes; a++) {
-
-		somme = 0;
-
-		for (b = 0; b < listes_traj->nb_listes; b++) {
-
-			printf("[%.2lf %.2lf] ", matrice[b][a].x, matrice[b][a].y);
-			somme += matrice[b][a].x + matrice[b][a].y;
-
-		}
-		printf("= %.2lf\n", somme);
-	}
-	printf("indice de la colone refuse: %d", indice_col_min);
+	afficher_matrice(listes_traj, matrice, indice_col_min);
 
 	//détruire la matrice de corrélations
 	detruire_matrice_pts(matrice, listes_traj->nb_listes);
@@ -244,6 +256,8 @@ int trouver_traj_refuse(const t_liste_traj * listes_traj) {
 	//retourner l’indice de la colonne minimale
 	return indice_col_min;
 }
+
+
 
 void retirer_traj_refuse(t_liste_traj * listes_traj, int pos) {
 	//pour la position du noeud lorsqu'on ne choisi pas le premier (pos:0)
