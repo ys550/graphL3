@@ -30,8 +30,8 @@ Date   : 2018-07-08
 #define FICHIER_TRAJET_4 "trajet4.txt"
 #define FICHIER_TRAJET_INDY "trajet_INDY.txt"
 
-//pour activer(1) ou desactive(0) le test du Mandat 1
-#define MANDAT_1 0
+//pour repeter le mandat finale pour obtenir 2 trajet moyen successifs
+#define NB_TRAJ_MOYEN 2
 
 
 /********************************************************************/
@@ -42,7 +42,7 @@ static void afficher_menu();
 
 static void choisir_option_menu(t_liste_obs * liste);
 
-static int affichage_formes(t_liste_obs * liste, char * nom_fich);
+static int lire_formes(t_liste_obs * liste, char * nom_fich);
 
 static t_groupe_traj_ecran affichage_traj(t_liste_obs * liste, int nb_points);
 
@@ -103,42 +103,22 @@ static void choisir_option_menu(t_liste_obs * liste) {
 
 		switch (option) {
 		case '1':
-			#if(MANDAT_1)
-				test_mandat_1(liste, FICHIER_TRAJET_1);
-			#else
-				taille_normale = affichage_formes(liste, FICHIER_TRAJET_1);
-			#endif
+			taille_normale = lire_formes(liste, FICHIER_TRAJET_1);
 			break;
 		case '2':
-			#if(MANDAT_1)
-				test_mandat_1(liste, FICHIER_TRAJET_2);
-			#else
-				taille_normale = affichage_formes(liste, FICHIER_TRAJET_2);
-			#endif
+			taille_normale = lire_formes(liste, FICHIER_TRAJET_2);
 			break;
 		case '3':
-			#if(MANDAT_1)
-				test_mandat_1(liste, FICHIER_TRAJET_3);
-			#else
-				taille_normale = affichage_formes(liste, FICHIER_TRAJET_3);
-			#endif
+			taille_normale = lire_formes(liste, FICHIER_TRAJET_3);
 			break;
 		case '5':
-			#if(MANDAT_1)
-				test_mandat_1(liste, FICHIER_TRAJET_INDY);
-			#else
-				taille_normale = affichage_formes(liste, FICHIER_TRAJET_INDY);
-			#endif
+			taille_normale = lire_formes(liste, FICHIER_TRAJET_INDY);
 			break;
 		case 'q':
 		case 'Q':
 			break;
 		default:
-			#if(MANDAT_1)
-				test_mandat_1(liste, FICHIER_TRAJET_4);
-			#else
-				taille_normale = affichage_formes(liste, FICHIER_TRAJET_4);
-			#endif
+			taille_normale = lire_formes(liste, FICHIER_TRAJET_4);
 			break;
 		}
 		#if(!MANDAT_1)
@@ -153,15 +133,13 @@ static void choisir_option_menu(t_liste_obs * liste) {
 }
 
 /******************************MANDAT 1************************************/
-static int affichage_formes(t_liste_obs * liste, char * nom_fich) {
+static int lire_formes(t_liste_obs * liste, char * nom_fich) {
 	//la valeur « taille_norm » lue à la dernière ligne du fichier texte
 	int nb_points;
 
 	nb_points = lire_obstacles(nom_fich, liste);
 
 	initialiser_graphique();
-
-	//dessiner_obstacles(liste);//A SUPPRIMER
 
 	return nb_points;
 }
@@ -235,7 +213,7 @@ static t_groupe_traj_ecran affichage_traj(t_liste_obs * liste, int nb_points) {
 static void affichage_traj_moy_refus(t_liste_obs * liste, 
 	t_groupe_traj_ecran groupe_traj, int nb_points) {
 
-	int i;
+	int i, j;
 	int pos_traj_refuse;
 	t_liste_traj liste_traj;
 	t_ptr_trajet noeud_elimine;
@@ -244,52 +222,58 @@ static void affichage_traj_moy_refus(t_liste_obs * liste,
 	/*on initialise un groupe de trajectoires-plan avec le groupe des
 	trajectoires-écran et la valeur « taille_norm »*/
 	liste_traj = init_trajectoire_plan(&groupe_traj, nb_points);
-	//trouvez la position du trajet à éliminer du groupe
-	pos_traj_refuse = trouver_traj_refuse(&liste_traj);
-	//récupérez une référence à ce nœud
-	noeud_elimine = obtenir_traj_plan(&liste_traj, pos_traj_refuse);
-	//initialisez une trajectoire-écran vide
-	init_traj_ecran_vide(&traj_temp, nb_points);
-	//faites-y le transfert des points du trajet éliminé
-	tranfert_plan_a_ecran(noeud_elimine, &traj_temp);
-	//effacer l’écran
-	effacer_ecran();
-	//redessinez le parcours
-	dessiner_obstacles(liste);
-	//afficher le trajet éliminé avec la couleur NON_VALIDE
-	dessiner_trajectoire_ecran(&traj_temp, NON_VALIDE);
-	//videz la trajectoire éliminée
-	liberer_trajectoire_ecran(&traj_temp);
-	//retirer cette trajectoire du groupe de listes 
-	retirer_traj_refuse(&liste_traj, pos_traj_refuse);
-	//ajoutez-y le trajet moyen
-	ajouter_traj_moyen(&liste_traj);
-	
 
-	for (i = 0; i < liste_traj.nb_listes; i++) {
+	for (i = 0; i < NB_TRAJ_MOYEN; i++) {
 
+		//trouvez la position du trajet à éliminer du groupe
+		pos_traj_refuse = trouver_traj_refuse(&liste_traj);
+		//récupérez une référence à ce nœud
+		noeud_elimine = obtenir_traj_plan(&liste_traj, pos_traj_refuse);
 		//initialisez une trajectoire-écran vide
 		init_traj_ecran_vide(&traj_temp, nb_points);
-
-		//faites-y le transfert des points de la trajectoire-plan #pos
-		tranfert_plan_a_ecran(obtenir_traj_plan(&liste_traj, i), &traj_temp);
-
-		if (i < liste_traj.nb_listes - 1) {
-			//affichez la trajectoire - écran avec la couleur VALIDE
-			dessiner_trajectoire_ecran(&traj_temp, VALIDE);
-		}
-		else if (i == liste_traj.nb_listes - 1) {
-			//sauf la dernière qui aura la couleur MOYENNE
-			dessiner_trajectoire_ecran(&traj_temp, MOYENNE);
-		}
+		//faites-y le transfert des points du trajet éliminé
+		tranfert_plan_a_ecran(noeud_elimine, &traj_temp);
+		//effacer l’écran
+		effacer_ecran();
+		//redessinez le parcours
+		dessiner_obstacles(liste);
+		//afficher le trajet éliminé avec la couleur NON_VALIDE
+		dessiner_trajectoire_ecran(&traj_temp, NON_VALIDE);
+		//videz la trajectoire éliminée
 		liberer_trajectoire_ecran(&traj_temp);
+		//retirer cette trajectoire du groupe de listes 
+		retirer_traj_refuse(&liste_traj, pos_traj_refuse);
+
+		//ajoutez-y le trajet moyen
+		ajouter_traj_moyen(&liste_traj);
+
+		for (j = 0; j < liste_traj.nb_listes; j++) {
+
+			//initialisez une trajectoire-écran vide
+			init_traj_ecran_vide(&traj_temp, nb_points);
+
+			//faites-y le transfert des points de la trajectoire-plan #pos
+			tranfert_plan_a_ecran(obtenir_traj_plan(&liste_traj, j), &traj_temp);
+
+			if (j < liste_traj.nb_listes - 1) {
+				//affichez la trajectoire - écran avec la couleur VALIDE
+				dessiner_trajectoire_ecran(&traj_temp, VALIDE);
+			}
+			else if (j == liste_traj.nb_listes - 1) {
+				//sauf la dernière qui aura la couleur MOYENNE
+				dessiner_trajectoire_ecran(&traj_temp, MOYENNE);
+			}
+			liberer_trajectoire_ecran(&traj_temp);
+
+		}
+
+		afficher_texte("Voici le trajet moyen (ROUGE = trajet rejete), Appuyer une"
+			" touche..");
+
+		pause_ecran();
 
 	}
 
-	afficher_texte("Voici le trajet moyen (ROUGE = trajet rejete), Appuyer une"
-		" touche..");
-
-	pause_ecran();
 	fermer_graphique();
 
 }
@@ -313,21 +297,3 @@ static void init_traj_ecran_vide(t_trajectoire_ecran * traj_ecran,
 }
 
 /***************************************************************************/
-static void test_mandat_1(t_liste_obs * liste, char * nom_fich) {
-
-	int nb_points;
-	char nb_point_char[100];
-
-	nb_points = lire_obstacles(nom_fich, liste);
-
-	//conversion nb_point (int) a nb_points(char)
-	sprintf(nb_point_char,
-		"taille normalisee = %d pts.\t Appuyer une touche...", nb_points);
-
-	initialiser_graphique();
-	dessiner_obstacles(liste);
-	afficher_texte(nb_point_char);
-	pause_ecran();
-	fermer_graphique();
-
-}

@@ -255,69 +255,37 @@ int trouver_traj_refuse(const t_liste_traj * listes_traj) {
 
 
 void retirer_traj_refuse(t_liste_traj * listes_traj, int pos) {
-	//pour la position du noeud lorsqu'on ne choisi pas le premier (pos:0)
-	int i = 1;
 	t_ptr_trajet temp;
+	t_ptr_trajet prec;
 
-	//verifier si liste est vide
-	if (listes_traj->tete == NULL)
-		return;
-
-	//commencer au debut
-	temp = listes_traj->tete;
-
-	//Si on choisi le premier noeud (tete)
 	if (pos == 0) {
-		//la nouvelle ref de la tete est le noeud suivant
+		temp = listes_traj->tete;
 		listes_traj->tete = temp->suivant;
+	}
+	else if (pos == listes_traj->nb_listes - 1) {
+		temp = listes_traj->queue;
+		prec = obtenir_traj_plan(listes_traj, pos - 1);
 		//on supprime le tableau dans le noeud tete
 		free(temp->tab_coordonnees);
 		temp->taille_tab_coor = 0;
 		temp->tab_coordonnees = NULL;
 		//on supprime l'ancienne tete
 		free(temp);
-		listes_traj->nb_listes--;
-		return;
+		listes_traj->queue = prec;
+		listes_traj->queue->suivant = NULL;
 	}
-
-	/*Si non; si on choisi une autre position: la reference de la tete reste la
-	meme, mais la ref de la queue peut change*/
-
-	//on assigne la queue de nouveau: on commence par le debut
-	listes_traj->queue = listes_traj->tete;
-
-	/*On traverse la liste jusqu'a la fin: temp et queue avance en meme temps.
-	 Les deux commencent par la tete
-	*/
-	while (temp->suivant != NULL) {
-
-		//parcourir la liste avec temp
-		temp = temp->suivant;
-
-		//parcouru a la position choisi
-		if (i == pos) {
-			/*on assigne la ref suivant du noeud precedant le
-			noeud supprime au noeud suivant le noeud supprime*/
-			listes_traj->queue = temp->suivant;
-			//on supprime le tableau dans le noeud choisi
-			free(temp->tab_coordonnees);
-			temp->tab_coordonnees = NULL;
-			//On supprime le noeud choisi
-			free(temp);
-			listes_traj->nb_listes--;
-			return;
-		}
-		
-		/*
-		 on reassigne la referance de la queue au prochain noeud jusqu'a ce
-		 qu'on arrive au vrai dernier noeud change au cas que la queue a ete 
-		 change/supprime
-		*/
-		listes_traj->queue = listes_traj->queue->suivant;
-
-		//incremente la position du noeud courrant
-		i++;
+	else {
+		prec = obtenir_traj_plan(listes_traj, pos - 1);
+		temp = prec->suivant;
+		prec->suivant = temp->suivant;
+		//on supprime le tableau dans le noeud tete
+		free(temp->tab_coordonnees);
+		temp->taille_tab_coor = 0;
+		temp->tab_coordonnees = NULL;
+		//on supprime l'ancienne tete
+		free(temp);
 	}
+	listes_traj->nb_listes--;
 }
 
 void ajouter_traj_moyen(t_liste_traj * listes_traj) {
@@ -332,7 +300,7 @@ void ajouter_traj_moyen(t_liste_traj * listes_traj) {
 	/*On traverse ensuite les (nb_noeuds – 1) nœuds précédents pour ajouter 
 	chacun de leurs « taille_norm » points à la même position dans le tableau
 	de points du nouveau nœud*/
-	for (i = 0; i < (listes_traj->nb_listes - 1); i++) {
+	for (i = 0; i < (listes_traj->nb_listes); i++) {
 
 		noeud_courant = obtenir_traj_plan(listes_traj, i);
 
@@ -351,8 +319,8 @@ void ajouter_traj_moyen(t_liste_traj * listes_traj) {
 	/*On divise chaque valeur du nouveau tableau par (nb_noeuds – 1) pour
 	obtenir la moyenne des points.*/
 	for (i = 0; i < listes_traj->taille_normale; i++) {
-		nouveau_noeud->tab_coordonnees[i].x /= (listes_traj->nb_listes - 1);
-		nouveau_noeud->tab_coordonnees[i].y /= (listes_traj->nb_listes - 1);
+		nouveau_noeud->tab_coordonnees[i].x /= (listes_traj->nb_listes);
+		nouveau_noeud->tab_coordonnees[i].y /= (listes_traj->nb_listes);
 	}
 
 	//on l'ajoute à la fin du groupe de listes
@@ -375,7 +343,7 @@ void tranfert_plan_a_ecran(const t_ptr_trajet traj_plan, t_trajectoire_ecran *
 			ARRONDIR(traj_plan->tab_coordonnees[i].y);
 		
 		get_point_iter(traj_ecran);
-		}
+	}
 	
 }
 
