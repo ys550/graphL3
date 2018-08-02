@@ -202,11 +202,8 @@ int trouver_traj_refuse(const t_liste_traj * listes_traj) {
 	//iterateur pour les couples de noeud A et B
 	int a, b;
 	int indice_col_min;
-	
-
 	t_ptr_trajet noeud_a;
 	t_ptr_trajet noeud_b;
-
 	t_point_plan pt_init;
 	//créer une matrice de points-plan selon le nombre de listes dans le groupe
 	t_point_plan ** matrice = creer_matrice_pts(listes_traj->nb_listes);
@@ -240,9 +237,7 @@ int trouver_traj_refuse(const t_liste_traj * listes_traj) {
 			matrice[b][a] = matrice[a][b];
 
 		}
-
 	}
-
 	
 	/*trouver l’indice de la colonne qui a la plus petite somme de toutes ses 
 	corrélations*/
@@ -383,8 +378,6 @@ void tranfert_plan_a_ecran(const t_ptr_trajet traj_plan, t_trajectoire_ecran *
 
 			traj_ecran->ptr_iter = traj_ecran->ptr_iter->suivant;
 		}
-
 	}
-
 }
 
