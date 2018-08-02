@@ -187,6 +187,7 @@ void dessiner_trajectoire_ecran(t_trajectoire_ecran * traj, int couleur) {
 		else {
 			afficher_pixel(pt.pos_x, pt.pos_y, couleur);
 		}
+
 	}
 }
 

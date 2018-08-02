@@ -161,7 +161,7 @@ static int affichage_formes(t_liste_obs * liste, char * nom_fich) {
 
 	initialiser_graphique();
 
-	dessiner_obstacles(liste);//A SUPPRIMER
+	//dessiner_obstacles(liste);//A SUPPRIMER
 
 	return nb_points;
 }
@@ -249,8 +249,6 @@ static void affichage_traj_moy_refus(t_liste_obs * liste,
 	//récupérez une référence à ce nœud
 	noeud_elimine = obtenir_traj_plan(&liste_traj, pos_traj_refuse);
 	//initialisez une trajectoire-écran vide
-	traj_temp = init_trajectoire_ecran();
-	//initialisez une trajectoire-écran vide
 	init_traj_ecran_vide(&traj_temp, nb_points);
 	//faites-y le transfert des points du trajet éliminé
 	tranfert_plan_a_ecran(noeud_elimine, &traj_temp);
@@ -266,7 +264,7 @@ static void affichage_traj_moy_refus(t_liste_obs * liste,
 	retirer_traj_refuse(&liste_traj, pos_traj_refuse);
 	//ajoutez-y le trajet moyen
 	ajouter_traj_moyen(&liste_traj);
-
+	
 
 	for (i = 0; i < liste_traj.nb_listes; i++) {
 

@@ -78,6 +78,8 @@ static void transferer_points(t_ptr_trajet traj_plan,
 
 	pos = 1;
 
+	set_iter_debut(traj_ecran);
+	pos_p2 = 0;
 	while (pos < traj_plan->taille_tab_coor) {
 
 		posT += inter;
@@ -119,7 +121,6 @@ static void enfiler_liste_traj(t_liste_traj * listes_traj,
 	}
 	//on incremente le nombre d'elements dans la file chainee
 	listes_traj->nb_listes++;
-
 }
 
 static void afficher_matrice(const t_liste_traj * listes_traj, t_point_plan **
@@ -195,7 +196,6 @@ t_ptr_trajet obtenir_traj_plan(const t_liste_traj * listes_traj, int pos) {
 		}
 	}
 	return NULL;
-
 }
 
 int trouver_traj_refuse(const t_liste_traj * listes_traj) {
@@ -332,7 +332,7 @@ void ajouter_traj_moyen(t_liste_traj * listes_traj) {
 	/*On traverse ensuite les (nb_noeuds – 1) nœuds précédents pour ajouter 
 	chacun de leurs « taille_norm » points à la même position dans le tableau
 	de points du nouveau nœud*/
-	for (i = 0; i < listes_traj->nb_listes - 1; i++) {
+	for (i = 0; i < (listes_traj->nb_listes - 1); i++) {
 
 		noeud_courant = obtenir_traj_plan(listes_traj, i);
 
@@ -367,17 +367,15 @@ void tranfert_plan_a_ecran(const t_ptr_trajet traj_plan, t_trajectoire_ecran *
 	set_iter_debut(traj_ecran);
 
 	for (i = 0;  i < traj_plan->taille_tab_coor; i ++) {
-
-		if (traj_ecran->ptr_iter != NULL) {
-
-			traj_ecran->ptr_iter->point.pos_x =
-				ARRONDIR(traj_plan->tab_coordonnees[i].x);
-
-			traj_ecran->ptr_iter->point.pos_y =
-				ARRONDIR(traj_plan->tab_coordonnees[i].y);
-
-			traj_ecran->ptr_iter = traj_ecran->ptr_iter->suivant;
+		
+		traj_ecran->ptr_iter->point.pos_x = 
+			ARRONDIR(traj_plan->tab_coordonnees[i].x);
+		
+		traj_ecran->ptr_iter->point.pos_y = 
+			ARRONDIR(traj_plan->tab_coordonnees[i].y);
+		
+		get_point_iter(traj_ecran);
 		}
-	}
+	
 }
 
