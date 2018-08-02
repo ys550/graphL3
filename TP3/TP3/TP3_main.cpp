@@ -30,6 +30,9 @@ Date   : 2018-07-08
 #define FICHIER_TRAJET_4 "trajet4.txt"
 #define FICHIER_TRAJET_INDY "trajet_INDY.txt"
 
+//pour activer(1) ou desactive(0) le test du Mandat 1
+#define MANDAT_1 0
+
 
 /********************************************************************/
 /*				DECLARATIONS DES FONCTIONS PRIVÉES					*/
@@ -100,29 +103,50 @@ static void choisir_option_menu(t_liste_obs * liste) {
 
 		switch (option) {
 		case '1':
-			taille_normale = affichage_formes(liste, FICHIER_TRAJET_1);
+			#if(MANDAT_1)
+				test_mandat_1(liste, FICHIER_TRAJET_1);
+			#else
+				taille_normale = affichage_formes(liste, FICHIER_TRAJET_1);
+			#endif
 			break;
 		case '2':
-			taille_normale = affichage_formes(liste, FICHIER_TRAJET_2);
+			#if(MANDAT_1)
+				test_mandat_1(liste, FICHIER_TRAJET_2);
+			#else
+				taille_normale = affichage_formes(liste, FICHIER_TRAJET_2);
+			#endif
 			break;
 		case '3':
-			taille_normale = affichage_formes(liste, FICHIER_TRAJET_3);
+			#if(MANDAT_1)
+				test_mandat_1(liste, FICHIER_TRAJET_3);
+			#else
+				taille_normale = affichage_formes(liste, FICHIER_TRAJET_3);
+			#endif
 			break;
 		case '5':
-			taille_normale = affichage_formes(liste, FICHIER_TRAJET_INDY);
+			#if(MANDAT_1)
+				test_mandat_1(liste, FICHIER_TRAJET_INDY);
+			#else
+				taille_normale = affichage_formes(liste, FICHIER_TRAJET_INDY);
+			#endif
 			break;
 		case 'q':
 		case 'Q':
 			break;
 		default:
-			taille_normale = affichage_formes(liste, FICHIER_TRAJET_4);
+			#if(MANDAT_1)
+				test_mandat_1(liste, FICHIER_TRAJET_4);
+			#else
+				taille_normale = affichage_formes(liste, FICHIER_TRAJET_4);
+			#endif
 			break;
 		}
-
-		if (option != 'q' && option != 'Q') {
-			groupe_traj = affichage_traj(liste, taille_normale);
-			affichage_traj_moy_refus(liste, groupe_traj, taille_normale);
-		}
+		#if(!MANDAT_1)
+			if (option != 'q' && option != 'Q') {
+				groupe_traj = affichage_traj(liste, taille_normale);
+				affichage_traj_moy_refus(liste, groupe_traj, taille_normale);
+			}
+		#endif
 
 	} while (option != 'q' && option != 'Q');
 

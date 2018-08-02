@@ -42,6 +42,25 @@ VALEUR DE RETOUR: le type constant (enum) de la forme(type: int).
 */
 static int get_type_formes(char code);
 
+
+/*
+GET_NB_PARAM
+
+Codée par Youssef Soliman, Hugo Belin
+
+Cette fonction donne le nombre de paramètre que chaque forme géométrique
+doit avoir pour être dessiné
+
+PARAMÈTRES :
+-forme : (type : int) l'enum de la forme geométrique
+
+HYPOTHESES: Aucune.
+
+VALEUR DE RETOUR: (type: int) le nombre de paramètre de la forme geométrique
+*/
+static int get_nb_param(int forme);
+
+
 /*
 GET_PARAM_LIGNE
 Codée par Youssef Soliman, Hugo Belin
@@ -111,6 +130,10 @@ int lire_obstacles(char * nom_fich, t_liste_obs * obstacles) {
 		obstacles->tab_obstacles[i].type_forme = 
 			get_type_formes(fgetc(ptr_fichier));
 
+		//obtient le nb de parametres
+		obstacles->tab_obstacles[i].nb_param_forme = 
+			get_nb_param(obstacles->tab_obstacles[i].type_forme);
+
 		//obtient les parametres pour chaque formes
 		get_param_ligne(ptr_fichier, &obstacles->tab_obstacles[i]);
 
@@ -161,9 +184,7 @@ void dessiner_obstacles(const t_liste_obs * obstacles) {
 				tab_param[4], tab_param[5]);
 			break;
 		}
-
 	}
-
 }
 
 void detruire_obstacles(t_liste_obs * obstacles) {
@@ -197,15 +218,31 @@ static int get_type_formes(char code) {
 }
 
 
+static int get_nb_param(int forme) {
+	switch (forme) {
+		case PT:
+			return NB_PARAM_PT;
+		case CERCLE:
+			return NB_PARAM_CERCLE;
+		case ELLIPSE:
+			return NB_PARAM_ELLIPSE;
+		case LIGNE:
+			return NB_PARAM_LIGNE;
+		case RECTANGLE:
+			return NB_PARAM_RECTANGLE;
+		case TRIANGLE:
+			return NB_PARAM_TRIANGLE;
+	}
+}
+
+
 static void get_param_ligne(FILE * ptr_fichier, t_obstacle * obstacle) {
 	int i = 0;
-	obstacle->nb_param_forme = 0;
 
 	/*continue la lecture d'une ligne tant qu'on est pas arriver
 	a la fin de la ligne*/
 	while (fgetc(ptr_fichier) != '\n') {
 		fscanf(ptr_fichier, "%i", &obstacle->tab_param[i]);
-		obstacle->nb_param_forme++;
 		i++;
 	}
 }

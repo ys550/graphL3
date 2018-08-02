@@ -39,6 +39,15 @@ Date   : 2018-07-08
 
 //le nb maximum de parametre qu'une forme peut avoir
 #define MAX_PARAM 6
+
+//le nb de parametre pour dessiner chaque formes
+#define NB_PARAM_PT 3
+#define NB_PARAM_CERCLE 3
+#define NB_PARAM_ELLIPSE 4
+#define NB_PARAM_LIGNE 4
+#define NB_PARAM_RECTANGLE 4
+#define NB_PARAM_TRIANGLE 6
+
 //pour avancer le curseur
 #define POS_CUR 2
 
