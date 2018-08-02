@@ -23,7 +23,7 @@ Date   : 2018-07-08
 
 /*****************************************************/
 /*****************************************************/
-// TROIS FONCTIONS INFORMATRICES
+// FONCTIONS INFORMATRICES
 
 /*
 GET_TYPE_FORMES
@@ -33,7 +33,7 @@ Cette fonction donne l'équvalent enum de la forme géométrique
 lu dans le fichier qui est une lettre (char)
 
 PARAMÈTRES :
--code : (type : char) lettre representant la forme géométrique
+-code : lettre representant la forme géométrique (type : char)
 
 HYPOTHESES: Aucune.
 
@@ -43,38 +43,22 @@ VALEUR DE RETOUR: le type constant (enum) de la forme(type: int).
 static int get_type_formes(char code);
 
 /*
-GET_NB_PARAM_FORME
-Codée par Youssef Soliman, Hugo Belin
-
-Cette fonction donne le nombre de paramètre que chaque forme géométrique
-doit avoir pour être dessinée.
-
-PARAMÈTRES :
--forme : (type : int) l'enum de la forme géométrique
-
-HYPOTHESES: Aucune.
-
-VALEUR DE RETOUR: (type: int) le nombre de paramètre de la forme géométrique
-*/
-static int get_nb_param_forme(int forme);
-
-/*
 GET_PARAM_LIGNE
 Codée par Youssef Soliman, Hugo Belin
 
 Cette fonction va chercher dans le fichier tous les paramètre nécéssaire pour
-dessiner la forme désirée
+dessiner la forme désirée dans chaque ligne de texte contenant les données des
+obstacles.
 
 PARAMÈTRES :
--type_forme : (type : int) enum de la forme
--tab_param : (type : int) le nombre de paramètre de la forme
--param_fichier : (type : char *) le nom du fichier
+-ptr_fichier : le fichier texte (type : FILE * )
+-obstacle : la structure d'un obstacle (type : t_obstacle *)
 
 HYPOTHESES: Aucune.
 
 VALEUR DE RETOUR: Aucune.
 */
-static void get_param_ligne(int type_forme, int * tab_param, char * param_fichier);
+static void get_param_ligne(FILE * ptr_fichier, t_obstacle * obstacle);
 
 
 
@@ -84,13 +68,9 @@ static void get_param_ligne(int type_forme, int * tab_param, char * param_fichie
 
 int lire_obstacles(char * nom_fich, t_liste_obs * obstacles) {
 	//Iterateur
-	int i = 0, j;
-	/*le numero des lignes contenant les donnees de obstacles*/
-	int no_ligne = LIGNE_DEBUT_OBSTACLE;
+	int i;
 	//le nombre de points contenus dans le trajet normalisé
 	int nb_points = 0;
-	//pour le contenue d'une seule ligne dans le fichier
-	char tab_ligne_unique_param[LONGUEUR_LIGNE];
 
 	//Pointeur vers le fichier a lire.
 	FILE * ptr_fichier;
@@ -104,7 +84,6 @@ int lire_obstacles(char * nom_fich, t_liste_obs * obstacles) {
 		fclose(ptr_fichier);
 		return EXIT_FAILURE;
 	}
-
 
 	/*On lit le nombre d'obstacle et place le curseur apres le nombre*/
 	fscanf(ptr_fichier, "%i", &obstacles->nb_obstacle);
@@ -122,53 +101,19 @@ int lire_obstacles(char * nom_fich, t_liste_obs * obstacles) {
 		return EXIT_FAILURE;
 	}
 
-	/*Cette boucle determine le type de forme sur chaque ligne d'obstacle et sont
-	nombre de parametre*/
-	while (!feof(ptr_fichier)) {
+	//avancer le curseur a la prochaine ligne
+	fseek(ptr_fichier, POS_CUR, SEEK_CUR);
 
-		fgets(tab_ligne_unique_param, LONGUEUR_LIGNE, ptr_fichier);
+	//pour chaque ligne d'obstacles
+	for (i = 0; i < obstacles->nb_obstacle; i++) {
 
-		if (no_ligne < obstacles->nb_obstacle + LIGNE_OBS_FIN) {
-			obstacles->tab_obstacles[i].type_forme =
-				get_type_formes(fgetc(ptr_fichier));
-			obstacles->tab_obstacles[i].nb_param_forme =
-				get_nb_param_forme(obstacles->tab_obstacles[i].type_forme);
-			no_ligne++;
-		}
+		//obtient le type de forme
+		obstacles->tab_obstacles[i].type_forme = 
+			get_type_formes(fgetc(ptr_fichier));
 
-		i++;
-	}
+		//obtient les parametres pour chaque formes
+		get_param_ligne(ptr_fichier, &obstacles->tab_obstacles[i]);
 
-	/*le numero de ligne contenant les donnees du premier obstacle:
-	On revient au premier obstacle pour lire les parametres de chaque 
-	obstacles*/
-	no_ligne = LIGNE_DEBUT_OBSTACLE;
-	i = 0;
-	/*On remet le curseur de lecture du fichier ptr_fichier au debut du des
-	donnees du premier obstacle*/
-	fseek(ptr_fichier, CUR_DEBUT, SEEK_SET);
-	/*On relit le nombre d'obstacle pour placer le curseur apres le nombre
-	d'obstacle*/
-	fscanf(ptr_fichier, "%i", &obstacles->nb_obstacle);
-	//On avance le curseur de 3 de la position courante du curseur
-	fseek(ptr_fichier, CUR_DEBUT_OBSTACLE, SEEK_CUR);
-	
-	/*Cette boucle vas chercher chacun des parametres pour chaque obstacles*/
-	while (no_ligne < obstacles->nb_obstacle + LIGNE_OBS_FIN) {
-
-		//Avancer le curseur de 1 apres le code de type_forme
-		fseek(ptr_fichier, POS_FIN_CODE, SEEK_CUR);
-
-		/*Prendre seulement les parametres des obstacles sans le code au debut
-		de la ligne et les insere dans le tableau tab_ligne_unique_param*/
-		fgets(tab_ligne_unique_param, LONGUEUR_LIGNE, ptr_fichier);
-
-		/*separe et insere les donnes individuel de parametre du tableau 
-		tab_ligne_unique_param dans le tableau tab_param*/
-		get_param_ligne(obstacles->tab_obstacles[i].type_forme,
-			obstacles->tab_obstacles[i].tab_param, tab_ligne_unique_param);
-		i++;
-		no_ligne++;
 	}
 
 	//Lit le nombre de points a la fin du fichier
@@ -251,49 +196,13 @@ static int get_type_formes(char code) {
 	}
 }
 
-static int get_nb_param_forme(int forme) {
-	switch (forme) {
-	case PT:
-		return NB_PARAM_PT;
-	case CERCLE:
-		return NB_PARAM_CERCLE;
-	case ELLIPSE:
-		return NB_PARAM_ELLIPSE;
-	case LIGNE:
-		return NB_PARAM_LIGNE;
-	case RECTANGLE:
-		return NB_PARAM_RECTANGLE;
-	case TRIANGLE:
-		return NB_PARAM_TRIANGLE;
-	}
-}
 
-static void get_param_ligne(int type_forme, int * tab_param, char * param_fichier) {
-	switch (type_forme) {
-		case PT:
-		case CERCLE:
-			sscanf(param_fichier, " %d %d %d",
-				&tab_param[0],
-				&tab_param[1],
-				&tab_param[2]);
-			break;
-		case ELLIPSE:
-		case LIGNE:
-		case RECTANGLE:
-			sscanf(param_fichier, " %d %d %d %d",
-				&tab_param[0],
-				&tab_param[1],
-				&tab_param[2],
-				&tab_param[3]);
-			break;
-		case TRIANGLE:
-			sscanf(param_fichier, " %d %d %d %d %d %d",
-				&tab_param[0],
-				&tab_param[1],
-				&tab_param[2],
-				&tab_param[3],
-				&tab_param[4],
-				&tab_param[5]);
-			break;
+static void get_param_ligne(FILE * ptr_fichier, t_obstacle * obstacle) {
+	int i = 0;
+
+	while (fgetc(ptr_fichier) != '\n') {
+		fscanf(ptr_fichier, "%i", &obstacle->tab_param[i]);
+		obstacle->nb_param_forme++;
+		i++;
 	}
 }

@@ -124,7 +124,6 @@ static void choisir_option_menu(t_liste_obs * liste) {
 			affichage_traj_moy_refus(liste, groupe_traj, taille_normale);
 		}
 
-
 	} while (option != 'q' && option != 'Q');
 
 }

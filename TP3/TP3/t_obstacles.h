@@ -39,29 +39,8 @@ Date   : 2018-07-08
 
 //le nb maximum de parametre qu'une forme peut avoir
 #define MAX_PARAM 6
-
-//le nb de parametre pour dessiner chaque formes
-#define NB_PARAM_PT 3
-#define NB_PARAM_CERCLE 3
-#define NB_PARAM_ELLIPSE 4
-#define NB_PARAM_LIGNE 4
-#define NB_PARAM_RECTANGLE 4
-#define NB_PARAM_TRIANGLE 6
-
-//la longeur max de char d'une ligne dans le fichier
-#define LONGUEUR_LIGNE 100
-
-//la premiere ligne des obstacles
-#define LIGNE_DEBUT_OBSTACLE 1
-//la derniere ligne contenant les obstacles
-#define LIGNE_OBS_FIN 1
-//la position du curseur sur une ligne d'obstacle suivant le code
-#define POS_FIN_CODE 1
-//pour placer le curseur au debut
-#define CUR_DEBUT 0
-//pour place le curseur au debut du premier parametre d'une ligne d'obstacle
-#define CUR_DEBUT_OBSTACLE 3
-
+//pour avancer le curseur
+#define POS_CUR 2
 
 /*=========================================================*/
 /*                      STRUCTURES                         */
