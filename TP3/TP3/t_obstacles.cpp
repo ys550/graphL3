@@ -82,7 +82,7 @@ int lire_obstacles(char * nom_fich, t_liste_obs * obstacles) {
 	if (ptr_fichier == NULL) {
 		printf("Impossible d'ouvrir le fichier %s.\n", nom_fich);
 		fclose(ptr_fichier);
-		return EXIT_FAILURE;
+		return 0;
 	}
 
 	/*On lit le nombre d'obstacle et place le curseur apres le nombre*/
@@ -98,7 +98,7 @@ int lire_obstacles(char * nom_fich, t_liste_obs * obstacles) {
 	if (obstacles->tab_obstacles == NULL) {
 		printf("Echec d'allocation de memoire pour le tableau d'obstacles.\n");
 		fclose(ptr_fichier);
-		return EXIT_FAILURE;
+		return 0;
 	}
 
 	//avancer le curseur a la prochaine ligne
@@ -201,6 +201,8 @@ static void get_param_ligne(FILE * ptr_fichier, t_obstacle * obstacle) {
 	int i = 0;
 	obstacle->nb_param_forme = 0;
 
+	/*continue la lecture d'une ligne tant qu'on est pas arriver
+	a la fin de la ligne*/
 	while (fgetc(ptr_fichier) != '\n') {
 		fscanf(ptr_fichier, "%i", &obstacle->tab_param[i]);
 		obstacle->nb_param_forme++;
