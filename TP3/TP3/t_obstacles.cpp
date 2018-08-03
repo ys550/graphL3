@@ -85,6 +85,8 @@ static void get_param_ligne(FILE * ptr_fichier, t_obstacle * obstacle);
 /*          DEFINITIONS DES FONCTIONS PRIVÉES            */
 /*********************************************************/
 
+//-------------------------------------------------------------------
+
 static int get_type_formes(char code) {
 	/*Les codes possibles sont: 'P', 'C', 'E', 'L', 'R' et 'T'*/
 	switch (code) {
@@ -103,6 +105,7 @@ static int get_type_formes(char code) {
 	}
 }
 
+//-------------------------------------------------------------------
 
 static int get_nb_param(int forme) {
 	switch (forme) {
@@ -121,6 +124,7 @@ static int get_nb_param(int forme) {
 	}
 }
 
+//-------------------------------------------------------------------
 
 static void get_param_ligne(FILE * ptr_fichier, t_obstacle * obstacle) {
 	int i = 0;
@@ -138,6 +142,8 @@ static void get_param_ligne(FILE * ptr_fichier, t_obstacle * obstacle) {
 /*********************************************************/
 /*                DEFINITIONS DES FONCTIONS              */
 /*********************************************************/
+
+//-------------------------------------------------------------------
 
 int lire_obstacles(char * nom_fich, t_liste_obs * obstacles) {
 	//Iterateur
@@ -201,6 +207,8 @@ int lire_obstacles(char * nom_fich, t_liste_obs * obstacles) {
 	return nb_points;
 }
 
+//-------------------------------------------------------------------
+
 void dessiner_obstacles(const t_liste_obs * obstacles) {
 	int i;
 	int type_forme;
@@ -241,6 +249,8 @@ void dessiner_obstacles(const t_liste_obs * obstacles) {
 	}
 }
 
+//-------------------------------------------------------------------
+
 void detruire_obstacles(t_liste_obs * obstacles) {
 	if (obstacles->tab_obstacles != NULL) {
 		obstacles->nb_obstacle = 0;
@@ -248,3 +258,5 @@ void detruire_obstacles(t_liste_obs * obstacles) {
 		obstacles->tab_obstacles = NULL;
 	}
 }
+
+//*****************************************************************************

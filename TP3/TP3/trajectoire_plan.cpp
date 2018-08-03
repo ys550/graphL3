@@ -31,9 +31,8 @@ static void afficher_matrice(const t_liste_traj * listes_traj,
 /*           DEFINITIONS DES FONCTIONS PRIVÉES           */
 /*********************************************************/
 
-/*-	créer un nouveau nœud dans lequel vous allouez dynamiquement un tableau de
-« taille_norm » points de type « t_point_plan » avec son pointeur-suivant
-initialisé a NULL (sous-fonction privée). */
+//-------------------------------------------------------------------
+
 static t_ptr_trajet creer_nouveau_noeud(int taille_norm) {
 	t_ptr_trajet nouveau_noeud;
 
@@ -53,8 +52,8 @@ static t_ptr_trajet creer_nouveau_noeud(int taille_norm) {
 	return nouveau_noeud;
 }
 
-/*-	transférez les points de la file [no_file] dans le tableau dynamique du
-nouveau nœud (*).*/
+//-------------------------------------------------------------------
+
 static void transferer_points(t_ptr_trajet traj_plan,
 	t_trajectoire_ecran * traj_ecran) {
 
@@ -99,6 +98,7 @@ static void transferer_points(t_ptr_trajet traj_plan,
 
 }
 
+//-------------------------------------------------------------------
 
 static void enfiler_liste_traj(t_liste_traj * listes_traj,
 	t_ptr_trajet nouveau_noeud) {
@@ -121,6 +121,8 @@ static void enfiler_liste_traj(t_liste_traj * listes_traj,
 	//on incremente le nombre d'elements dans la file chainee
 	listes_traj->nb_listes++;
 }
+
+//-------------------------------------------------------------------
 
 static void afficher_matrice(const t_liste_traj * listes_traj,
 	t_point_plan ** matrice) {
@@ -146,9 +148,12 @@ static void afficher_matrice(const t_liste_traj * listes_traj,
 
 }
 
+
 /*********************************************************/
 /*                DEFINITIONS DES FONCTIONS              */
 /*********************************************************/
+
+//-------------------------------------------------------------------
 
 t_liste_traj init_trajectoire_plan(const t_groupe_traj_ecran * groupe,
 	int taille_norm) {
@@ -177,6 +182,8 @@ t_liste_traj init_trajectoire_plan(const t_groupe_traj_ecran * groupe,
 	return liste_traj;
 }
 
+//-------------------------------------------------------------------
+
 t_ptr_trajet obtenir_traj_plan(const t_liste_traj * listes_traj, int pos) {
 	//l'indexe du noeud courant
 	int i = 0;
@@ -195,6 +202,8 @@ t_ptr_trajet obtenir_traj_plan(const t_liste_traj * listes_traj, int pos) {
 	}
 	return NULL;
 }
+
+//-------------------------------------------------------------------
 
 int trouver_traj_refuse(const t_liste_traj * listes_traj) {
 	//iterateur pour les couples de noeud A et B
@@ -250,7 +259,7 @@ int trouver_traj_refuse(const t_liste_traj * listes_traj) {
 	return indice_col_min;
 }
 
-
+//-------------------------------------------------------------------
 
 void retirer_traj_refuse(t_liste_traj * listes_traj, int pos) {
 	//le noeud a retirer
@@ -291,6 +300,8 @@ void retirer_traj_refuse(t_liste_traj * listes_traj, int pos) {
 	free(temp);
 	listes_traj->nb_listes--;
 }
+
+//-------------------------------------------------------------------
 
 void ajouter_traj_moyen(t_liste_traj * listes_traj) {
 	int i, j;
@@ -335,6 +346,8 @@ void ajouter_traj_moyen(t_liste_traj * listes_traj) {
 	enfiler_liste_traj(listes_traj, nouveau_noeud);
 }
 
+//-------------------------------------------------------------------
+
 void tranfert_plan_a_ecran(const t_ptr_trajet traj_plan, t_trajectoire_ecran * 
 	traj_ecran) {
 
@@ -354,4 +367,6 @@ void tranfert_plan_a_ecran(const t_ptr_trajet traj_plan, t_trajectoire_ecran *
 	}
 	
 }
+
+//*****************************************************************************
 

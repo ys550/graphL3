@@ -71,6 +71,8 @@ int main(void) {
 /*          DEFINITIONS DES FONCTIONS PRIVÉES            */
 /*********************************************************/
 
+//-------------------------------------------------------------------
+
 static void afficher_menu() {
 	system("cls");
 	printf("Quel fichier de trajet voulez-vous?\n\n");
@@ -84,7 +86,8 @@ static void afficher_menu() {
 }
 
 
-/*************************************************************/
+//-------------------------------------------------------------------
+
 static void choisir_option_menu(t_liste_obs * liste) {
 	t_groupe_traj_ecran groupe_traj;
 	unsigned char option;
@@ -130,6 +133,7 @@ static void choisir_option_menu(t_liste_obs * liste) {
 
 }
 
+
 /******************************MANDAT 1************************************/
 static int lire_formes(t_liste_obs * liste, char * nom_fich) {
 	//la valeur « taille_norm » lue à la dernière ligne du fichier texte
@@ -141,6 +145,7 @@ static int lire_formes(t_liste_obs * liste, char * nom_fich) {
 
 	return nb_points;
 }
+
 
 /*************************MANDAT 2********************************/
 static t_groupe_traj_ecran affichage_traj(t_liste_obs * liste, int nb_points) {
@@ -276,7 +281,8 @@ static void affichage_traj_moy_refus(t_liste_obs * liste,
 
 }
 
-/*****************************************************************************/
+//-------------------------------------------------------------------
+
 static void init_traj_ecran_vide(t_trajectoire_ecran * traj_ecran, 
 	int taille_normale) {
 
@@ -294,4 +300,4 @@ static void init_traj_ecran_vide(t_trajectoire_ecran * traj_ecran,
 
 }
 
-/***************************************************************************/
+/*****************************************************************************/

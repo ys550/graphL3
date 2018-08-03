@@ -17,6 +17,8 @@ Date   : 2018-07-15
 /*                DEFINITIONS DES FONCTIONS              */
 /*********************************************************/
 
+//-------------------------------------------------------------------
+
 t_trajectoire_ecran init_trajectoire_ecran(void) {
 	t_trajectoire_ecran file;
 
@@ -28,19 +30,26 @@ t_trajectoire_ecran init_trajectoire_ecran(void) {
 	return file;
 }
 
+//-------------------------------------------------------------------
+
 int taille_trajectoire_ecran(const t_trajectoire_ecran * traj) {
 	return traj->nb_points;
 }
+
+//-------------------------------------------------------------------
 
 int trajectoire_ecran_vide(const t_trajectoire_ecran * traj) {
 	return (traj->tete == NULL) ? 1 : 0;
 }
 
+//-------------------------------------------------------------------
+
 void set_iter_debut(t_trajectoire_ecran * traj) {
 	traj->ptr_iter = traj->tete;
 }
 
-/*Appleler la fonction set_iter_debut avant l'appel de cette fonction*/
+//-------------------------------------------------------------------
+
 t_point_ecran get_point_iter(t_trajectoire_ecran * traj) {
 	t_point_ecran point;
 
@@ -60,6 +69,8 @@ t_point_ecran get_point_iter(t_trajectoire_ecran * traj) {
 	si le pointeur-itérateur est NULL, retour d'un point pixels non-valides*/
 	return point;
 }
+
+//-------------------------------------------------------------------
 
 int enfiler_point_ecran(t_trajectoire_ecran * traj, const t_point_ecran pt) {
 	t_lien nouveau_noeud;
@@ -94,6 +105,8 @@ int enfiler_point_ecran(t_trajectoire_ecran * traj, const t_point_ecran pt) {
 	return 1;
 }
 
+//-------------------------------------------------------------------
+
 int defiler_point_ecran(t_trajectoire_ecran * traj, t_point_ecran * pt) {
 	
 	t_lien tempo;
@@ -121,6 +134,8 @@ int defiler_point_ecran(t_trajectoire_ecran * traj, t_point_ecran * pt) {
 		return 1;
 	}
 }
+
+//-------------------------------------------------------------------
 
 int lire_trajectoire_ecran(t_trajectoire_ecran * traj) {
 	//pour la position de la souris
@@ -173,6 +188,8 @@ int lire_trajectoire_ecran(t_trajectoire_ecran * traj) {
 		return 0;
 }
 
+//-------------------------------------------------------------------
+
 void dessiner_trajectoire_ecran(t_trajectoire_ecran * traj, int couleur) {
 	t_point_ecran pt;
 
@@ -195,6 +212,8 @@ void dessiner_trajectoire_ecran(t_trajectoire_ecran * traj, int couleur) {
 	}
 }
 
+//-------------------------------------------------------------------
+
 int liberer_trajectoire_ecran(t_trajectoire_ecran * traj) {
 
 	//boolean pour indique que la liste est vide
@@ -215,6 +234,8 @@ int liberer_trajectoire_ecran(t_trajectoire_ecran * traj) {
 	return nb_noeuds_supprime;
 }
 
+//-------------------------------------------------------------------
+
 t_groupe_traj_ecran init_groupe(int taille) {
 
 	t_groupe_traj_ecran groupe_traj;
@@ -231,13 +252,19 @@ t_groupe_traj_ecran init_groupe(int taille) {
 	return groupe_traj;
 }
 
+//-------------------------------------------------------------------
+
 int get_nombre_traj_groupe(const t_groupe_traj_ecran * groupe) {
 	return groupe->nb_trajectoire;
 }
 
+//-------------------------------------------------------------------
+
 int get_taille_groupe(const t_groupe_traj_ecran * groupe) {
 	return groupe->taille_tableau;
 }
+
+//-------------------------------------------------------------------
 
 t_trajectoire_ecran consulter_groupe(const t_groupe_traj_ecran * groupe, 
 	int position) {
@@ -257,6 +284,8 @@ t_trajectoire_ecran consulter_groupe(const t_groupe_traj_ecran * groupe,
 	}
 }
 
+//-------------------------------------------------------------------
+
 int ajouter_traj_groupe(t_groupe_traj_ecran * groupe,
 	t_trajectoire_ecran * traj) {
 
@@ -273,6 +302,8 @@ int ajouter_traj_groupe(t_groupe_traj_ecran * groupe,
 
 	return 0;
 }
+
+//-------------------------------------------------------------------
 
 int vider_traj_groupe(t_groupe_traj_ecran * groupe) {
 	int i;
@@ -294,3 +325,4 @@ int vider_traj_groupe(t_groupe_traj_ecran * groupe) {
 
 	return nb_traj_supprimee;
 }
+//*****************************************************************************

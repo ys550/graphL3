@@ -77,6 +77,8 @@ static t_point_plan esperance(t_point_plan * tab, int taille);
 /*          DEFINITIONS DES FONCTIONS PRIVÉES            */
 /*********************************************************/
 
+//-------------------------------------------------------------------
+
 static t_point_plan * produit(t_point_plan * tabA, t_point_plan * tabB,
 	int taille) {
 
@@ -97,6 +99,8 @@ static t_point_plan * produit(t_point_plan * tabA, t_point_plan * tabB,
 	}
 
 }
+
+//-------------------------------------------------------------------
 
 static t_point_plan ecart_type(t_point_plan * tab, int taille) {
 	t_point_plan ecart_type;
@@ -124,6 +128,8 @@ static t_point_plan ecart_type(t_point_plan * tab, int taille) {
 
 	return ecart_type;
 }
+
+//-------------------------------------------------------------------
 
 static t_point_plan esperance(t_point_plan * tab, int taille) {
 	int i;
@@ -170,6 +176,8 @@ t_point_plan ** creer_matrice_pts(int taille) {
 	return matrice_pts;
 }
 
+//-------------------------------------------------------------------
+
 t_point_plan correlation_pts(t_point_plan * tabA, t_point_plan * tabB,
 	int taille) {
 	
@@ -205,6 +213,8 @@ t_point_plan correlation_pts(t_point_plan * tabA, t_point_plan * tabB,
 	return correlation;
 }
 
+//-------------------------------------------------------------------
+
 int trouver_col_min(t_point_plan ** mat_corr, int taille) {
 	int i, j;
 	int indice_col_min = 0;
@@ -232,6 +242,8 @@ int trouver_col_min(t_point_plan ** mat_corr, int taille) {
 	return indice_col_min;
 }
 
+//-------------------------------------------------------------------
+
 void detruire_matrice_pts(t_point_plan ** mat, int taille) {
 	int i;
 	t_point_plan * ptr_mat;
@@ -244,3 +256,5 @@ void detruire_matrice_pts(t_point_plan ** mat, int taille) {
 	free(mat);
 	mat = NULL;
 }
+
+//*****************************************************************************
