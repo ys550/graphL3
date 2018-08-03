@@ -96,6 +96,8 @@ int enfiler_point_ecran(t_trajectoire_ecran * traj, const t_point_ecran pt) {
 
 int defiler_point_ecran(t_trajectoire_ecran * traj, t_point_ecran * pt) {
 	
+	t_lien tempo;
+
 	//ne pas defiler si la file est vide
 	if (trajectoire_ecran_vide(traj)) { 
 		return 0; 
@@ -104,12 +106,14 @@ int defiler_point_ecran(t_trajectoire_ecran * traj, t_point_ecran * pt) {
 	else {
 		//set iter a tete
 		set_iter_debut(traj);
+		//copier la reference du premier noeud dans un noeud temp
+		tempo = traj->ptr_iter;
 		//on recupere le point extrait
 		*pt = traj->ptr_iter->point;
 		//la tete devient le noeud suivant
 		traj->tete = traj->ptr_iter->suivant;
 		//on libre l'espace memoire du premier noeud retire
-		free(traj->ptr_iter);
+		free(tempo);
 
 		//on decremente le nombre d'elements dans la file chainee
 		traj->nb_points--;
@@ -193,19 +197,18 @@ void dessiner_trajectoire_ecran(t_trajectoire_ecran * traj, int couleur) {
 
 int liberer_trajectoire_ecran(t_trajectoire_ecran * traj) {
 
-	t_lien tempo;
+	//boolean pour indique que la liste est vide
+	int est_vide = 1;
 	//le nombre de noeuds supprimés
 	int nb_noeuds_supprime = 0;
+	t_point_ecran pt;
 
-	set_iter_debut(traj);
-
-	while (traj->ptr_iter != NULL) {
-		tempo = traj->ptr_iter;
-		traj->ptr_iter = traj->ptr_iter->suivant;
-		free(tempo);
+	do {
+		//retourne 0 si vide
+		est_vide = defiler_point_ecran(traj, &pt);
 		nb_noeuds_supprime++;
-	}
-
+	} while (est_vide != 0);
+	
 	traj->tete = NULL;
 	traj->queue = NULL;
 

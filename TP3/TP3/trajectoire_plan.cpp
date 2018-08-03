@@ -274,7 +274,7 @@ void retirer_traj_refuse(t_liste_traj * listes_traj, int pos) {
 		temp = noeud_precedant->suivant;
 		noeud_precedant->suivant = temp->suivant;
 	}
-	//si le dernier noeud est choisi
+	//si le dernier noeud (queue) est choisi
 	else {
 		temp = listes_traj->queue;
 		noeud_precedant = obtenir_traj_plan(listes_traj, (pos - 1));
