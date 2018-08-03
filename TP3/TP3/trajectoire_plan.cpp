@@ -23,8 +23,8 @@ static void transferer_points(t_ptr_trajet traj_plan,
 static void enfiler_liste_traj(t_liste_traj * listes_traj,
 	t_ptr_trajet nouveau_noeud);
 
-static void afficher_matrice(const t_liste_traj * listes_traj, t_point_plan **
-	matrice, int indice);
+static void afficher_matrice(const t_liste_traj * listes_traj,
+	t_point_plan ** matrice);
 
 
 /*********************************************************/
@@ -123,8 +123,9 @@ static void enfiler_liste_traj(t_liste_traj * listes_traj,
 	listes_traj->nb_listes++;
 }
 
-static void afficher_matrice(const t_liste_traj * listes_traj, t_point_plan **
-	matrice, int indice) {
+static void afficher_matrice(const t_liste_traj * listes_traj,
+	t_point_plan ** matrice) {
+
 	int a, b;
 	//pour afficher la somme des correlations de chaque colonnes
 	double somme;
@@ -143,8 +144,6 @@ static void afficher_matrice(const t_liste_traj * listes_traj, t_point_plan **
 		}
 		printf("= %.2lf\n", somme);
 	}
-	printf("indice de la colone refuse: %d", indice);
-
 
 }
 
@@ -243,7 +242,7 @@ int trouver_traj_refuse(const t_liste_traj * listes_traj) {
 	corrélations*/
 	indice_col_min = trouver_col_min(matrice, listes_traj->nb_listes);
 
-	afficher_matrice(listes_traj, matrice, indice_col_min);
+	afficher_matrice(listes_traj, matrice);
 
 	//détruire la matrice de corrélations
 	detruire_matrice_pts(matrice, listes_traj->nb_listes);
@@ -256,35 +255,39 @@ int trouver_traj_refuse(const t_liste_traj * listes_traj) {
 
 void retirer_traj_refuse(t_liste_traj * listes_traj, int pos) {
 	t_ptr_trajet temp;
-	t_ptr_trajet prec;
+	t_ptr_trajet noeud_precedant;
 
+	//verifier si liste est vide
+	if (listes_traj->tete == NULL)
+		return;
+
+	//Si le premier noeud (tete) est choisi
 	if (pos == 0) {
+		//commencer au debut
 		temp = listes_traj->tete;
+		//la nouvelle ref de la tete est le noeud suivant
 		listes_traj->tete = temp->suivant;
 	}
-	else if (pos == listes_traj->nb_listes - 1) {
+	//si un noeud entre le premier et le dernier (exclusif) est choisi
+	else if (pos > 0 && pos < listes_traj->nb_listes - 1) {
+		noeud_precedant = obtenir_traj_plan(listes_traj, (pos - 1));
+		temp = noeud_precedant->suivant;
+		noeud_precedant->suivant = temp->suivant;
+	}
+	//si le dernier noeud est choisi
+	else {
 		temp = listes_traj->queue;
-		prec = obtenir_traj_plan(listes_traj, pos - 1);
-		//on supprime le tableau dans le noeud tete
-		free(temp->tab_coordonnees);
-		temp->taille_tab_coor = 0;
-		temp->tab_coordonnees = NULL;
-		//on supprime l'ancienne tete
-		free(temp);
-		listes_traj->queue = prec;
+		noeud_precedant = obtenir_traj_plan(listes_traj, (pos - 1));
+		listes_traj->queue = noeud_precedant;
 		listes_traj->queue->suivant = NULL;
 	}
-	else {
-		prec = obtenir_traj_plan(listes_traj, pos - 1);
-		temp = prec->suivant;
-		prec->suivant = temp->suivant;
-		//on supprime le tableau dans le noeud tete
-		free(temp->tab_coordonnees);
-		temp->taille_tab_coor = 0;
-		temp->tab_coordonnees = NULL;
-		//on supprime l'ancienne tete
-		free(temp);
-	}
+
+	//on supprime le tableau dans le noeud tete
+	free(temp->tab_coordonnees);
+	temp->taille_tab_coor = 0;
+	temp->tab_coordonnees = NULL;
+	//on supprime l'ancienne tete
+	free(temp);
 	listes_traj->nb_listes--;
 }
 

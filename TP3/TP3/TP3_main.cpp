@@ -221,7 +221,7 @@ static void affichage_traj_moy_refus(t_liste_obs * liste,
 	trajectoires-écran et la valeur « taille_norm »*/
 	liste_traj = init_trajectoire_plan(&groupe_traj, nb_points);
 
-	for (i = 0; i < NB_TRAJ_MOYEN; i++) {
+	for (i = 1; i <= NB_TRAJ_MOYEN; i++) {
 
 		//trouvez la position du trajet à éliminer du groupe
 		pos_traj_refuse = trouver_traj_refuse(&liste_traj);
