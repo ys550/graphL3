@@ -77,9 +77,8 @@ static void transferer_points(t_ptr_trajet traj_plan,
 	traj_plan->tab_coordonnees[pos].y = p2.pos_y;
 
 	pos = 1;
-
 	set_iter_debut(traj_ecran);
-	pos_p2 = 0;
+
 	while (pos < traj_plan->taille_tab_coor) {
 
 		posT += inter;
