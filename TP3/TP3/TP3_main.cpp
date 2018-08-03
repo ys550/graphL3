@@ -42,7 +42,7 @@ static void afficher_menu();
 
 static void choisir_option_menu(t_liste_obs * liste);
 
-static int lire_formes(t_liste_obs * liste, char * nom_fich);
+static int init_lire_formes(t_liste_obs * liste, char * nom_fich);
 
 static t_groupe_traj_ecran affichage_traj(t_liste_obs * liste, int nb_points);
 
@@ -58,11 +58,7 @@ static void init_traj_ecran_vide(t_trajectoire_ecran * traj_ecran,
 int main(void) {
 	t_liste_obs liste;
 
-	liste.tab_obstacles = NULL;
-
 	choisir_option_menu(&liste);
-
-	detruire_obstacles(&liste);
 
 	return EXIT_SUCCESS;
 }
@@ -95,6 +91,7 @@ static void choisir_option_menu(t_liste_obs * liste) {
 	
 
 	do {
+
 		afficher_menu();
 
 		//Attente touche du clavier
@@ -104,30 +101,30 @@ static void choisir_option_menu(t_liste_obs * liste) {
 
 		switch (option) {
 		case '1':
-			taille_normale = lire_formes(liste, FICHIER_TRAJET_1);
+			taille_normale = init_lire_formes(liste, FICHIER_TRAJET_1);
 			break;
 		case '2':
-			taille_normale = lire_formes(liste, FICHIER_TRAJET_2);
+			taille_normale = init_lire_formes(liste, FICHIER_TRAJET_2);
 			break;
 		case '3':
-			taille_normale = lire_formes(liste, FICHIER_TRAJET_3);
+			taille_normale = init_lire_formes(liste, FICHIER_TRAJET_3);
 			break;
 		case '5':
-			taille_normale = lire_formes(liste, FICHIER_TRAJET_INDY);
+			taille_normale = init_lire_formes(liste, FICHIER_TRAJET_INDY);
 			break;
 		case 'q':
 		case 'Q':
 			break;
 		default:
-			taille_normale = lire_formes(liste, FICHIER_TRAJET_4);
+			taille_normale = init_lire_formes(liste, FICHIER_TRAJET_4);
 			break;
 		}
-		#if(!MANDAT_1)
-			if (option != 'q' && option != 'Q') {
-				groupe_traj = affichage_traj(liste, taille_normale);
-				affichage_traj_moy_refus(liste, groupe_traj, taille_normale);
-			}
-		#endif
+
+		if (option != 'q' && option != 'Q') {
+			groupe_traj = affichage_traj(liste, taille_normale);
+			affichage_traj_moy_refus(liste, groupe_traj, taille_normale);
+			detruire_obstacles(liste);
+		}
 
 	} while (option != 'q' && option != 'Q');
 
@@ -135,7 +132,7 @@ static void choisir_option_menu(t_liste_obs * liste) {
 
 
 /******************************MANDAT 1************************************/
-static int lire_formes(t_liste_obs * liste, char * nom_fich) {
+static int init_lire_formes(t_liste_obs * liste, char * nom_fich) {
 	//la valeur « taille_norm » lue à la dernière ligne du fichier texte
 	int nb_points;
 
