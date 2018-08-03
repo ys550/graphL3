@@ -82,6 +82,60 @@ static void get_param_ligne(FILE * ptr_fichier, t_obstacle * obstacle);
 
 
 /*********************************************************/
+/*          DEFINITIONS DES FONCTIONS PRIVÉES            */
+/*********************************************************/
+
+static int get_type_formes(char code) {
+	/*Les codes possibles sont: 'P', 'C', 'E', 'L', 'R' et 'T'*/
+	switch (code) {
+	case 'P':
+		return PT;
+	case 'C':
+		return CERCLE;
+	case 'E':
+		return ELLIPSE;
+	case 'L':
+		return LIGNE;
+	case 'R':
+		return RECTANGLE;
+	case 'T':
+		return TRIANGLE;
+	}
+}
+
+
+static int get_nb_param(int forme) {
+	switch (forme) {
+	case PT:
+		return NB_PARAM_PT;
+	case CERCLE:
+		return NB_PARAM_CERCLE;
+	case ELLIPSE:
+		return NB_PARAM_ELLIPSE;
+	case LIGNE:
+		return NB_PARAM_LIGNE;
+	case RECTANGLE:
+		return NB_PARAM_RECTANGLE;
+	case TRIANGLE:
+		return NB_PARAM_TRIANGLE;
+	}
+}
+
+
+static void get_param_ligne(FILE * ptr_fichier, t_obstacle * obstacle) {
+	int i = 0;
+
+	/*continue la lecture d'une ligne tant qu'on est pas arriver
+	a la fin de la ligne*/
+	while (fgetc(ptr_fichier) != '\n') {
+		fscanf(ptr_fichier, "%i", &obstacle->tab_param[i]);
+		i++;
+	}
+}
+
+
+
+/*********************************************************/
 /*                DEFINITIONS DES FONCTIONS              */
 /*********************************************************/
 
@@ -192,57 +246,5 @@ void detruire_obstacles(t_liste_obs * obstacles) {
 		obstacles->nb_obstacle = 0;
 		free(obstacles->tab_obstacles);
 		obstacles->tab_obstacles = NULL;
-	}
-}
-
-/*********************************************************/
-/*          DEFINITIONS DES FONCTIONS PRIVÉES            */
-/*********************************************************/
-
-static int get_type_formes(char code) {
-	/*Les codes possibles sont: 'P', 'C', 'E', 'L', 'R' et 'T'*/
-	switch (code) {
-	case 'P':
-		return PT;
-	case 'C':
-		return CERCLE;
-	case 'E':
-		return ELLIPSE;
-	case 'L':
-		return LIGNE;
-	case 'R':
-		return RECTANGLE;
-	case 'T':
-		return TRIANGLE;
-	}
-}
-
-
-static int get_nb_param(int forme) {
-	switch (forme) {
-		case PT:
-			return NB_PARAM_PT;
-		case CERCLE:
-			return NB_PARAM_CERCLE;
-		case ELLIPSE:
-			return NB_PARAM_ELLIPSE;
-		case LIGNE:
-			return NB_PARAM_LIGNE;
-		case RECTANGLE:
-			return NB_PARAM_RECTANGLE;
-		case TRIANGLE:
-			return NB_PARAM_TRIANGLE;
-	}
-}
-
-
-static void get_param_ligne(FILE * ptr_fichier, t_obstacle * obstacle) {
-	int i = 0;
-
-	/*continue la lecture d'une ligne tant qu'on est pas arriver
-	a la fin de la ligne*/
-	while (fgetc(ptr_fichier) != '\n') {
-		fscanf(ptr_fichier, "%i", &obstacle->tab_param[i]);
-		i++;
 	}
 }

@@ -163,7 +163,7 @@ t_liste_traj init_trajectoire_plan(const t_groupe_traj_ecran * groupe,
 	liste_traj.nb_listes = 0;
 	liste_traj.taille_normale = taille_norm;
 
-	nb_trajet = groupe->nb_trajectoire;
+	nb_trajet = get_nombre_traj_groupe(groupe);
 	
 	for (i = 0; i < nb_trajet; i++) {
 
@@ -253,7 +253,9 @@ int trouver_traj_refuse(const t_liste_traj * listes_traj) {
 
 
 void retirer_traj_refuse(t_liste_traj * listes_traj, int pos) {
+	//le noeud a retirer
 	t_ptr_trajet temp;
+	//pour etablir le nouveau lien
 	t_ptr_trajet noeud_precedant;
 
 	//verifier si liste est vide
@@ -285,7 +287,7 @@ void retirer_traj_refuse(t_liste_traj * listes_traj, int pos) {
 	free(temp->tab_coordonnees);
 	temp->taille_tab_coor = 0;
 	temp->tab_coordonnees = NULL;
-	//on supprime l'ancienne tete
+	//on supprime le noeud choisi
 	free(temp);
 	listes_traj->nb_listes--;
 }
@@ -301,8 +303,12 @@ void ajouter_traj_moyen(t_liste_traj * listes_traj) {
 
 	/*On traverse ensuite les (nb_noeuds – 1) nœuds précédents pour ajouter 
 	chacun de leurs « taille_norm » points à la même position dans le tableau
-	de points du nouveau nœud*/
-	for (i = 0; i < (listes_traj->nb_listes); i++) {
+	de points du nouveau nœud.
+
+	Puisque la fonction retirer_traj_refuse() est appeler avant cette 
+	fonction la valeur de nb_listes est deja egale a nb_noeuds - 1. 
+	Donc il ne faut pas faire nb_listes - 1*/
+	for (i = 0; i < listes_traj->nb_listes; i++) {
 
 		noeud_courant = obtenir_traj_plan(listes_traj, i);
 
@@ -321,8 +327,8 @@ void ajouter_traj_moyen(t_liste_traj * listes_traj) {
 	/*On divise chaque valeur du nouveau tableau par (nb_noeuds – 1) pour
 	obtenir la moyenne des points.*/
 	for (i = 0; i < listes_traj->taille_normale; i++) {
-		nouveau_noeud->tab_coordonnees[i].x /= (listes_traj->nb_listes);
-		nouveau_noeud->tab_coordonnees[i].y /= (listes_traj->nb_listes);
+		nouveau_noeud->tab_coordonnees[i].x /= listes_traj->nb_listes;
+		nouveau_noeud->tab_coordonnees[i].y /= listes_traj->nb_listes;
 	}
 
 	//on l'ajoute à la fin du groupe de listes

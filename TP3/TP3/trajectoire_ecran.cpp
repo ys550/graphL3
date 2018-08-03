@@ -244,7 +244,7 @@ t_trajectoire_ecran consulter_groupe(const t_groupe_traj_ecran * groupe,
 
 	t_trajectoire_ecran traj_vide;
 
-	if (position >= 0 && position < groupe->taille_tableau) {
+	if (position >= 0 && position < get_taille_groupe(groupe)) {
 		return groupe->tableau_traj[position];
 	}
 	else {
@@ -279,7 +279,7 @@ int vider_traj_groupe(t_groupe_traj_ecran * groupe) {
 	//le nombre de trajectoires supprimées
 	int nb_traj_supprimee = 0;
 
-	for (i = groupe->taille_tableau - 1; i >= 0; i--) {
+	for (i = (get_taille_groupe(groupe) - 1); i >= 0; i--) {
 		/*Si la fonction liberer_trajectoire_ecran retourne 0 noeuds supprime,
 		il n'y avait donc pas de trajectoire dans l'indexe i du tableau_traj*/
 		if (liberer_trajectoire_ecran(&groupe->tableau_traj[i])) {
