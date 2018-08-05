@@ -78,12 +78,12 @@ Cette fonction construit une liste de trajectoires_plan avec un
 groupe de trajectoires_écran.
 
 PARAMÈTRES :
--groupe :  (type : t_groupe_traj_ecran *) liste de trajectoires_écran 
--taille_norm : (type : int) taille moyenne définie 
+-groupe : liste de trajectoires_écran (type : t_groupe_traj_ecran *)
+-taille_norm : taille moyenne définie (type : int)
 
 HYPOTHESES: Aucune.
 
-VALEUR DE RETOUR:  (type : t_liste_traj) liste de trajectoires_plan
+VALEUR DE RETOUR: liste de trajectoires_plan (type : t_liste_traj)
 */
 t_liste_traj  init_trajectoire_plan(const t_groupe_traj_ecran * groupe, 
 	int taille_norm);
@@ -96,12 +96,12 @@ Cette fonction localise et retourne un pointeur sur le noeud
 pos du groupe de liste 
 
 PARAMÈTRES :
--listes_traj :  (type : t_liste_traj *) liste de trajectoires
--pos : (type : int) numéro de la liste de trajectoires désirée
+-listes_traj : liste de trajectoires (type : t_liste_traj *)
+-pos : numéro de la liste de trajectoires désirée (type : int)
 
 HYPOTHESES: Aucune.
 
-VALEUR DE RETOUR:  (type : t_ptr_trajet) pointeur du noeud de la liste 
+VALEUR DE RETOUR: pointeur du noeud de la liste (type : t_ptr_trajet)
 */
 t_ptr_trajet  obtenir_traj_plan(const t_liste_traj * listes_traj, int pos);
 
@@ -113,11 +113,11 @@ Cette fonction identifie la liste à éliminer ( la liste avec
 la liste de coordonnées la plus éloigniée du trajet moyen )
 
 PARAMÈTRES :
--listes_traj :  (type : t_liste_traj *) liste des trajets 
+-listes_traj : liste des trajets (type : t_liste_traj *)
 
 HYPOTHESES: Aucune.
 
-VALEUR DE RETOUR:  (type : int) numéro du trajet à éliminer dans la liste
+VALEUR DE RETOUR: numéro du trajet à éliminer dans la liste (type : int)
 */
 int  trouver_traj_refuse(const t_liste_traj *listes_traj);
 
@@ -129,8 +129,8 @@ Cette fonction retire la liste à éliminer localiser dans la
 fonction TROUVER_TRAJ_REFUSE.
 
 PARAMÈTRES :
--listes_traj :  (type : t_liste_traj *) liste des trajets
--pos : (type : int) numero du trajet 
+-listes_traj : liste des trajets (type : t_liste_traj *)
+-pos : numero du trajet (type : int)
 
 HYPOTHESES: Aucune.
 
@@ -163,8 +163,8 @@ listes t_point_écran en arrondissant la listes de coordonnées de
 chaque trajectoires pour avoir la taille normale définie.
 
 PARAMÈTRES :
--traj_plan :  (type : t_ptr_trajet) pointeur de la liste des trajets 
--traj_ecran : (type : t_trajectoire_ecran *) liste des trajets 
+-traj_plan : pointeur de la liste des trajets (type : t_ptr_trajet)
+-traj_ecran : liste des trajets (type : t_trajectoire_ecran *)
 
 HYPOTHESES: Aucune.
 

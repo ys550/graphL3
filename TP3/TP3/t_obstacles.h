@@ -92,8 +92,8 @@ Cette fonction reçoit le nom du fichier à lire et va récupérer
 toutes les informations de l'obstacle.
 
 PARAMÈTRES :
--nom_fich :  (type : char *) 
--obstacles : (type : t_liste_obs *) 
+-nom_fich : le nom et repertoire du fichier (type : char *) 
+-obstacles : la liste d'obtacles (type : t_liste_obs *) 
 
 HYPOTHESES: Aucune.
 
@@ -111,7 +111,8 @@ Cette fonction reçois la liste d'obstacle et va dessiner chaque forme
 géométrique de cette liste.
 
 PARAMÈTRES :
--obstacles : (type : const t_liste_obs *) liste d'obtacle 
+-obstacles : liste d'obtacle contenant les formes a dessiner 
+(type : const t_liste_obs *)
 
 HYPOTHESES: Aucune.
 
@@ -127,7 +128,7 @@ Cette fonction détruit la liste d'obstacle qui à été lu du ficher et
 à déja été dessiner par la fonction dessiner_obstacle 
 
 PARAMÈTRES :
--obstacles : (type : t_liste_obs *) liste d'obstacle 
+-obstacles : la liste d'obstacle  a detruire (type : t_liste_obs *)
 
 HYPOTHESES: Aucune.
 

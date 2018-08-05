@@ -22,15 +22,15 @@ Cette fonction calcul le produit des données de deux tableaux
 t_point_plan (multiplication des colonnes)
 
 PARAMÈTRES :
--tabA : (type : t_point_plan *)  premier tableau
--tabB : (type : t_point_plan *) deuxieme tableau
--taille :  (type : int) la taille des deux tableaux
+-tabA : premier tableau (type : t_point_plan *) 
+-tabB : deuxieme tableau (type : t_point_plan *)
+-taille :  la taille des deux tableaux (type : int)
 
 HYPOTHESES: Aucune.
 
-VALEUR DE RETOUR:  (type : t_point_plan *) un tableau issu de la multiplication
+VALEUR DE RETOUR: un tableau issu de la multiplication
 des deux tableaux donnés en paramètre ( pour les coordonnées
-en x et y)
+en x et y) (type : t_point_plan *)
 */
 static t_point_plan * produit(t_point_plan * tabA, t_point_plan * tabB,
 	int taille);
@@ -41,13 +41,13 @@ Codée par Youssef Soliman, Hugo Belin
 
 Cette fonction calcul l'écart type des données du tableau
 PARAMÈTRES :
--tab : (type : t_point_plan *) le tableau a déterminer l'écart type
--taille :  (type : int) la taille du tableau
+-tab : le tableau a déterminer l'écart type (type : t_point_plan *)
+-taille : la taille du tableau (type : int)
 
 HYPOTHESES: Aucune.
 
-VALEUR DE RETOUR:  (type : t_point_plan) l'écart type du tabeau (calculé pour les
-coordonnées en x et en y)
+VALEUR DE RETOUR: l'écart type du tabeau (calculé pour les
+coordonnées en x et en y) (type : t_point_plan)
 
 */
 static t_point_plan ecart_type(t_point_plan * tab, int taille);
@@ -60,13 +60,13 @@ Cette fonction calcul l'espérance (la moyenne) d'une matrice
 t_point_plan (le fait pour les coordonnées en x et y)
 
 PARAMÈTRES :
--tab : (type : t_point_plan *) le tableau a moyenner
--taille :  (type : int) la taille du tableau
+-tab : le tableau a moyenner (type : t_point_plan *)
+-taille : la taille du tableau (type : int)
 
 HYPOTHESES: Aucune.
 
-VALEUR DE RETOUR:  (type : t_point_plan) l'espérance du tableau donné
-(pour les coordonnées en x et y)
+VALEUR DE RETOUR: l'espérance du tableau donné
+(pour les coordonnées en x et y) (type : t_point_plan) 
 
 */
 static t_point_plan esperance(t_point_plan * tab, int taille);
@@ -87,8 +87,11 @@ static t_point_plan * produit(t_point_plan * tabA, t_point_plan * tabB,
 
 	tab_produit = (t_point_plan *)malloc(taille * sizeof(t_point_plan));
 
+	//si les deux tableau ne sont pas vide
 	if (tabA != NULL && tabB != NULL && tab_produit != NULL) {
+		//effectue le produit des valeurs x et y des deux tableau
 		for (i = 0; i < taille; i++) {
+			//place le produit dans le tableau retourne
 			tab_produit[i].x = tabA[i].x * tabB[i].x;
 			tab_produit[i].y = tabA[i].y * tabB[i].y;
 		}
@@ -139,11 +142,14 @@ static t_point_plan esperance(t_point_plan * tab, int taille) {
 	somme.x = 0;
 	somme.y = 0;
 
+	//Si le tablea n'est pas vide
 	if (tab != NULL) {
+		//effecture la somme
 		for (i = 0; i < taille; i++) {
 			somme.x += tab[i].x;
 			somme.y += tab[i].y;
 		}
+		//effectue la moyenne
 		esperance.x = somme.x / taille;
 		esperance.y = somme.y / taille;
 	}
@@ -210,6 +216,9 @@ t_point_plan correlation_pts(t_point_plan * tabA, t_point_plan * tabB,
 	correlation.y = fabs(((esperanceAB.y - (esperanceA.y * esperanceB.y)) /
 		(ecartA.y * ecartB.y)));
 
+	//vide la tableau temporaire
+	free(tab_produitAB);
+
 	return correlation;
 }
 
@@ -227,11 +236,13 @@ int trouver_col_min(t_point_plan ** mat_corr, int taille) {
 		somme_col.x = 0;
 		somme_col.y = 0;
 
+		//effectue la somme de chaque colone
 		for (j = 0; j < taille; j++) {
 			somme_col.x += mat_corr[j][i].x;
 			somme_col.y += mat_corr[j][i].y;
 		}
 
+		//trouve la colone avec la plus petite somme
 		if ((somme_col.x + somme_col.y) < col_corr_tot) {
 			col_corr_tot = somme_col.x + somme_col.y;
 			indice_col_min = i;
@@ -248,6 +259,8 @@ void detruire_matrice_pts(t_point_plan ** mat, int taille) {
 	int i;
 	t_point_plan * ptr_mat;
 
+	/*detruit le contenue de la matrice 
+	avant de detruire la matrice*/
 	for (i = 0; i < taille; i++) {
 		ptr_mat = mat[i];
 		free(ptr_mat);

@@ -223,6 +223,8 @@ static void affichage_traj_moy_refus(t_liste_obs * liste,
 	trajectoires-écran et la valeur « taille_norm »*/
 	liste_traj = init_trajectoire_plan(&groupe_traj, nb_points);
 
+	/*repeter NB_TRAJ_MOYEN fois pour obetnir NB_TRAJ_MOYEN trajet 
+	moyen successifs*/
 	for (i = 1; i <= NB_TRAJ_MOYEN; i++) {
 
 		//trouvez la position du trajet à éliminer du groupe
@@ -286,11 +288,14 @@ static void init_traj_ecran_vide(t_trajectoire_ecran * traj_ecran,
 	int i;
 	t_point_ecran pt_vide;
 
+	//les points vides sont des points nulle
 	pt_vide.pos_x = 0;
 	pt_vide.pos_y = 0;
 
+	//initialiser une trajectoire ecran vide
 	*traj_ecran = init_trajectoire_ecran();
 
+	//la trajectoire vide est composee de noeuds contenant des points vides
 	for (i = 0; i < taille_normale; i++) {
 		enfiler_point_ecran(traj_ecran, pt_vide);
 	}

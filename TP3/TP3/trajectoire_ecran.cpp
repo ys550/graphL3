@@ -22,6 +22,7 @@ Date   : 2018-07-15
 t_trajectoire_ecran init_trajectoire_ecran(void) {
 	t_trajectoire_ecran file;
 
+	//initialiser la file de trajectoire
 	file.tete = NULL;
 	file.queue = NULL;
 	file.ptr_iter = NULL;
@@ -271,9 +272,12 @@ t_trajectoire_ecran consulter_groupe(const t_groupe_traj_ecran * groupe,
 
 	t_trajectoire_ecran traj_vide;
 
+	//si la position est valide
 	if (position >= 0 && position < get_taille_groupe(groupe)) {
+		//retourne le trajet
 		return groupe->tableau_traj[position];
 	}
+	//si non retourne un trajet vide
 	else {
 		traj_vide.nb_points = 0;
 		traj_vide.ptr_iter = NULL;

@@ -52,11 +52,11 @@ Cette fonction donne le nombre de paramètre que chaque forme géométrique
 doit avoir pour être dessiné
 
 PARAMÈTRES :
--forme : (type : int) l'enum de la forme geométrique
+-forme : l'enum de la forme geométrique (type : int)
 
 HYPOTHESES: Aucune.
 
-VALEUR DE RETOUR: (type: int) le nombre de paramètre de la forme geométrique
+VALEUR DE RETOUR: le nombre de paramètre de la forme geométrique (type: int)
 */
 static int get_nb_param(int forme);
 
@@ -108,6 +108,7 @@ static int get_type_formes(char code) {
 //-------------------------------------------------------------------
 
 static int get_nb_param(int forme) {
+	//retourne le nb de param selon le type de forme
 	switch (forme) {
 	case PT:
 		return NB_PARAM_PT;
@@ -131,10 +132,8 @@ static void get_param_ligne(FILE * ptr_fichier, t_obstacle * obstacle) {
 
 	/*continue la lecture d'une ligne tant qu'on est pas arriver
 	a la fin de la ligne*/
-	while (fgetc(ptr_fichier) != '\n') {
-		fscanf(ptr_fichier, "%i", &obstacle->tab_param[i]);
-		i++;
-	}
+	while (fgetc(ptr_fichier) != '\n')
+		fscanf(ptr_fichier, "%i", &obstacle->tab_param[i++]);
 }
 
 
@@ -216,12 +215,14 @@ void dessiner_obstacles(const t_liste_obs * obstacles) {
 
 	for (i = 0; i < obstacles->nb_obstacle; i++) {
 
+		//obtient le type de forme
 		type_forme = obstacles->tab_obstacles[i].type_forme;
 
 		/*copie du tableau de param pour evite d'ecrire la syntaxe complete
 		pour chaque parametre des fonctions dessin*/
 		tab_param = obstacles->tab_obstacles[i].tab_param;
 
+		//apelle la fonction de dessin approprie selon le type de forme
 		switch (type_forme) {
 		case PT:
 			dessiner_pt(tab_param[0], tab_param[1], tab_param[2]);
@@ -252,6 +253,7 @@ void dessiner_obstacles(const t_liste_obs * obstacles) {
 //-------------------------------------------------------------------
 
 void detruire_obstacles(t_liste_obs * obstacles) {
+	//vide le tableau d'obstacles s'il n'est pas vide
 	if (obstacles->tab_obstacles != NULL) {
 		obstacles->nb_obstacle = 0;
 		free(obstacles->tab_obstacles);

@@ -25,12 +25,6 @@ petite somme des colonnes de ce tableau.)
 - void detruire_matrice_pts(t_point_plan ** mat, int taille);
 ( Cette fonction détruit la mémoire allouée à la matrice)
 
-Les autres fonction sont privé a ce module (ce sont des fonctions mathématique
-pour simplifier et ne pas répéter le code).
-Ce sont des fonctions pour caluler la moyenne, l'écart type ou multiplier des tableau
-t_point_plan.
-
-
 Module : t_point_plan.h
 Par    : Youssef Soliman, Hugo Belin
 Date   : 2018-07-22
@@ -39,7 +33,19 @@ Date   : 2018-07-22
 /*=========================================================*/
 /*                       MACRO	                           */
 /*=========================================================*/
-//macro pour arrondir un reel
+/*
+ARRONDIR
+
+Cette macro permet d'arrondir un reel
+
+PARAMÈTRES :
+-x :  le numbre reel a arrondir
+
+HYPOTHESES: Aucune.
+
+VALEUR DE RETOUR: le reel arrondi en entier (type : int).
+
+*/
 #define ARRONDIR(x) (((int)(x + 0.5)))
 
 /*=========================================================*/
@@ -65,7 +71,7 @@ Cette fonction crée une matrice dynamique (tableau deux dimension de la
 taille souhaité)
 
 PARAMÈTRES :
--taille :  (type : int) taille de la matrice crée
+-taille : taille de la matrice crée (type : int)
 
 HYPOTHESES: Aucune.
 
@@ -82,13 +88,13 @@ Cette fonction calucule la corrélation linéaire entre deux listes de points-plan
 (les deux listes doivent être de même taille)
 
 PARAMÈTRES :
--tabA : (type : t_point_plan *) premier tableau 
--tabB : (type : t_point_plan *) deuxieme tableau 
--taille : (type : int) la taille des deux tableaux 
+-tabA : premier tableau (type : t_point_plan *)
+-tabB : deuxieme tableau (type : t_point_plan *)
+-taille : la taille des deux tableaux (type : int)
 
 HYPOTHESES: Aucune.
 
-VALEUR DE RETOUR:  (type : t_point_plan) la corrélation linéaire .
+VALEUR DE RETOUR: la corrélation linéaire (type : t_point_plan).
 
 */
 t_point_plan correlation_pts(t_point_plan * tabA, t_point_plan * tabB,
@@ -102,14 +108,14 @@ Cette fonction reçois une matrice de corrélation et va trouver la plus
 petite somme des colonnes de ce tableau.
 
 PARAMÈTRES :
--mat_corr : (type : t_point_plan **) la matrice ou nous cherchons 
+-mat_corr : la matrice ou nous cherchons (type : t_point_plan **) 
 			la colonne ou la somme est minimale.
--taille :  (type : int) la taille du tableau 
+-taille :  la taille du tableau (type : int)
 
 HYPOTHESES: Aucune.
 
-VALEUR DE RETOUR:  (type : int).le numéro de la colonne ou la somme des 
-					données est minimale.
+VALEUR DE RETOUR: le numéro de la colonne ou la somme des 
+					données est minimale (type : int).
 */
 int  trouver_col_min(t_point_plan ** mat_corr, int taille);
 
@@ -121,8 +127,8 @@ Cette fonction détruit la mémoire allouée à la matrice
 (détruit les données du tableau)
 
 PARAMÈTRES :
--mat : (type : t_point_plan **) matrice à détruire
--taille :  (type : int) taille de la matrice 
+-mat : matrice à détruire (type : t_point_plan **)
+-taille : taille de la matrice (type : int)
 
 HYPOTHESES: Aucune.
 
