@@ -15,14 +15,84 @@ Date   : 2018-07-23
 /*           DECLARATIONS DES FONCTIONS PRIVÉES          */
 /*********************************************************/
 
+/*
+CREER_NOUVEAU_NOEUD
+Codée par Youssef Soliman, Hugo Belin
+
+Cette fonction crée un nouveau noeud contenant un tableau de trajectoire
+avec la taille normale entrée en paramètre.
+
+PARAMÈTRES :
+-taille_normale : taille du tableau de coordonees  (type : int)
+
+HYPOTHESES: Aucune.
+
+VALEUR DE RETOUR: le nouveau noeud créer (type : t_ptr_trajet).
+
+*/
 static t_ptr_trajet creer_nouveau_noeud(int taille_norm);
 
+
+/*
+TRANSFERER_POINTS
+Codée par Youssef Soliman, Hugo Belin
+
+Cette fonction effectue l'echantillonnage des points-ecran et le transfèere
+au point-plan
+
+PARAMÈTRES :
+-traj_plan : le noeud a contenir les points échantillonnés  
+(type : t_ptr_trajet)
+-traj_ecran : la file contenant les points du plan ecran  
+(type : t_trajectoire_ecran * )
+
+HYPOTHESES: Aucune.
+
+VALEUR DE RETOUR: Rien.
+
+*/
 static void transferer_points(t_ptr_trajet traj_plan,
 	t_trajectoire_ecran * traj_ecran);
 
+
+/*
+ENFILER_LISTE_TRAJ
+Codée par Youssef Soliman, Hugo Belin
+
+Cette fonction ajoute le nouveau nœud contenant les points echantillonnés
+à la fin de la liste de trajectoires-plan 
+
+PARAMÈTRES :
+-listes_traj : la file dont il faut enfiler le nouveau noeud 
+(type : t_liste_traj *)
+-nouveau_noeud : le nouveau noeud a enfiler (type: t_ptr_trajet)
+
+HYPOTHESES: Aucune.
+
+VALEUR DE RETOUR: Rien.
+
+*/
 static void enfiler_liste_traj(t_liste_traj * listes_traj,
 	t_ptr_trajet nouveau_noeud);
 
+
+/*
+AFFICHER_MATRICE
+Codée par Youssef Soliman, Hugo Belin
+
+Cette fonction affiche la matrice des correlations dans la console
+et la somme de chaque colones
+
+PARAMÈTRES :
+-listes_traj : pour obtenir le nombre de liste (type : t_liste_traj *)
+-matrice : la mattrice contenant les valeurs de correlations 
+(type : t_point_plan **)
+
+HYPOTHESES: Aucune.
+
+VALEUR DE RETOUR: Rien.
+
+*/
 static void afficher_matrice(const t_liste_traj * listes_traj,
 	t_point_plan ** matrice);
 
@@ -69,7 +139,7 @@ static void transferer_points(t_ptr_trajet traj_plan,
 
 	set_iter_debut(traj_ecran);
 
-	//NOTE : le premier point[0] du trajet est automatiquement copié dans le 
+	//le premier point[0] du trajet est automatiquement copié dans le 
 	//premier « t_point_plan » de la liste
 	p2 = get_point_iter(traj_ecran);
 	traj_plan->tab_coordonnees[pos].x = p2.pos_x;
