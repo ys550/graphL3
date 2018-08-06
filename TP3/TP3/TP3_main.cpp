@@ -136,6 +136,8 @@ static int init_lire_formes(t_liste_obs * liste, char * nom_fich) {
 	//la valeur « taille_norm » lue à la dernière ligne du fichier texte
 	int nb_points;
 
+	/*lecture du fichier texte et retour de la taille normale
+	  a la fin du fichier*/
 	nb_points = lire_obstacles(nom_fich, liste);
 
 	initialiser_graphique();

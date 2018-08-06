@@ -55,6 +55,8 @@ Date   : 2018-07-08
 /*                      STRUCTURES                         */
 /*=========================================================*/
 
+
+//Définition d'un obstacle.
 typedef struct {
 
 	// forme int pour répresenter le type de forme géométrique 
@@ -69,6 +71,10 @@ typedef struct {
 
 } t_obstacle;
 
+/*****************************************************/
+/*****************************************************/
+
+//Définition d'une liste dynamique contenant les obstacles.
 typedef struct {
 	//Le nombre d’obstacles présents (entier)
 	int nb_obstacle;

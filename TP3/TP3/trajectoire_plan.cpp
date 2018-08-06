@@ -146,18 +146,25 @@ static void transferer_points(t_ptr_trajet traj_plan,
 	traj_plan->tab_coordonnees[pos].y = p2.pos_y;
 
 	pos = 1;
+	//pour resynchroniser
 	set_iter_debut(traj_ecran);
 
+	//Pour obtenir le point intermédiaire se trouvant à un intervalle
+	//tant qu'on est pas arrive a la fin du tableau de coordonees
 	while (pos < traj_plan->taille_tab_coor) {
 
 		posT += inter;
 
+		//tant que la pos est inférieur a l'entier supérieur a l'intervalle
 		while (pos_p2 < (int)ceil(posT)) {
+			//copier p2 dans p1 avant chaque récupération du prochain p2
 			p1 = p2;
+			//obtient le prochain point dans la file de trajectoire ecran
 			p2 = get_point_iter(traj_ecran);
 			pos_p2++;
 		}
 
+		//le points echantillonne pt
 		//pT  = p1 + (partie fractionnaire de T) * (p2 – p1)
 		pt.x = p1.pos_x + (posT - (int)posT) * (p2.pos_x - p1.pos_x);
 		pt.y = p1.pos_y + (posT - (int)posT) * (p2.pos_y - p1.pos_y);
@@ -197,20 +204,23 @@ static void enfiler_liste_traj(t_liste_traj * listes_traj,
 static void afficher_matrice(const t_liste_traj * listes_traj,
 	t_point_plan ** matrice) {
 
-	int a, b;
+	int i, j;
 	//pour afficher la somme des correlations de chaque colonnes
 	double somme;
 
 
 	printf("\nMATRICE DES CORRELATIONS:\n");
-	for (a = 0; a < listes_traj->nb_listes; a++) {
+	for (i = 0; i < listes_traj->nb_listes; i++) {
 
 		somme = 0;
 
-		for (b = 0; b < listes_traj->nb_listes; b++) {
+		for (j = 0; j < listes_traj->nb_listes; j++) {
 
-			printf("[%.2lf %.2lf] ", matrice[b][a].x, matrice[b][a].y);
-			somme += matrice[b][a].x + matrice[b][a].y;
+			//affiche les colones sur une ligne
+			printf("[%.2lf %.2lf] ", matrice[j][i].x, matrice[j][i].y);
+
+			//la somme des correlations des x et y
+			somme += matrice[j][i].x + matrice[j][i].y;
 
 		}
 		printf("= %.2lf\n", somme);
@@ -233,13 +243,16 @@ t_liste_traj init_trajectoire_plan(const t_groupe_traj_ecran * groupe,
 	t_ptr_trajet nouveau_noeud;
 	t_trajectoire_ecran traj;
 
+	//initialiser la liste
 	liste_traj.tete = NULL;
 	liste_traj.queue = NULL;
 	liste_traj.nb_listes = 0;
 	liste_traj.taille_normale = taille_norm;
 
+	//obtient le nombre le trajectoire totale
 	nb_trajet = get_nombre_traj_groupe(groupe);
 	
+	//pour chaque trajet
 	for (i = 0; i < nb_trajet; i++) {
 
 		nouveau_noeud  = creer_nouveau_noeud(taille_norm);
@@ -259,11 +272,15 @@ t_ptr_trajet obtenir_traj_plan(const t_liste_traj * listes_traj, int pos) {
 	int i = 0;
 	t_ptr_trajet ptr_iter = listes_traj->tete;
 
-
+	//si la position est valide
 	if (pos < listes_traj->nb_listes && pos >= 0) {
+
+		//traverse la liste jusqu'a la fin
 		while (ptr_iter != NULL) {
 
+			//s'arrete a la position choisi 
 			if (i == pos)
+				//retourne le noeud a cette position
 				return ptr_iter;
 
 			i++;
@@ -423,16 +440,22 @@ void tranfert_plan_a_ecran(const t_ptr_trajet traj_plan, t_trajectoire_ecran *
 
 	int i;
 
+	//se placer au debut de la file de trajectoire ecran
 	set_iter_debut(traj_ecran);
 
+	//pour chaque points dans le plan
 	for (i = 0;  i < traj_plan->taille_tab_coor; i ++) {
 		
+		/*arrondir les valeurs reels avant de le transferer 
+		aux points entiers*/
+
 		traj_ecran->ptr_iter->point.pos_x = 
 			ARRONDIR(traj_plan->tab_coordonnees[i].x);
 		
 		traj_ecran->ptr_iter->point.pos_y = 
 			ARRONDIR(traj_plan->tab_coordonnees[i].y);
 		
+		//avance dans la file et obtient le trajet suivant
 		get_point_iter(traj_ecran);
 	}
 	
