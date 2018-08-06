@@ -49,6 +49,11 @@ Date   : 2018-07-23
 /*                       STRUCTURES                        */
 /*=========================================================*/
 
+/*
+Définition du noeud fait pour contenir un tableau de 
+corrdonees dans la liste.
+*/
+
 typedef struct noeud_liste * t_ptr_trajet;
 
 typedef struct noeud_liste {
@@ -57,6 +62,14 @@ typedef struct noeud_liste {
 	t_point_plan * tab_coordonnees;
 	t_ptr_trajet suivant;
 } t_noeud_liste;
+
+/*****************************************************/
+/*****************************************************/
+
+/*
+Définition de la liste représentant une trajectoire-plan.
+on va INSERER à la fin et EXTRAIRE a partir d'un indexe.
+*/
 
 typedef struct {
 	int nb_listes;
