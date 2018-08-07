@@ -38,22 +38,115 @@ Date   : 2018-07-08
 /*				DECLARATIONS DES FONCTIONS PRIVÉES					*/
 /********************************************************************/
 
+
+/*
+AFFICHER_MENU
+
+Cette fonction affiche le menu des options.
+
+PARAMÈTRES : Aucun
+
+HYPOTHESES: Aucune.
+
+VALEUR DE RETOUR: rien
+
+*/
 static void afficher_menu();
 
+
+/*
+CHOISIR_OPTION_MENU
+
+Cette fonction permet de choisir l'option du menu et l'execute.
+
+PARAMÈTRES : -liste : la liste d'obstacles (type : t_liste_obs *)
+
+HYPOTHESES: Aucune.
+
+VALEUR DE RETOUR: rien
+
+*/
 static void choisir_option_menu(t_liste_obs * liste);
 
+
+/*
+INIT_LIRE_FORMES
+
+Cette fonction permet de lire le fichier d'obstacles et initialise
+la fenetre graphique (Mandat 1).
+
+PARAMÈTRES : 
+-liste : la liste d'obstacles (type : t_liste_obs *)
+-nom_fich : le trajet et nom du fichier d'obstacle (char *)
+
+HYPOTHESES: Aucune.
+
+VALEUR DE RETOUR: le nombre de points a la finc du fichier (type : int)
+
+*/
 static int init_lire_formes(t_liste_obs * liste, char * nom_fich);
 
+
+/*
+AFFICHAGE_TRAJ
+
+Cette fonction effectue la saisi et l'affichage 
+des NB_TRAJECTOIRES et la taille normale(Mandat 2).
+
+PARAMÈTRES :
+-liste : la liste d'obstacles (type : t_liste_obs *)
+-nb_points : le nombre de points a la fin du fichier (int)
+
+HYPOTHESES: Aucune.
+
+VALEUR DE RETOUR: le groupe des NB_TRAJECTOIRES trajectoires valide saisi
+(type : t_groupe_traj_ecran)
+
+*/
 static t_groupe_traj_ecran affichage_traj(t_liste_obs * liste, int nb_points);
 
+
+/*
+AFFICHAGE_TRAJ_MOY_REFUS
+
+Cette fonction permet l'affichage des trajets moyen et refuse(Mandat 3).
+
+PARAMÈTRES :
+-liste : la liste d'obstacles (type : t_liste_obs *)
+-nb_points : le nombre de points a la fin du fichier (int)
+-groupe_traj : le groupe des trajectoires (type : t_groupe_traj_ecran)
+
+HYPOTHESES: Aucune.
+
+VALEUR DE RETOUR: Rien
+
+*/
 static void affichage_traj_moy_refus(t_liste_obs * liste,
 	t_groupe_traj_ecran groupe_traj, int nb_points);
 
+
+/*
+AFFICHAGE_TRAJ_MOY_REFUS
+
+Cette fonction initialise une trajectoire ecran vide pour le mandat 3.
+
+PARAMÈTRES :
+-traj_ecran : la liste de trajectoire ecran a initialiser 
+(type : t_trajectoire_ecran *)
+-taille_normale : le nombre de points a la fin du fichier (int)
+
+HYPOTHESES: Aucune.
+
+VALEUR DE RETOUR: Rien
+
+*/
 static void init_traj_ecran_vide(t_trajectoire_ecran * traj_ecran, 
 	int taille_normale);
 
+
 /*=========================================================*/
 /*=========================================================*/
+
 //Programme principal: fonction qui retourne un entier (int)
 int main(void) {
 	t_liste_obs liste;
