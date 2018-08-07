@@ -1,5 +1,10 @@
 /*
 
+Cette application permet de saisir un nombre de trajet tracer sur une interface
+graphique par l'utilisateur. Ces trajet sont mémorisés dans une liste. Cette
+liste est par la suite accédé afin de calculer et afficher le meilleur chemin.
+Ce chemin optimal normalisé est nommé le « trajet moyen ».
+
 Module : TP3_main.cpp
 Par    : Youssef Soliman, Hugo Belin
 Date   : 2018-07-08
