@@ -131,7 +131,7 @@ static void affichage_traj_moy_refus(t_liste_obs * liste,
 
 
 /*
-AFFICHAGE_TRAJ_MOY_REFUS
+INIT_TRAJ_ECRAN_VIDE
 
 Cette fonction initialise une trajectoire ecran vide pour le mandat 3.
 
